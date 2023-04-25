@@ -14,7 +14,7 @@ public class ServerCheckScheduler {
      @Value("${server.url}")
     private String apiUrl; // replace with your API URL
 
-    private String firstStatus=false;
+    private boolean firstStatus=false;
 
     @Scheduled(fixedDelay = 600000) // 10 minutes in milliseconds
     public void callApi() {
