@@ -1,9 +1,13 @@
 package com.pradip.roommanagementsystem.security.service;
 
+import com.pradip.roommanagementsystem.dto.ApiResponse;
+import com.pradip.roommanagementsystem.dto.projection.JwtUser;
 import com.pradip.roommanagementsystem.entity.User;
 import com.pradip.roommanagementsystem.repository.UserRepository;
 import com.pradip.roommanagementsystem.security.dto.CustomUserDetails;
+import com.pradip.roommanagementsystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,13 +22,12 @@ import java.util.stream.Collectors;
 public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
-    private UserRepository userRepository;
+    @Lazy
+    private UserService userService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
-
+        JwtUser user = (JwtUser) userService.getUserByEmail(username, "JwtUser");
         List<GrantedAuthority> authorities = user.getRoles().stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName().name()))
                 .collect(Collectors.toList());
@@ -34,8 +37,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         customUserDetails.setUsername(user.getEmail());
         customUserDetails.setFullName(user.getFirstName()+" "+user.getLastName());
         customUserDetails.setAuthorities(authorities);
-        customUserDetails.setLocked(user.isLocked());
-        customUserDetails.setEnabled(user.isEnabled());
         customUserDetails.setPassword(user.getPassword());
 
         return customUserDetails;

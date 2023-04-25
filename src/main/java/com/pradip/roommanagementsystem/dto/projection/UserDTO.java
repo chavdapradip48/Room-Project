@@ -3,10 +3,9 @@ package com.pradip.roommanagementsystem.dto.projection;
 import com.pradip.roommanagementsystem.entity.Address;
 import com.pradip.roommanagementsystem.entity.Role;
 
-import javax.persistence.Lob;
 import java.util.List;
 
-public interface UserProjectionDTO {
+public interface UserDTO {
 	Long getId();
 	String getEmail();
 	String getFirstName();
@@ -15,5 +14,5 @@ public interface UserProjectionDTO {
 	boolean isEnabled();
 	boolean isLocked();
 	Address getAddress();
-//	List<Role> getRoles();
+	List<Role> getRoles();
 }

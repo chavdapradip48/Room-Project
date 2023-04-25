@@ -75,7 +75,6 @@ function logout(){
   alert("Logout Successfully...");
 }
 
-
 function getUsers() {
     var myHeaders = new Headers();
     myHeaders.append("Authorization", window.localStorage.getItem("token"));

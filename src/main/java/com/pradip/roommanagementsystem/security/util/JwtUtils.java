@@ -47,8 +47,6 @@ public class JwtUtils {
         claims.put("id",userDetails.getId());
         claims.put("fullname",userDetails.getFullName());
         claims.put("roles",userDetails.getAuthorities());
-        claims.put("enabled",userDetails.isEnabled());
-        claims.put("locked",userDetails.isLocked());
         return doGenerateToken(claims, userDetails.getUsername());
     }
 

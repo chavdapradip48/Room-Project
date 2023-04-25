@@ -1,5 +1,8 @@
 package com.pradip.roommanagementsystem.config;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.pradip.roommanagementsystem.security.config.AuthEntryPointJwt;
 import com.pradip.roommanagementsystem.security.config.AuthTokenFilter;
 import com.pradip.roommanagementsystem.security.config.CustomAccessDeniedHandler;
@@ -7,7 +10,9 @@ import com.pradip.roommanagementsystem.security.service.CustomUserDetailsService
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -32,9 +37,17 @@ public class WebSecurityConfig {
             "/keep-alive",
             "/user/verify-otp/**",
             "/user/send-otp/**",
-            "/verify-token"
+            "/verify-token",
+            "/swagger-ui.html",
+            "/swagger-resources/**",
+            "/v2/api-docs/**",
+            "/webjars**",
+            "/webjars/springfox-swagger-ui/**",
+            "/csrf",
+            "/data/**"
     };
     @Autowired
+    @Lazy
     CustomUserDetailsService userDetailsService;
 
     @Autowired
@@ -44,6 +57,16 @@ public class WebSecurityConfig {
     public AuthTokenFilter authenticationJwtTokenFilter() {
         return new AuthTokenFilter();
     }
+
+//    @Bean
+//    public Jackson2ObjectMapperBuilder jacksonBuilder() {
+//        Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
+//        builder.failOnUnknownProperties(false);
+//        builder.featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+//        builder.modules(new JavaTimeModule());
+//        builder.serializationInclusion(JsonInclude.Include.NON_NULL);
+//        return builder;
+//    }
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
