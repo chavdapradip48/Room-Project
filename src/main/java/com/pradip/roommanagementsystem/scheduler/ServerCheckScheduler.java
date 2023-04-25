@@ -18,20 +18,21 @@ public class ServerCheckScheduler {
 
     @Scheduled(fixedDelay = 600000) // 10 minutes in milliseconds
     public void callApi() {
+if(firstStatus) {
         try{
-            if(firstStatus) {
+            
 String response = restTemplate.getForObject(apiUrl+"/keep-alive", String.class);
             System.out.println("\n=> Response from server : "+response+".");
             String[] timeDate = LocalDateTime.now().toString().split("T");
             System.out.println("=> Current Time         : "+timeDate[1].substring(0,timeDate[1].indexOf("."))+"");
             System.out.println("=> Current Date         : "+timeDate[0]+"\n");
-            }else{
-                firstStatus=true;
-             }
+            
 
         catch (Exception ex){
             System.out.println("Error in scheduler "+ex.getMessage());
         }
-
+}else{
+                firstStatus=true;
+             }
     }
 }
