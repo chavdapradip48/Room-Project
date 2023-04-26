@@ -1,9 +1,7 @@
-const apiUrl = 'https://roommates-782r.onrender.com';
+
 $(document).ready(function () {
-    function callLoginApi() {
-        authenticate($("#email").val(), $("#password").val());
-    }
-    function authenticate(email, password) {
+    console.log(apiUrl );
+    function callLoginApi(email, password) {
         $('#cover-spin').show();
         $.ajax({
             url: apiUrl + "/authenticate",
@@ -20,7 +18,7 @@ $(document).ready(function () {
                 $('#cover-spin').hide()
                 window.sessionStorage.setItem("token", "Bearer " + responce.jwt);
                 showToast("User logged-in successsfully", 'success');
-                window.location.href = "homePage.html";
+                window.location.href = "home.html";
             },
             error: function (xhr, status, error) {
                 var errorMessage = JSON.parse(xhr.responseText);
@@ -47,7 +45,7 @@ $(document).ready(function () {
         // form valide then call "callLoginApi()"
         if (email_ret && pass_ret) {
             console.log("form is valid");
-            callLoginApi();
+            callLoginApi($("#email").val(), $("#password").val());
         }
     });
 });

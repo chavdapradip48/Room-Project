@@ -30,7 +30,7 @@ function callSendOtp() {
         error: function (xhr, status, error) {
             // var errorMessage = JSON.parse(xhr.responseText);
             // console.log(errorMessage.message);
-            // $('#cover-spin').hide();
+            $('#cover-spin').hide();
         }
     });
 }

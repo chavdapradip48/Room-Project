@@ -13,11 +13,11 @@ function showToast(message, type) {
     $newDiv.css("background-color", type === 'success' ? '#4CAF50' : '#F44336'); // set new div background color 
     setTimeout(() => {
         $newDiv.css("opacity", "0.5");
-    }, 3000);
+    }, 4000);
     setTimeout(() => {
         $newDiv.css("display", "none");
 
-    }, 3000);
+    }, 4000);
 }
 
 function emailVlid(emails, errEle) {
