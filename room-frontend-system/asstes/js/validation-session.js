@@ -16,13 +16,13 @@ function validateJwtToken(accessToken) {
             },
             success: function (responce) {
                 console.log("API responce", responce);
-                alert("user tiken is valid");
+                // alert("user tiken is valid");    
                 showToast(responce.message, 'success');
             },
             error: function (xhr, status, error) {
                 var errorMessage = JSON.parse(xhr.responseText);
                 console.log(errorMessage.message);
-                alert("user tiken is not valid");
+                // alert("user tiken is not valid");
                 showToast(errorMessage.message, 'error');
             }
         });

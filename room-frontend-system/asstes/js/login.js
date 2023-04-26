@@ -1,6 +1,6 @@
 
 $(document).ready(function () {
-    console.log(apiUrl );
+    // console.log(apiUrl);
     function callLoginApi(email, password) {
         $('#cover-spin').show();
         $.ajax({
@@ -15,7 +15,7 @@ $(document).ready(function () {
             },
             success: function (responce) {
                 console.log("API responce", responce);
-                $('#cover-spin').hide()
+                $('#cover-spin').hide();
                 window.sessionStorage.setItem("token", "Bearer " + responce.jwt);
                 showToast("User logged-in successsfully", 'success');
                 window.location.href = "home.html";

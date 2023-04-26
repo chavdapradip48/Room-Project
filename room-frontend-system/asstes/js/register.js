@@ -1,4 +1,4 @@
-// const apiUrl = 'https://roommates-782r.onrender.com';
+
 function callLRegistrationApi() {
     $('#cover-spin').show(); // It enable spinner 
     // Below ajax use to call create user API by passing set of user fields

@@ -1,8 +1,10 @@
 function borderErrorColor(ret_fild_valid, elementTag) {
     if (ret_fild_valid != true) {
         elementTag.css("border-color", "red");
+        elementTag.css("background-color", "#ff8b8b26");
     } else {
-        elementTag.css("border-color", "#ced4da");
+        elementTag.css("border-color", "green");
+        elementTag.css("background-color", "#86f7862b");
     }
 }
 

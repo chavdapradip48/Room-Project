@@ -43,6 +43,20 @@
                 <p class="error" id="otp-err"></p>
             </div>
             <button type="button" id="verified-otp" class="btn btn-primary btn-size">Verified OTP</button>
+
+            <div class="form-group new-password-section mt-2">
+                <label for="exampleInputPassword1">New Password</label>
+                <input type="password" class="form-control" id="newPassword" placeholder="Enter New Password"
+                    onblur="borderErrorColor(passVlid($('#newPassword').val(), $('#newPassword-err')), $('#newPassword'))">
+                <p class="error" id="newPassword-err"></p>
+
+                <label for="exampleInputPassword1">New Password</label>
+                <input type="password" class="form-control" id="rePassword" placeholder="Re-enter New Password"
+                    onblur="borderErrorColor(conpassVlid($('#rePassword').val(),$('#newPassword').val(), $('#rePassword-err')), $('#rePassword'))">
+                <p class="error" id="rePassword-err"></p>
+            </div>
+            <button type="button" id="change-password" class="btn btn-primary btn-size">Change</button>
+
             <div class="form-group text-center pt-3 ">
                 <a href="login.html" id="create-new">back to login page</a>
             </div>
