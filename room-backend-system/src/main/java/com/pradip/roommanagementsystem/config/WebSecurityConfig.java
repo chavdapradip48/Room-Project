@@ -44,7 +44,7 @@ public class WebSecurityConfig {
             "/webjars**",
             "/webjars/springfox-swagger-ui/**",
             "/csrf",
-            "/data/**"
+            "/data/style.css"
     };
     @Autowired
     @Lazy
