@@ -1,9 +1,68 @@
 
-function operations(type,id,element){ 
-  if(type == "edit"){
 
+
+function operationsCheck(){
+  // Create a new instance of URLSearchParams and pass in the query string
+  var queryParams = new URLSearchParams(window.location.search);
+  
+  // Get the value of a specific parameter
+  var type = queryParams.get('type'); 
+  var expenseId = queryParams.get('expenseId'); 
+  if(type != null && type != ""){
+    if(expenseId != null && expenseId != ""){
+      getUserById(type, expenseId);
     }
-    if(type == "delete"){
+  }
+  
+}
+
+function getUserById(type, expenseId){
+  $('.card-body').loader('show');
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization", window.sessionStorage.getItem("token"));
+
+  var requestOptions = {
+    method: 'GET',
+    headers: myHeaders,
+  };
+
+  fetch(backendServerUrl+"/user/expense/"+expenseId, requestOptions)
+    .then(response => response.json())
+    .then(result => {
+        var apiData=result.data;
+        if(result.status == 200 && result.data != ''){
+          $("#fullname-dropdown").val(apiData.user.id);
+          $("#description").val(apiData.description);
+          $("#payment-mode").val(apiData.paymentMode);
+          $("#amount").val(apiData.amount);
+        }
+        if(type == "view"){
+          $("#fullname-dropdown").attr('disabled','disabled');
+          $("#description").attr('disabled','disabled');
+          $("#payment-mode").attr('disabled','disabled');
+          $("#amount").attr('disabled','disabled');
+          $(".btn").css('display','none');
+          $(".card-title").text("View Expense");
+        }
+        else{
+          $(".card-title").text("Edit Expense");
+          $(".btn").val("Update");
+        }
+        $('.card-body').loader('hide');  
+    })
+    .catch(error => showToast("Expense not fetched", 'error'));
+
+}
+
+
+function operations(type,id,element){ 
+  if(type == "view"){
+    window.location.href="create-expense.html?expenseId="+id+"&type="+type;
+  }
+  else if(type == "edit"){
+    window.location.href="create-expense.html?expenseId="+id+"&type="+type;
+  }
+  else if(type == "delete"){
         var myHeaders = new Headers();
         myHeaders.append("Authorization", window.sessionStorage.getItem("token"));
 
@@ -29,7 +88,6 @@ function operations(type,id,element){
           .catch(error => showToast("Expense not deleted", 'error'));
 
     }
-
     $(".dropdown-menu.show").removeClass("show");
 }
 
@@ -83,52 +141,6 @@ $.ajax(settings)
   $('.table').html("<div class='alert alert-danger' role='alert'>Expenses are not available in system.</div>");
   $('.card-body').loader('hide');
 });
-
-//     var myHeaders = new Headers();
-//     myHeaders.append("Authorization", window.sessionStorage.getItem("token"));
-
-//     var requestOptions = {
-//       method: 'GET',
-//       headers: myHeaders,
-//       redirect: 'follow'
-//     };
-//     const table = $('.table tbody');
-//     fetch(backendServerUrl+"/user/expense", requestOptions)
-//       .then(result => result.json())
-//       .then(response => {
-
-//         if(response.status == 200 && response.data != ''){
-// console.log(response.data);
-//           // Iterate over the response data and add rows to the table
-//           response.data.forEach(function (expense, i) {
-//             const row = `
-//               <tr>
-//                 <td>${i+1}</td>
-//                 <td>${expense.user.firstName} ${expense.user.lastName}</td>
-//                 <td>${expense.paymentMode}</td>
-//                 <td>${expense.amount}</td>
-//                 <td>${expense.description}</td>
-//                 <td>${expense.createdAt}</td>
-//                 <td>
-//                 <div class="dropdown">
-//                 <img src="asstes/images/three-dots-vertical.svg" onclick="showOptions(this)" class="dropdown-toggle">
-//                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-//                   <li><a class="dropdown-item edit" onclick="operations('view',${expense.id},this)" >View</a></li>
-//                   <li><a class="dropdown-item update" onclick="operations('edit',${expense.id},this)">Update</a></li>
-//                   <li><a class="dropdown-item delete" onclick="operations('delete',${expense.id},this)">Delete</a></li>
-//                 </ul>
-//               </div>
-//                 </td>
-//               </tr>
-//             `;
-//             table.append(row);
-//           });
-//         }
-//       })
-//       .catch(error => {
-//         showToast("Error getting expense data.", 'error');
-//         console.log('error', error)
-//       });
 }
 
 function loadUsername() {
@@ -165,24 +177,32 @@ function loadUsername() {
 
 function createExpense(){
   $('.card-body').loader('show');
+  var methodType='POST';
+  var apiUrl=backendServerUrl+"/user/"+$("#fullname-dropdown").val()+"/expense";
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Authorization", window.sessionStorage.getItem("token"));
-
-    var raw = JSON.stringify({
+    var dataForSave ={
       "paymentMode": $("#payment-mode").val(),
       "amount": $("#amount").val(),
       "description": $("#description").val()
-    });
+    };
+
+    if(new URLSearchParams(window.location.search).get("type") == "edit"){
+      apiUrl += "/"+new URLSearchParams(window.location.search).get("expenseId");
+      methodType='PUT'
+    }
+
+    var raw = JSON.stringify(dataForSave);
 
     var requestOptions = {
-      method: 'POST',
+      method: methodType,
       headers: myHeaders,
       body: raw,
       redirect: 'follow'
     };
 
-    fetch(backendServerUrl+"/user/"+$("#fullname-dropdown").val()+"/expense", requestOptions)
+    fetch(apiUrl, requestOptions)
       .then(response => response.json())
       .then(result => {
           if(result.status == 200 && result.data != ''){

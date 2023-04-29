@@ -16,7 +16,7 @@
     <script src="asstes/library/Easy-Page-Element-Loader-Plugin-with-jQuery-loader-js/jquery.loader.js"></script>
 
 </head>
-<body onload="loadUsername()">
+<body>
     <section class="header-section">
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div class="container-fluid">
@@ -71,7 +71,6 @@
                                 </div>
                                 <div class="form-floating">
                                     <select class="form-select" id="payment-mode" aria-label="Default select example">
-                                        <option selected>Open this select menu</option>
                                         <option value="ROOM_CASH">ROOM_CASH</option>
                                         <option value="ROOM_BANK">ROOM_BANK</option>
                                         <option value="PERSONAL">PERSONAL</option>
@@ -93,5 +92,16 @@
             </div>
         </div>
     </section>
+    <script>
+        $(window).on('load', function() {
+        // This function will run when the entire page has finished loading
+        operationsCheck();
+        });
+
+        $(document).ready(function() {
+        // This function will run when the DOM is fully loaded
+        loadUsername();
+        });       
+    </script>
 </body>
 </html>
