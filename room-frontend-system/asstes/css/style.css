@@ -31,3 +31,7 @@ margin-right:15%;
 .nav-item{
     margin:0 10px;
 }
+
+table {
+  table-layout: fixed;
+}

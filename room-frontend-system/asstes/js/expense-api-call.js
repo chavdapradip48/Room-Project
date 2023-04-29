@@ -1,6 +1,6 @@
 
-function operations(type,id,element){
-    if(type == "edit"){
+function operations(type,id,element){ 
+  if(type == "edit"){
 
     }
     if(type == "delete"){
@@ -16,68 +16,123 @@ function operations(type,id,element){
           .then(response => response.json())
           .then(result => {
               if(result.status == 200 && result.data != ''){
-                alert(result.message);
-                window.location.href="expense-listing.html"
+                showToast(result.message, 'success');
+                $('#delete'+id+'row').parents().eq(4).remove();
+                if($('tbody tr').length == 0){
+                  $('.table').html("<div class='alert alert-danger' role='alert'>Expenses are not available in system.</div>");
+                }
               }
               else{
-                alert("Expense not deleted");
-                window.location.reload();
+                showToast("Expense not deleted", 'error');
               }
           })
-          .catch(error => console.log('error', error));
+          .catch(error => showToast("Expense not deleted", 'error'));
 
     }
+
+    $(".dropdown-menu.show").removeClass("show");
 }
 
 function getUsers() {
-//    const myDiv = document.getElementById("user-table");
-//    myDiv.style.display = "inline";
-    var myHeaders = new Headers();
-    myHeaders.append("Authorization", window.sessionStorage.getItem("token"));
+$('.card-body').loader('show');
+var settings = {
+  "url": backendServerUrl+"/user/expense",
+  "method": "GET",
+  "timeout": 0,
+  "headers": {
+    "Authorization": window.sessionStorage.getItem("token")
+  },
+};
 
-    var requestOptions = {
-      method: 'GET',
-      headers: myHeaders,
-      redirect: 'follow'
-    };
-    const table = $('.table tbody');
-    fetch(backendServerUrl+"/user/expense", requestOptions)
-      .then(result => result.json())
-      .then(response => {
-
-        if(response.status == 200 && response.data != ''){
-console.log(response.data);
-          // Iterate over the response data and add rows to the table
-          response.data.forEach(function (expense, i) {
-            const row = `
-              <tr>
-                <td>${i+1}</td>
-                <td>${expense.user.id}</td>
-                <td>${expense.user.firstName} ${expense.user.lastName}</td>
-                <td>${expense.user.email}</td>
-                <td>${expense.paymentMode}</td>
-                <td>${expense.amount}</td>
-                <td>${expense.description}</td>
-                <td>${expense.createdAt}</td>
-                <td><button type='button' class='btn btn-primary' onclick="operations('edit',${expense.id},this)">Edit</button>
-                <button type='button' class='btn btn-danger' onclick="operations('delete',${expense.id},this)">Delete</button></td>
-              </tr>
-            `;
-            table.append(row);
-          });
-        }
-//        else{
-//          $('#msg').text(response.message);
-//          table.hide();
-//        }
-      })
-      .catch(error => {
-        alert(error);
-        console.log('error', error)
+$.ajax(settings)
+.done(function(response) {
+  if (response.status == 200 && response.data != '') {
+    
+    if(response.data.length != 0){
+      var rows="";
+      $.each(response.data, function(i, expense) {
+        var date=new Date(expense.createdAt).toLocaleDateString('en-IN', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+        rows += `
+          <tr>
+            <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1 text-center">${i+1}</td>
+            <td>${expense.user.firstName} ${expense.user.lastName}</td>
+            <td>${expense.paymentMode}</td>
+            <td>${expense.amount}</td>
+            <td>${expense.description}</td>
+            <td>${date}</td>
+            <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1 text-center">
+              <div class="dropdown">
+                <img src="asstes/images/three-dots-vertical.svg" onclick="showOptions(this,'show')" class="dropdown-toggle">
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <li><a class="dropdown-item" id="edit${expense.id}row" onclick="operations('view',${expense.id},this)" >View</a></li>
+                  <li><a class="dropdown-item" id="update${expense.id}row" onclick="operations('edit',${expense.id},this)">Update</a></li>
+                  <li><a class="dropdown-item" id="delete${expense.id}row" onclick="operations('delete',${expense.id},this)">Delete</a></li>
+                </ul>
+              </div>
+            </td>
+          </tr>
+        `;
       });
+      $('.table tbody').html(rows);
+    }
+    $('.card-body').loader('hide');
+  }
+})
+.fail(function(jqXHR, textStatus, errorThrown) {
+  showToast(jqXHR.responseJSON.message, 'error');
+  $('.table').html("<div class='alert alert-danger' role='alert'>Expenses are not available in system.</div>");
+  $('.card-body').loader('hide');
+});
+
+//     var myHeaders = new Headers();
+//     myHeaders.append("Authorization", window.sessionStorage.getItem("token"));
+
+//     var requestOptions = {
+//       method: 'GET',
+//       headers: myHeaders,
+//       redirect: 'follow'
+//     };
+//     const table = $('.table tbody');
+//     fetch(backendServerUrl+"/user/expense", requestOptions)
+//       .then(result => result.json())
+//       .then(response => {
+
+//         if(response.status == 200 && response.data != ''){
+// console.log(response.data);
+//           // Iterate over the response data and add rows to the table
+//           response.data.forEach(function (expense, i) {
+//             const row = `
+//               <tr>
+//                 <td>${i+1}</td>
+//                 <td>${expense.user.firstName} ${expense.user.lastName}</td>
+//                 <td>${expense.paymentMode}</td>
+//                 <td>${expense.amount}</td>
+//                 <td>${expense.description}</td>
+//                 <td>${expense.createdAt}</td>
+//                 <td>
+//                 <div class="dropdown">
+//                 <img src="asstes/images/three-dots-vertical.svg" onclick="showOptions(this)" class="dropdown-toggle">
+//                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+//                   <li><a class="dropdown-item edit" onclick="operations('view',${expense.id},this)" >View</a></li>
+//                   <li><a class="dropdown-item update" onclick="operations('edit',${expense.id},this)">Update</a></li>
+//                   <li><a class="dropdown-item delete" onclick="operations('delete',${expense.id},this)">Delete</a></li>
+//                 </ul>
+//               </div>
+//                 </td>
+//               </tr>
+//             `;
+//             table.append(row);
+//           });
+//         }
+//       })
+//       .catch(error => {
+//         showToast("Error getting expense data.", 'error');
+//         console.log('error', error)
+//       });
 }
 
 function loadUsername() {
+  $('.fullname').loader('show');
     var myHeaders = new Headers();
     myHeaders.append("Authorization", window.sessionStorage.getItem("token"));
 
@@ -100,14 +155,16 @@ function loadUsername() {
             nameSelect.append(row);
           });
         }
+        $('.fullname').loader('hide');
       })
       .catch(error => {
-        alert(error);
-        console.log('error', error)
+        $('.fullname').loader('hide');
+        showToast("Names are not setted in dropdown", 'error');
       });
 }
 
 function createExpense(){
+  $('.card-body').loader('show');
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Authorization", window.sessionStorage.getItem("token"));
@@ -129,19 +186,23 @@ function createExpense(){
       .then(response => response.json())
       .then(result => {
           if(result.status == 200 && result.data != ''){
-            alert(result.message);
-            window.location.href="expense-listing.html"
+            showToast(result.message, 'success');
           }
           else{
-            alert("Expense not added");
+            showToast("Expense not added", 'error');
             window.location.reload();
           }
+          $('.card-body').loader('hide');
       })
-      .catch(error => console.log('error', error));
+      .catch(error => {
+        showToast("Expense not added", 'error');
+        $('.card-body').loader('hide');
+      });
+      $("#amount").val("")
+      $("#description").val("")
+
 }
 
-function logout(){
-  var localToken=window.sessionStorage.removeItem("token");
-  alert("Logout Successfully...");
-  window.location.reload();
+function showOptions(element,operation){
+  $(element).siblings(".dropdown-menu").toggleClass(operation);
 }
