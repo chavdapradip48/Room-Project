@@ -1,6 +1,6 @@
 $(document).ready(function () {
     
-    $("body").prepend("<div id='header'></div><div id='api-responce'></div><div id='cover-spin'></div>");
+    $("body").prepend("<div id='api-responce'></div><div id='cover-spin'></div>");
     verifyUserToken();
 });
 function showToast(message, type) {

@@ -112,13 +112,13 @@ $.ajax(settings)
         var date=new Date(expense.createdAt).toLocaleDateString('en-IN', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
         rows += `
           <tr>
-            <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1 text-center">${i+1}</td>
-            <td>${expense.user.firstName} ${expense.user.lastName}</td>
-            <td>${expense.paymentMode}</td>
-            <td>${expense.amount}</td>
-            <td>${expense.description}</td>
-            <td>${date}</td>
-            <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1 text-center">
+            <td data-title="SR NO"class="col-xs-1 col-sm-1 col-md-1 col-lg-1  ">${i+1}</td>
+            <td data-title="Full Name">${expense.user.firstName} ${expense.user.lastName}</td>
+            <td data-title="Payment Mode">${expense.paymentMode}</td>
+            <td data-title="Amount">${expense.amount}</td>
+            <td data-title="Description">${expense.description}</td>
+            <td data-title="Created At">${date}</td>
+            <td data-title="Actions" class="col-xs-1 col-sm-1 col-md-1 col-lg-1 text-center">
               <div class="dropdown">
                 <img src="asstes/images/three-dots-vertical.svg" onclick="showOptions(this,'show')" class="dropdown-toggle">
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
