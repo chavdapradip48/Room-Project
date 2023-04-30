@@ -11,16 +11,158 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="asstes/library/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="asstes/css/general.css">
-    <link rel="stylesheet" href="asstes/css/login-registration-forgot.css">
-    <link rel="stylesheet" href="asstes/css/forgot.css">
+    <link rel="stylesheet" href="asstes/css/profile.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="asstes/library/jquery-3.6.4.js"></script>
     <script src="asstes/js/variable.js"></script>
     <script src="asstes/js/validation-session.js"></script>
     <script src="asstes/js/general.js"></script>
+  
 </head>
 
-<body>
+<body style="background: #e0e9ec;">
+    <!-- navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+        <div class="nav-item">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01"
+                aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand text-light pr-sm-2" href="#">Room Management</a>
+        </div>
+        <div class="collapse  navbar-collapse " id="navbarColor01">
+            <ul class="navbar-nav">
+                <li class=" nav-item">
+                    <a class="nav-link text-light " href="home.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light " href="#">Features</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="#">Logout</a>
+                </li>
+            </ul>
+        </div>
+        <div class="profile-link">
+            <a href="profile.html" class="mr-1">
+                <img src="asstes/images/default-profile-image.png" alt="loading...">
+            </a>
+        </div>
+    </nav>
+
+    <section>
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card card-bg-color mb-4">
+                        <div class="card-body text-center">
+                            <img src="asstes/images/default-profile-image.png" alt="avatar"
+                                class="rounded-circle img-fluid" style="width: 150px;">
+                            <h5 class="my-3">John Smith</h5>
+                            <p class="text-muted mb-1">Full Stack Developer</p>
+                            <p class="text-muted mb-4">Bay Area, San Francisco, CA</p>
+                            <div class="d-flex justify-content-center mb-2">
+                                <button type="button" class="btn btn-primary mx-2">Edit Profile</button>
+                                <button type="button" class="btn btn-outline-primary mx-2">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="card card-bg-color mb-4">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">Full Name</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class="text-muted mb-0">Sandip Chavda</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">Gender</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class="text-muted mb-0">Male</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">Email</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class="text-muted mb-0">chavdasandip2908@gmail.com</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">Mobile</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class="text-muted mb-0">1234567890</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">Address</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class="text-muted mb-0">
+                                        <span><b>General Address : </b> </span>
+                                        <span> manav mandir , memnager</span>
+                                    </p>
+                                    <p class="text-muted mb-0">
+                                        <span><b>PinCode : </b></span>
+                                        <span> 364710</span>
+                                    </p>
+                                    <p class="text-muted mb-0">
+                                        <span><b>City : </b></span>
+                                        <span> Amhedabad</span>
+                                    </p>
+                                    <p class="text-muted mb-0">
+                                        <span><b>State : </b></span>
+                                        <span> Gujarat</span>
+                                    </p>
+                                    <p class="text-muted mb-0">
+                                        <span><b>Country : </b></span>
+                                        <span> India</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">Password</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class="text-muted mb-0">
+                                        <span>**********</span>
+                                        <span  style="float: right;">
+                                            <button class="text-muted" style="border: none;background: none;">
+                                                <i class="fa-solid fa-eye"></i>
+                                                <!-- <i class="fa-solid fa-eye-slash"></i> -->
+                                            </button>
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
 
 </body>
 

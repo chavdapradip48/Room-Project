@@ -5,3 +5,19 @@ body {
     font-family: 'Rubik', sans-serif;
     text-transform: capitalize;
 }
+.profile-link img{
+    height: 40px;
+    border: 1px solid black;
+    border-radius: 50%;
+    background-color: rgb(41, 41, 41);
+}
+
+.navbar-nav .nav-link {
+    color: white;
+}
+
+.navbar-nav .active {
+    background-color: #5d5b5b57;
+    border-radius: 4px;
+    color: #e4e4e4 !important;
+}
