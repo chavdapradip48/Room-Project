@@ -3,7 +3,7 @@ $(document).ready(function () {
         authenticate($("#email").val(), $("#password").val());
     }
     function authenticate(email, password) {
-        $('#cover-spin').show();
+        $('body').loader('show');
         $.ajax({
             url: backendServerUrl + "/authenticate",
             method: "POST",
@@ -16,16 +16,16 @@ $(document).ready(function () {
             },
             success: function (responce) {
                 console.log("API responce", responce);
-                $('#cover-spin').hide()
                 window.sessionStorage.setItem("token", "Bearer " + responce.jwt);
                 showToast("User logged-in successsfully", 'success');
+                $('body').loader('hide');
                 window.location.href = "homePage.html";
             },
             error: function (xhr, status, error) {
                 var errorMessage = JSON.parse(xhr.responseText);
-                console.log(errorMessage.message);
                 showToast(errorMessage.message, 'error');
-                $('#cover-spin').hide();
+                $('body').loader('hide');
+                
             }
         });
     }

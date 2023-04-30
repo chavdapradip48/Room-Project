@@ -1,6 +1,7 @@
 function callLRegistrationApi() {
-    $('#cover-spin').show(); // It enable spinner 
+    // $('#cover-spin').show(); // It enable spinner 
     // Below ajax use to call create user API by passing set of user fields
+    $('body').loader('show');
     $.ajax({
         url: backendServerUrl + "/user",
         method: "POST",
@@ -26,13 +27,14 @@ function callLRegistrationApi() {
             'Content-Type': 'application/json'
         },
         success: function (responce) {
-            $('#cover-spin').hide(); // disable loader
+            // $('#cover-spin').hide(); // disable loader
             showToast("User created successsfully", 'success');
-            console.log("API responce", responce);
+            $('body').loader('hide');
             window.location.href = "login.html"; // API response successfully then redirect login.html 
         },
         error: function (xhr, status, error) {
-            $('#cover-spin').hide(); // disable loader
+            // $('#cover-spin').hide(); // disable loader
+            $('body').loader('hide');
             var errorMessage = JSON.parse(xhr.responseText); // convert json to plantext
             showToast(errorMessage.status+errorMessage.message, 'error');
             console.log(errorMessage.message); // console error

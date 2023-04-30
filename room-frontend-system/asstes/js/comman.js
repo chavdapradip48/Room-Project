@@ -1,6 +1,5 @@
 $(document).ready(function () {
-    
-    $("body").prepend("<div id='api-responce'></div><div id='cover-spin'></div>");
+    $("body").prepend("<div id='header'></div><div id='api-responce'></div>");
     verifyUserToken();
 });
 function showToast(message, type) {
@@ -84,4 +83,15 @@ function logout(){
     window.sessionStorage.removeItem("token");
     showToast("Logout Successfully...", 'success');
     window.location.reload();
+}
+
+function decodeJwt(token) {
+    var base64Payload = token.split(".")[1];
+    var decodedPayload = atob(base64Payload);
+    var uint8Array = new Uint8Array(decodedPayload.length);
+    for (var i = 0; i < decodedPayload.length; i++) {
+      uint8Array[i] = decodedPayload.charCodeAt(i);
+    }
+    var payload = new TextDecoder().decode(uint8Array);
+    return JSON.parse(payload);
 }

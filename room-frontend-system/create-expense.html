@@ -1,52 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Admin Site</title>
-    <script type = "text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <link href="asstes/css/general.css" rel="stylesheet">
-    <link href="asstes/css/style.css" rel="stylesheet">
-    <script src="asstes/js/variable.js"></script>
-    <script src="asstes/js/validationFunction.js"></script>
-    <script src="asstes/js/comman.js"></script>
-    <script type = "text/javascript" src="asstes/js/expense-api-call.js"></script>
-    <link href="asstes/library/Easy-Page-Element-Loader-Plugin-with-jQuery-loader-js/jquery.loader.css" rel="stylesheet">
-    <script src="asstes/library/Easy-Page-Element-Loader-Plugin-with-jQuery-loader-js/jquery.loader.js"></script>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expenses Listing</title>
 
+    <link href="asstes/library/bootstrap-5.0.2/bootstrap.min.css" rel="stylesheet">
+    <link href="asstes/library/Easy-Page-Element-Loader-Plugin-with-jQuery-loader-js/jquery.loader.css"
+        rel="stylesheet">
+    <link href="asstes/css/style.css" rel="stylesheet">
+    <link href="asstes/css/general.css" rel="stylesheet">
+    <link href="asstes/css/expense.css" rel="stylesheet">
+
+    <script src="asstes/js/jquery-3.6.4.js"></script>
+    <script src="asstes/js/variable.js"></script>
+    <script src="asstes/js/comman.js"></script>
+    <script src="asstes/js/import-header-footer.js"></script>
+    <script src="asstes/library/bootstrap-5.0.2/bootstrap.min.js"></script>
+    <script src="asstes/library/Easy-Page-Element-Loader-Plugin-with-jQuery-loader-js/jquery.loader.js"></script>
 </head>
+
 <body>
-    <section class="header-section">
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="#">Room Management Service</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="homePage.html">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="expense-listing.html">Get expenses</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="create-expense.html">Create Expense</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#" onclick="logout()">Logout</a>
-                            </li>
-                        </ul>
-                        <form class="d-flex">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
-                        </form>
-                    </div>
-                </div>
-            </nav>
-    </section>
     <section class="form-section">
         <div class="container">
             <div class="row">
@@ -60,17 +36,20 @@
                                 <!--                                    <label>Username</label>-->
                                 <!--                                </div>-->
                                 <div class="form-floating fullname">
-                                    <select class="form-select" id="fullname-dropdown" aria-label="Default select example">
+                                    <select class="form-select" id="fullname-dropdown"
+                                        aria-label="Default select example">
 
                                     </select>
                                     <label>Full Name</label>
                                 </div>
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" name="description" id="description"  placeholder="Please enter full description" required>
+                                    <input type="text" class="form-control" name="description" id="description"
+                                        placeholder="Please enter full description" required>
                                     <label>Description</label>
                                 </div>
                                 <div class="form-floating">
                                     <select class="form-select" id="payment-mode" aria-label="Default select example">
+                                        <option selected>Open this select menu</option>
                                         <option value="ROOM_CASH">ROOM_CASH</option>
                                         <option value="ROOM_BANK">ROOM_BANK</option>
                                         <option value="PERSONAL">PERSONAL</option>
@@ -78,12 +57,14 @@
                                     <label>Payment Type</label>
                                 </div>
                                 <div class="form-floating">
-                                    <input type="number" class="form-control" name="amount" id="amount"  placeholder="amount" required>
+                                    <input type="number" class="form-control" name="amount" id="amount"
+                                        placeholder="amount" required>
                                     <label>Amount</label>
                                 </div>
                                 <br><br>
                                 <div class="d-grid">
-                                    <input class="btn btn-primary text-uppercase fw-bold" type="button" onclick="createExpense()" value="Create" />
+                                    <input class="btn btn-primary text-uppercase fw-bold" type="button"
+                                        onclick="createExpense()" value="Create" />
                                 </div>
                             </form>
                         </div>
@@ -92,16 +73,13 @@
             </div>
         </div>
     </section>
+    <script type="text/javascript" src="asstes/js/expense-api-call.js"></script>
     <script>
-        $(window).on('load', function() {
-        // This function will run when the entire page has finished loading
-        operationsCheck();
+        $(document).ready(function () {
+            loadUsername();
+            operationsCheck();
         });
-
-        $(document).ready(function() {
-        // This function will run when the DOM is fully loaded
-        loadUsername();
-        });       
     </script>
 </body>
+
 </html>

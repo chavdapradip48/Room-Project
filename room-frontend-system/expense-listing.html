@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registration Page</title>
+    <title>Expenses Listing</title>
     
     <link href="asstes/library/bootstrap-5.0.2/bootstrap.min.css" rel="stylesheet">
     <link href="asstes/library/Easy-Page-Element-Loader-Plugin-with-jQuery-loader-js/jquery.loader.css" rel="stylesheet">
@@ -14,12 +14,13 @@
     <link href="asstes/css/expense.css" rel="stylesheet">
 
     <script src="asstes/js/jquery-3.6.4.js"></script>
-    <script src="asstes/library/bootstrap-5.0.2/bootstrap.min.js"></script>
-    <script src="asstes/library/Easy-Page-Element-Loader-Plugin-with-jQuery-loader-js/jquery.loader.js"></script>
     <script src="asstes/js/variable.js"></script>
     <script src="asstes/js/comman.js"></script>
+    <script src="asstes/js/import-header-footer.js"></script>
+    <script src="asstes/library/bootstrap-5.0.2/bootstrap.min.js"></script>
+    <script src="asstes/library/Easy-Page-Element-Loader-Plugin-with-jQuery-loader-js/jquery.loader.js"></script>
 </head>
-<body onload="getUsers()">
+<body>
 <section class="content">
     <div class="container-fluid">
       <div class="row">
@@ -48,8 +49,12 @@
         </div>
       </div>
     </div>
-  
   </section>
+  <script>
+    $(document).ready(function () {
+      getExpenses();
+    });
+  </script>
   <script type = "text/javascript" src="asstes/js/expense-api-call.js"></script>
 <script>
 
