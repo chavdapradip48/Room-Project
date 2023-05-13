@@ -1,0 +1,11 @@
+.navbar {
+    background-color: black;
+}
+
+.navbar-nav .nav-link {
+    color: white;
+}
+
+.card-bg-color {
+    background-color: #f6f6f6;
+}

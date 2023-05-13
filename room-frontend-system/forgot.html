@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Page</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- <<<<<<< HEAD:room-frontend-system/forgote-pass.html -->
+    <link href="asstes/css/general.css" rel="stylesheet">
+    <link href="asstes/css/css2.css" rel="stylesheet">
+    <link rel="stylesheet" href="asstes/css/common.css">
+    <link rel="stylesheet" href="asstes/css/common-login-registration.css">
+    <link rel="stylesheet" href="asstes/css/forgot.css">
+    <script src="asstes/js/jquery-3.6.4.js"></script>
+    <script src="asstes/js/variable.js"></script>
+    <script src="asstes/js/validationFunction.js"></script>
+    <script src="asstes/js/comman.js"></script>
+<!-- =======
+    <link href="asstes/library/font-style.css" rel="stylesheet">
+    <link rel="stylesheet" href="asstes/css/general.css">
+    <link rel="stylesheet" href="asstes/css/login-registration-forgot.css">
+    <link rel="stylesheet" href="asstes/css/forgot.css">
+    <script src="asstes/library/jquery-3.6.4.js"></script>
+    <script src="asstes/js/variable.js"></script>
+    <script src="asstes/js/validation-session.js"></script>
+    <script src="asstes/js/general.js"></script>
+    <script src="asstes/js/validation.js"></script>
+>>>>>>> feature/render-deploy-frontend:room-frontend-system/forgot.html -->
+</head>
+
+<body>
+    <div class="main">
+        <form onsubmit="">
+            <div class="form-group md-3">
+                <h2 class="text-center">forgot password</h2>
+            </div>
+            <div class="form-group" id="forgot-email-field">
+                <label for="exampleInputEmail1">Email Address</label>
+                <input type="email" class="form-control" id="fEmail" aria-describedby="emailHelp"
+                    placeholder="Enter Email"
+                    onblur="borderErrorColor(emailVlid($('#fEmail').val(), $('#femail-err')), $('#fEmail'))">
+                <p class="error" id="femail-err"></p>
+            </div>
+
+            <button type="button" id="generate-otp" class="btn btn-primary btn-size">Send OTP</button>
+            <div class="form-group otp-section mt-2">
+                <label for="exampleInputPassword1">OTP</label>
+                <input type="number" class="form-control" id="otp-field" placeholder="Enter OTP"
+                    onblur="borderErrorColor(otpVlid($('#otp-field').val(), $('#otp-err')), $('#otp-field'))">
+                <p class="error" id="otp-err"></p>
+            </div>
+            <button type="button" id="verified-otp" class="btn btn-primary btn-size">Verified OTP</button>
+
+            <div class="form-group new-password-section mt-2">
+                <label for="exampleInputPassword1">New Password</label>
+                <input type="password" class="form-control" id="newPassword" placeholder="Enter New Password"
+                    onblur="borderErrorColor(passVlid($('#newPassword').val(), $('#newPassword-err')), $('#newPassword'))">
+                <p class="error" id="newPassword-err"></p>
+
+                <label for="exampleInputPassword1">New Password</label>
+                <input type="password" class="form-control" id="rePassword" placeholder="Re-enter New Password"
+                    onblur="borderErrorColor(conpassVlid($('#rePassword').val(),$('#newPassword').val(), $('#rePassword-err')), $('#rePassword'))">
+                <p class="error" id="rePassword-err"></p>
+            </div>
+            <button type="button" id="change-password" class="btn btn-primary btn-size">Change</button>
+
+            <div class="form-group text-center pt-3 ">
+                <a href="login.html" id="create-new">back to login page</a>
+            </div>
+        </form>
+    </div>
+</body>
+<script src="asstes/js/forgot.js"></script>
+</html>
