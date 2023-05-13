@@ -1,3 +1,4 @@
+
 #api-responce {
     background-color: transparent;
     position: fixed;
@@ -20,7 +21,7 @@
     transition: opacity 0.3s ease-in-out;
 }
 
-#cover-spin {
+/* #cover-spin {
     position: fixed;
     width: 100%;
     left: 0;
@@ -67,4 +68,22 @@
     border-radius: 50%;
     -webkit-animation: spin .8s linear infinite;
     animation: spin .8s linear infinite;
+} */
+
+.profile-link img{
+    height: 40px;
+    border: 1px solid black;
+    border-radius: 50%;
+    background-color: rgb(41, 41, 41);
+}
+
+.navbar-nav .nav-link {
+    color: white;
+}
+
+.navbar-nav .active {
+    background-color: #5d5b5b57;
+    border-radius: 4px;
+    color: #e4e4e4 !important;
+/* >>>>>>> feature/render-deploy-frontend */
 }

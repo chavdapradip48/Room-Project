@@ -2,6 +2,14 @@
     font-size: 14px;
 }
 
+body {
+    background: url("../images/background.avif");
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: 'Rubik', sans-serif;
+    text-transform: capitalize;
+}
+
 .main {
     width: 30vw;
     height: 100vh;

@@ -11,8 +11,11 @@ public interface UserDTO {
 	String getFirstName();
 	String getLastName();
 	String getMobile();
+	String getGender();
+	Address getAddress();
 	boolean isEnabled();
 	boolean isLocked();
-	Address getAddress();
 	List<Role> getRoles();
+	
+	String getProfilePhoto();
 }

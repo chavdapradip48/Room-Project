@@ -2,6 +2,8 @@ $(document).ready(function () {
     function callLoginApi() {
         authenticate($("#email").val(), $("#password").val());
     }
+
+
     function authenticate(email, password) {
         $('body').loader('show');
         $.ajax({
@@ -15,11 +17,10 @@ $(document).ready(function () {
                 'Content-Type': 'application/json'
             },
             success: function (responce) {
-                console.log("API responce", responce);
                 window.sessionStorage.setItem("token", "Bearer " + responce.jwt);
                 showToast("User logged-in successsfully", 'success');
                 $('body').loader('hide');
-                window.location.href = "homePage.html";
+                window.location.href = "home.html";
             },
             error: function (xhr, status, error) {
                 var errorMessage = JSON.parse(xhr.responseText);
@@ -46,7 +47,7 @@ $(document).ready(function () {
         // form valide then call "callLoginApi()"
         if (email_ret && pass_ret) {
             console.log("form is valid");
-            callLoginApi();
+            callLoginApi($("#email").val(), $("#password").val());
         }
     });
 });

@@ -1,3 +1,7 @@
+// <<<<<<< HEAD:room-frontend-system/asstes/js/registration.js
+// =======
+
+// >>>>>>> feature/render-deploy-frontend:room-frontend-system/asstes/js/register.js
 function callLRegistrationApi() {
     // $('#cover-spin').show(); // It enable spinner 
     // Below ajax use to call create user API by passing set of user fields
@@ -8,7 +12,7 @@ function callLRegistrationApi() {
         data: JSON.stringify({
             "firstName": $("#fname").val(),
             "lastName": $("#lname").val(),
-            "profilePhoto": $('#upload-profile-picture').val(),
+            "profilePhoto": localStorage.getItem("user_image"),
             "password": $("#password-fild").val(),
             "gender": $("#gender").val(),
             "enabled": "true",
@@ -30,16 +34,19 @@ function callLRegistrationApi() {
             // $('#cover-spin').hide(); // disable loader
             showToast("User created successsfully", 'success');
             $('body').loader('hide');
+            localStorage.clear("user_image");
             window.location.href = "login.html"; // API response successfully then redirect login.html 
         },
         error: function (xhr, status, error) {
             // $('#cover-spin').hide(); // disable loader
+            localStorage.clear("user_image");
             $('body').loader('hide');
             var errorMessage = JSON.parse(xhr.responseText); // convert json to plantext
-            showToast(errorMessage.status+errorMessage.message, 'error');
-            console.log(errorMessage.message); // console error
+            showToast(errorMessage.status + errorMessage.message, 'error');
         }
     });
+    
+    reader.readAsDataURL(file.files[0]);
 }
 
 
@@ -161,9 +168,8 @@ function validateFields(stepNum) {
         borderErrorColor(pass_retu, $('#password-fild'));
         borderErrorColor(cpass_retu, $('#cpassword-fild'));
         if (mobile_retu && email_retu && pass_retu && cpass_retu) {
-            console.log("form is valid");
+            setProfileBase64LocalStorage();
             callLRegistrationApi();
-            console.log("api Called successfully");
             return true;
         } else {
             return false;
@@ -171,16 +177,34 @@ function validateFields(stepNum) {
 
     }
 }
-// Below function use for read base64String
-function encodeImageFileAsURL(element) {
-    var input = $('#upload-profile-picture')[0];
+
+// const $file = document.querySelector(".local");
+// $file.addEventListener("change", (event) => {
+//     const selectedfile = event.target.files;
+//     if (selectedfile.length > 0) {
+//       const [imageFile] = selectedfile;
+//       const fileReader = new FileReader();
+//       fileReader.onload = () => {
+//         const srcData = fileReader.result;
+//         console.log('base64:', srcData)
+//       };
+//       fileReader.readAsDataURL(imageFile);
+//     }
+//   });
+
+
+  function setProfileBase64LocalStorage() {
+    const file = $('#upload-profile-picture')[0];
     var reader = new FileReader();
-    reader.onload = function (event) {
+    reader.onload = function(event) {
+        // Get the base64 encoded string from the FileReader result
         var base64String = event.target.result;
-    };
-    reader.readAsDataURL(input.files[0]);
-    $("#preview").attr("src ", base64String);
-}
+        console.log(base64String);
+        localStorage.setItem("user_image",base64String);
+      };
+    reader.readAsDataURL(file.files[0]);
+  }
+
 
 // Set Preview Image function
 var preview = $('#preview');
@@ -194,3 +218,90 @@ profile_picture.change(function (event) {
 });
 
 
+let auth_token;
+$(document).ready(function () {
+    $.ajax({
+        type: 'get',
+        url: 'https://www.universal-tutorial.com/api/getaccesstoken',
+        success: function (data) {
+            auth_token = data.auth_token;
+            getCountry(data.auth_token)
+        },
+        error: function (error) {
+            console.log(error);
+        },
+        headers: {
+            "Accept": "application/json",
+            "api-token": "6ipX_pWA4MT4iEk7S-1oRAZ7QvVq2PhmwQFpquICe6DLLHauIRUl_kCQNcrNxelcwSc",
+            "user-email": "chavdasandipbhai@gmail.com"
+        }
+
+    });
+});
+function getCountry(auth_token) {
+    $.ajax({
+        type: 'get',
+        url: 'https://www.universal-tutorial.com/api/countries/',
+        success: function (data) {
+            data.forEach(element => {
+                $('#country').append('<option value="' + element.country_name + '">' + element.country_name + '</option>');
+            });
+        },
+        error: function (error) {
+            console.log(error);
+        },
+        headers: {
+            "Authorization": "Bearer " + auth_token,
+            "Accept": "application/json"
+        }
+    });
+    $('#country').change(function () {
+        getState();
+    });
+    $('#state').change(function () {
+        getCity();
+    });
+}
+function getState() {
+    let country_name = $('#country').val();
+    $.ajax({
+        type: 'get',
+        url: 'https://www.universal-tutorial.com/api/states/' + country_name,
+        success: function (data) {
+            $('#state').empty();
+            $('#city').empty();
+            $('#city').append('<option value="select">City</option>');
+            data.forEach(element => {
+                $('#state').append('<option value="' + element.state_name + '">' + element.state_name + '</option>');
+            });
+        },
+        error: function (error) {
+            console.log(error);
+        },
+        headers: {
+            "Authorization": "Bearer " + auth_token,
+            "Accept": "application/json"
+        }
+    });
+}
+function getCity() {
+    let state_name = $('#state').val();
+    console.log("Done");
+    $.ajax({
+        type: 'get',
+        url: 'https://www.universal-tutorial.com/api/cities/' + state_name,
+        success: function (data) {
+            $('#city').empty();
+            data.forEach(element => {
+                $('#city').append('<option value="' + element.city_name + '">' + element.city_name + '</option>');
+            });
+        },
+        error: function (error) {
+            console.log(error);
+        },
+        headers: {
+            "Authorization": "Bearer " + auth_token,
+            "Accept": "application/json"
+        }
+    });
+}

@@ -7,19 +7,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Expenses Listing</title>
 
-    <link href="asstes/library/bootstrap-5.0.2/bootstrap.min.css" rel="stylesheet">
-    <link href="asstes/library/Easy-Page-Element-Loader-Plugin-with-jQuery-loader-js/jquery.loader.css"
-        rel="stylesheet">
+    <!-- <link href="asstes/library/bootstrap-5.2.3/bootstrap.min.css" rel="stylesheet"> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="asstes/library/Easy-Page-Element-Loader-Plugin-with-jQuery-loader-js/jquery.loader.css" rel="stylesheet">
     <link href="asstes/css/style.css" rel="stylesheet">
     <link href="asstes/css/general.css" rel="stylesheet">
     <link href="asstes/css/expense.css" rel="stylesheet">
 
-    <script src="asstes/js/jquery-3.6.4.js"></script>
-    <script src="asstes/js/variable.js"></script>
-    <script src="asstes/js/comman.js"></script>
-    <script src="asstes/js/import-header-footer.js"></script>
-    <script src="asstes/library/bootstrap-5.0.2/bootstrap.min.js"></script>
+    <script src="asstes/library/jquery-3.6.4.js"></script>
+    <script src="asstes/library/bootstrap-5.2.3/bootstrap.min.js"></script>
+    <script src="asstes/library/bootstrap-5.2.3/bootstrap.bundle.min.js"></script>
     <script src="asstes/library/Easy-Page-Element-Loader-Plugin-with-jQuery-loader-js/jquery.loader.js"></script>
+    <script src="asstes/js/variable.js"></script>
+    <script src="asstes/js/validation-session.js"></script>
+    <script src="asstes/js/import-header-footer.js"></script>
+
 </head>
 
 <body>
@@ -27,44 +29,40 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-12 col-md-10 col-lg-6 mx-auto">
-                    <div class="card border-0 shadow rounded-3 my-5">
+                    <div class="card border-0 shadow rounded my-5">
                         <div class="card-body p-4 p-sm-5">
-                            <h5 class="card-title text-center mb-5 fw-light fs-5">Add Expense</h5>
+                            <h5 class="card-title text-center mb-5 font-weight-light fs-5">Add Expense</h5>
                             <form action="/user" method="POST" id="formId">
-                                <!--                                <div class="form-floating">-->
-                                <!--                                    <input type="text" class="form-control" name="username" id="username"  placeholder="Username" required>-->
-                                <!--                                    <label>Username</label>-->
-                                <!--                                </div>-->
-                                <div class="form-floating fullname">
-                                    <select class="form-select" id="fullname-dropdown"
-                                        aria-label="Default select example">
-
+                                <!-- <div class="form-group">
+                                    <label for="username">Username</label>
+                                    <input type="text" class="form-control" name="username" id="username" placeholder="Username" required>
+                                </div> -->
+                                <div class="form-group fullname">
+                                    <label for="fullname-dropdown">Full Name</label>
+                                    <select class="form-control" id="fullname-dropdown" aria-label="Default select example">
+    
                                     </select>
-                                    <label>Full Name</label>
                                 </div>
-                                <div class="form-floating">
-                                    <input type="text" class="form-control" name="description" id="description"
-                                        placeholder="Please enter full description" required>
-                                    <label>Description</label>
+                                <div class="form-group">
+                                    <label for="description">Description</label>
+                                    <input type="text" class="form-control" name="description" id="description" placeholder="Please enter full description" required>
                                 </div>
-                                <div class="form-floating">
-                                    <select class="form-select" id="payment-mode" aria-label="Default select example">
+                                <div class="form-group">
+                                    <label for="payment-mode">Payment Type</label>
+                                    <select class="form-control" id="payment-mode" aria-label="Default select example">
                                         <option selected>Open this select menu</option>
                                         <option value="ROOM_CASH">ROOM_CASH</option>
                                         <option value="ROOM_BANK">ROOM_BANK</option>
                                         <option value="PERSONAL">PERSONAL</option>
                                     </select>
-                                    <label>Payment Type</label>
                                 </div>
-                                <div class="form-floating">
-                                    <input type="number" class="form-control" name="amount" id="amount"
-                                        placeholder="amount" required>
-                                    <label>Amount</label>
+                                <div class="form-group">
+                                    <label for="amount">Amount</label>
+                                    <input type="number" class="form-control" name="amount" id="amount" placeholder="amount" required>
                                 </div>
                                 <br><br>
                                 <div class="d-grid">
-                                    <input class="btn btn-primary text-uppercase fw-bold" type="button"
-                                        onclick="createExpense()" value="Create" />
+                                    <input class="btn btn-primary text-uppercase font-weight-bold" type="button" onclick="createExpense()" value="Create" />
                                 </div>
                             </form>
                         </div>
@@ -73,11 +71,13 @@
             </div>
         </div>
     </section>
+    
     <script type="text/javascript" src="asstes/js/expense-api-call.js"></script>
     <script>
         $(document).ready(function () {
             loadUsername();
             operationsCheck();
+
         });
     </script>
 </body>

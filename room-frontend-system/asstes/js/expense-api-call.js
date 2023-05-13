@@ -47,9 +47,42 @@ function getExpenseById(type, expenseId) {
       $('.card-body').loader('hide');
     })
     .catch(error => showToast("Expense not fetched", 'error'));
-
 }
 
+function getExpenseAndSetUserSession(expenseId) {
+
+  var settings = {
+    "url": backendServerUrl + "/user/expense/" + expenseId,
+    "method": "GET",
+    "headers": {
+      "Authorization": window.sessionStorage.getItem("token"),
+    },
+  };
+  
+  $.ajax(settings).done(function (response) {
+    var sessionUser = result.data;
+    if (result.status == 200 && result.data != '') {
+      sessionStorage.setItem('session_user', JSON.stringify(sessionUser));
+    }
+  });
+  // var myHeaders = new Headers();
+  // myHeaders.append("Authorization", window.sessionStorage.getItem("token"));
+
+  // var requestOptions = {
+  //   method: 'GET',
+  //   headers: myHeaders,
+  // };
+
+  // fetch(backendServerUrl + "/user/expense/" + expenseId, requestOptions)
+  //   .then(response => response.json())
+  //   .then(result => {
+  //     var sessionUser = result.data;
+  //     if (result.status == 200 && result.data != '') {
+  //       sessionStorage.setItem('session_user', JSON.stringify(sessionUser));
+  //     }
+  //   })
+  //   .catch(error => showToast("Expense not fetched", 'error'));
+}
 
 function operations(type, id, element) {
   if (type == "view") {
@@ -195,7 +228,9 @@ function createExpense() {
     "description": $("#description").val()
   };
 
-  if (new URLSearchParams(window.location.search).get("type") == "edit") {
+  var editCondition=new URLSearchParams(window.location.search).get("type") == "edit";
+
+  if (editCondition) {
     apiUrl += "/" + new URLSearchParams(window.location.search).get("expenseId");
     methodType = 'PUT'
   }
@@ -227,6 +262,10 @@ function createExpense() {
     });
   $("#amount").val("")
   $("#description").val("")
+
+  if (editCondition) {
+    window.location.href = "/expense-listing.html"
+  }
 
 }
 

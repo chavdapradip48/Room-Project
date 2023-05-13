@@ -1,11 +1,30 @@
 function borderErrorColor(ret_fild_valid, elementTag) {
     if (ret_fild_valid != true) {
         elementTag.css("border-color", "red");
+        elementTag.css("background-color", "#ff8b8b26");
     } else {
-        elementTag.css("border-color", "#ced4da");
+        elementTag.css("border-color", "green");
+        elementTag.css("background-color", "#86f7862b");
     }
 }
 
+// <<<<<<< HEAD:room-frontend-system/asstes/js/validationFunction.js
+// =======
+// function showToast(message, type) {
+//     const $newDiv = $('<div>' + message + '</div>');   // create a div element
+//     $newDiv.addClass('toast-message');    // set class for the div element
+//     $('#api-responce').append($newDiv);    // append the div element to the body of the page
+//     $newDiv.css("background-color", type === 'success' ? '#4CAF50' : '#F44336'); // set new div background color 
+//     setTimeout(() => {
+//         $newDiv.css("opacity", "0.5");
+//     }, 4000);
+//     setTimeout(() => {
+//         $newDiv.css("display", "none");
+
+//     }, 4000);
+// }
+
+// >>>>>>> feature/render-deploy-frontend:room-frontend-system/asstes/js/validation.js
 function emailVlid(emails, errEle) {
     var nameRetn = true;
     if (emails == "") {
@@ -281,6 +300,3 @@ function profileVlid(picture, errEle) {
         return true;
     }
 }
-
-
-

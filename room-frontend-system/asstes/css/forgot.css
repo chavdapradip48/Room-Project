@@ -1,7 +1,5 @@
-.otp-section {
+.otp-section,.new-password-section,#verified-otp,#change-password {
     display: none;
 }
 
-#verified-otp {
-    display: none;
-}
+ 
