@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    $('body').loader('show');
     var queryParams = new URLSearchParams(window.location.search);
     var userId = queryParams.get('userId');
     if (userId != null && userId != "") {
@@ -11,6 +12,7 @@ $(document).ready(function () {
             setUserProfileDOM(sessionUserJson);
         }
     }
+    $('body').loader('hide');
 
     $(".delete-user").click(function(){
         // Display confirmation popup
@@ -18,6 +20,7 @@ $(document).ready(function () {
 
         // Check user's response
         if (confirmed) {
+            $('body').loader('show');
             deleteUser(JSON.parse(window.sessionStorage.getItem("session_user")).id)
             .then(function(success) {
                 if (success) {
@@ -26,8 +29,10 @@ $(document).ready(function () {
                 } else {
                     showToast('Failed to delete user.', 'error');
                 }
+                $('body').loader('hide');
             })
             .catch(function(error) {
+                $('body').loader('hide');
                 showToast('Error deleting user:', 'error');
             });
         }
@@ -54,11 +59,14 @@ function setUserProfileDOM(sessionUserJson){
 }
 
 function viewUserProfile(userId) {
+    $('body').loader('show');
     getUserById(userId)
     .then(function(response) {
         setUserProfileDOM(response.data);
+        $('body').loader('hide');
     })
     .catch(function(error) {
-      console.error(error);
+      $('body').loader('hide');
+      showToast('Failed to set user.', 'error');
     });
 }

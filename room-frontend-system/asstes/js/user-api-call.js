@@ -27,6 +27,7 @@ function deleteUser(userId) {
 
   return $.ajax(settings)
     .then(function(response) {
+      showToast(response.message, 'error');
       return true;
     })
     .catch(function(error) {
@@ -36,7 +37,7 @@ function deleteUser(userId) {
 }
 
 function getUserListing() {
-  $('.card-body').loader('show');
+  $('body').loader('show');
 
   var settings = {
     "url": backendServerUrl + "/user",
@@ -84,14 +85,14 @@ function getUserListing() {
           });
           $('#dynamic-user-listing').html(rows);
         }
-        $('.card-body').loader('hide');
+        $('body').loader('hide');
       }
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
       var errorResponse=jqXHR.responseJSON.message;
       showToast(errorResponse, 'error');
       $('#dynamic-user-listing').html("<div class='alert alert-danger' role='alert'>"+errorResponse+"</div>");
-      $('.card-body').loader('hide');
+      $('body').loader('hide');
     });
 }
 
