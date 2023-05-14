@@ -4,10 +4,10 @@
     margin: 20px;
   }
 
-  .card-img-top {
-    height: 180px;
-    object-fit: cover;
-  }
+.card-img-top {
+    height: 250px;
+    object-fit: contain;
+}
 
   @media (max-width: 767px) {
     .card-img-top {
