@@ -84,7 +84,7 @@ function getExpenseAndSetUserSession(expenseId) {
   //   .catch(error => showToast("Expense not fetched", 'error'));
 }
 
-function operations(type, id, element) {
+function operations(type, id) {
   if (type == "view") {
     window.location.href = "create-expense.html?expenseId=" + id + "&type=" + type;
   }
@@ -161,9 +161,9 @@ function getExpenses() {
               <div class="dropdown">
                 <img src="asstes/images/three-dots-vertical.svg" onclick="showOptions(this,'show')" class="dropdown-toggle">
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <li><a class="dropdown-item" id="edit${expense.id}row" onclick="operations('view',${expense.id},this)" >View</a></li>
-                  <li><a class="dropdown-item" id="update${expense.id}row" onclick="operations('edit',${expense.id},this)">Update</a></li>
-                  <li><a class="dropdown-item" id="delete${expense.id}row" onclick="operations('delete',${expense.id},this)">Delete</a></li>
+                  <li><a class="dropdown-item" id="edit${expense.id}row" onclick="operations('view',${expense.id})" >View</a></li>
+                  <li><a class="dropdown-item" id="update${expense.id}row" onclick="operations('edit',${expense.id})">Update</a></li>
+                  <li><a class="dropdown-item" id="delete${expense.id}row" onclick="operations('delete',${expense.id})">Delete</a></li>
                 </ul>
               </div>
             </td>

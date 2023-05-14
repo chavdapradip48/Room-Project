@@ -19,10 +19,8 @@ function SetUserSession(userId) {
 
 $(document).ready(function() {
     $('#header').load('header.html');
-    if(sessionStorage.getItem("session_user") == null){
-        SetUserSession(decodeJwt(window.sessionStorage.getItem("token")).id);
-    }
+    // if(sessionStorage.getItem("session_user") == null){
+    //     SetUserSession(decodeJwt(window.sessionStorage.getItem("token")).id);
+    // }
     
 });
-
-

@@ -168,8 +168,9 @@ function validateFields(stepNum) {
         borderErrorColor(pass_retu, $('#password-fild'));
         borderErrorColor(cpass_retu, $('#cpassword-fild'));
         if (mobile_retu && email_retu && pass_retu && cpass_retu) {
-            setProfileBase64LocalStorage();
-            callLRegistrationApi();
+            setProfileBase64LocalStorage().then(() => {
+                callLRegistrationApi();
+            });
             return true;
         } else {
             return false;
@@ -178,33 +179,23 @@ function validateFields(stepNum) {
     }
 }
 
-// const $file = document.querySelector(".local");
-// $file.addEventListener("change", (event) => {
-//     const selectedfile = event.target.files;
-//     if (selectedfile.length > 0) {
-//       const [imageFile] = selectedfile;
-//       const fileReader = new FileReader();
-//       fileReader.onload = () => {
-//         const srcData = fileReader.result;
-//         console.log('base64:', srcData)
-//       };
-//       fileReader.readAsDataURL(imageFile);
-//     }
-//   });
-
-
-  function setProfileBase64LocalStorage() {
-    const file = $('#upload-profile-picture')[0];
-    var reader = new FileReader();
-    reader.onload = function(event) {
+function setProfileBase64LocalStorage() {
+    return new Promise((resolve, reject) => {
+      const file = $('#upload-profile-picture')[0];
+      var reader = new FileReader();
+      reader.onload = function(event) {
         // Get the base64 encoded string from the FileReader result
         var base64String = event.target.result;
         console.log(base64String);
         localStorage.setItem("user_image",base64String);
+        resolve();
       };
-    reader.readAsDataURL(file.files[0]);
-  }
-
+      reader.onerror = function(error) {
+        reject(error);
+      };
+      reader.readAsDataURL(file.files[0]);
+    });
+}  
 
 // Set Preview Image function
 var preview = $('#preview');

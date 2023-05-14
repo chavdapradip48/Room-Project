@@ -1,8 +1,62 @@
 $(document).ready(function () {
     function callLoginApi() {
-        authenticate($("#email").val(), $("#password").val());
+        authenticateAndSetUserSession($("#email").val(), $("#password").val());
     }
 
+
+    function authenticateAndSetUserSession(email, password) {
+        $('body').loader('show');
+        $.ajax({
+          url: backendServerUrl + "/authenticate",
+          method: "POST",
+          data: JSON.stringify({
+            "email": email,
+            "password": password
+          }),
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          success: function (response) {
+            window.sessionStorage.setItem("token", "Bearer " + response.jwt);
+            showToast("User logged-in successfully", 'success');
+            SetUserSession(decodeJwt("Bearer " + response.jwt).id).then(function() { // Wait for SetUserSession() to finish before redirecting
+              $('body').loader('hide');
+              window.location.href = "home.html";
+            }).catch(function(error) {
+              $('body').loader('hide');
+              showToast("Error setting user session: " + error, 'error');
+            });
+          },
+          error: function (xhr, status, error) {
+            var errorMessage = JSON.parse(xhr.responseText);
+            showToast(errorMessage.message, 'error');
+            $('body').loader('hide');
+          }
+        });
+      }
+      
+      
+      function SetUserSession(userId) {
+        return new Promise(function(resolve, reject) {
+          var settings = {
+            "url": backendServerUrl + "/user/"+userId+"?projection=UserDTO",
+            "method": "GET",
+            "headers": {
+              "Authorization": window.sessionStorage.getItem("token"),
+            },
+          };
+          
+          $.ajax(settings).done(function (response) {
+            var sessionUser = response.data;
+            sessionStorage.setItem('session_user', JSON.stringify(sessionUser));
+            resolve(); // Resolve the promise to indicate that the AJAX request is complete
+          }).fail(function(xhr, status, error) {
+            reject(error); // Reject the promise if the AJAX request fails
+          });
+        });
+      }
+      
+      
 
     function authenticate(email, password) {
         $('body').loader('show');

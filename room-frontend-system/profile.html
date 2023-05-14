@@ -13,15 +13,15 @@
     <link href="asstes/css/style.css" rel="stylesheet">
     <link href="asstes/css/profile.css" rel="stylesheet">
     <link href="asstes/css/general.css" rel="stylesheet">
-    <!-- <link href="asstes/css/expense.css" rel="stylesheet"> -->
 
     <script src="asstes/library/jquery-3.6.4.js"></script>
     <script src="asstes/library/bootstrap-4.0.0/bootstrap.min.js"></script>
     <script src="asstes/library/bootstrap-4.0.0/bootstrap.bundle.min.js"></script>
     <script src="asstes/library/Easy-Page-Element-Loader-Plugin-with-jQuery-loader-js/jquery.loader.js"></script>
     <script src="asstes/js/variable.js"></script>
-    <script src="asstes/js/profile.js"></script>
     <script src="asstes/js/validation-session.js"></script>
+    <script src="asstes/js/user-api-call.js"></script>
+    <script src="asstes/js/profile.js"></script>
     <script src="asstes/js/import-header-footer.js"></script>
     
 </head>
@@ -39,8 +39,8 @@
                             <p class="text-muted mb-1">Full Stack Developer</p>
                             <p class="text-muted mb-4">Bay Area, San Francisco, CA</p>
                             <div class="d-flex justify-content-center mb-2">
-                                <button type="button" class="btn btn-primary mx-2">Edit Profile</button>
-                                <button type="button" class="btn btn-outline-primary mx-2">Delete</button>
+                                <button type="button" class="btn btn-primary mx-2" disabled>Edit Profile</button>
+                                <button type="button" class="btn btn-outline-primary mx-2 delete-user">Delete</button>
                             </div>
                         </div>
                     </div>
@@ -71,7 +71,7 @@
                                     <p class="mb-0">Email</p>
                                 </div>
                                 <div class="col-sm-9">
-                                    <p id="email" class="text-muted mb-0">chavdasandip2908@gmail.com</p>
+                                    <p id="email" class="text-muted mb-0">demouser@gmail.com</p>
                                 </div>
                             </div>
                             <hr>
