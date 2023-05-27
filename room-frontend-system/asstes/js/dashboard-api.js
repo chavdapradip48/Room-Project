@@ -1,25 +1,46 @@
-/* global Chart, coreui */
+var yData=[];
+var xData=[];
 
-/**
- * --------------------------------------------------------------------------
- * CoreUI Boostrap Admin Template (v4.2.2): main.js
- * Licensed under MIT (https://coreui.io/license)
- * --------------------------------------------------------------------------
- */
+async function getDashboardData() {
+  $('.card-body').loader('show');
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization", window.sessionStorage.getItem("token"));
 
-// Disable the on-canvas tooltip
-Chart.defaults.pointHitDetectionRadius = 1;
+  var requestOptions = {
+    method: 'GET',
+    headers: myHeaders,
+  };
+
+  try {
+    const response = await fetch(backendServerUrl + "/user/expense/dashboard", requestOptions);
+    const result = await response.json();
+    var apiData = result.data;
+
+    if (result.status == 200 && result.data != '') {
+      $("#total-exp").text("RS. " + apiData.totalAmount);
+      $("#my-total-exp").text("RS. " + apiData.myTotalAmount);
+      $("#previous-exp").text("RS. " + apiData.previousMonthAmount);
+      $("#current-prev-exp-percent").text(apiData.currentPreviousMonthPercent + "%");
+      yData = Object.keys(apiData.graphData);
+      xData = Object.values(apiData.graphData);
+      $("#month-data").text(yData[0]+" - "+yData[yData.length-1] + " 2023");
+    }
+
+    $('.card-body').loader('hide');
+  } catch (error) {
+    showToast("Expense not fetched", 'error');
+    $('.card-body').loader('hide');
+  }
+}
+
+function setdataInGraph(){
+  Chart.defaults.pointHitDetectionRadius = 1;
 Chart.defaults.plugins.tooltip.enabled = false;
 Chart.defaults.plugins.tooltip.mode = 'index';
 Chart.defaults.plugins.tooltip.position = 'nearest';
 Chart.defaults.plugins.tooltip.external = coreui.ChartJS.customTooltips;
 Chart.defaults.defaultFontColor = '#646470';
-const random = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
-
-const yData=['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-const xData=[114, 250, 150, 50, 10, 100, 100];
 const maxGraph=Math.max(...xData);
-console.log(maxGraph);
 // eslint-disable-next-line no-unused-vars
 const mainChart = new Chart(document.getElementById('main-chart'), {
   type: 'line',
@@ -70,4 +91,4 @@ const mainChart = new Chart(document.getElementById('main-chart'), {
     }
   }
 });
-//# sourceMappingURL=main.js.map
+}
