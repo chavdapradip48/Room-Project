@@ -13,7 +13,12 @@
     <link href="asstes/css/style.css" rel="stylesheet">
     <link href="asstes/css/general.css" rel="stylesheet">
     <link href="asstes/css/expense.css" rel="stylesheet">
-
+    <link href="asstes/library/dashboard/css/dashboard.css" rel="stylesheet">
+    <style>
+      .body{
+        background-color: white;
+      }
+    </style>
     <script src="asstes/library/jquery-3.6.4.js"></script>
     <script src="asstes/library/bootstrap-4.0.0/bootstrap.min.js"></script>
     <script src="asstes/library/bootstrap-4.0.0/bootstrap.bundle.min.js"></script>
@@ -24,7 +29,94 @@
 </head>
 
 <body>
-    
-</body>
+    <section id="dashboard">
+        <div class="wrapper d-flex flex-column min-vh-100 bg-light">
+            <div class="body flex-grow-1 px-3">
+              <div class="container-lg">
+                <div class="row">
+                  <div class="content-box col-sm-6 col-lg-3">
+                    <div class="card card-center-contet mb-4 text-white bg-primary">
+                      <div class="card-body card-content-parent pb-0 d-flex justify-content-between align-items-start">
+                        <div class="text-center">
+                          <div class="text-center fs-4 fw-semibold">RS. 26000</div>
+                          <div>Total Expense (April)</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- /.col-->
+                  <div class="content-box col-sm-6 col-lg-3">
+                    <div class="card card-center-contet mb-4 text-white bg-info">
+                      <div class="card-body pb-0 d-flex justify-content-between align-items-start">
+                        <div class="card-content">
+                          <div class="text-center fs-4 fw-semibold">$6.200</div>
+                          <div class="text-center" >Income</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- /.col-->
+                  <div class="content-box col-sm-6 col-lg-3">
+                    <div class="card card-center-contet mb-4 text-white bg-warning">
+                      <div class="card-body pb-0 d-flex justify-content-between align-items-start">
+                        <div class="card-content">
+                          <div class="text-center fs-4 fw-semibold">2.49%</div>
+                          <div class="text-center" >Conversion Rate</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- /.col-->
+                  <div class="content-box col-sm-6 col-lg-3">
+                    <div class="card card-center-contet mb-4 text-white bg-danger">
+                      <div class="card-body  pb-0 d-flex justify-content-between align-items-start">
+                        <div class="card-content">
+                          <div class="text-center fs-4 fw-semibold">44K</div>
+                          <div class="text-center">Sessions</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- /.col-->
+                </div>
+                <!-- /.row-->
+                <div class="card mb-4">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                      <div>
+                        <h4 class="card-title mb-0">Traffic</h4>
+                        <div class="small text-medium-emphasis">January - July 2022</div>
+                      </div>
+                      <div class="btn-toolbar d-none d-md-block" role="toolbar" aria-label="Toolbar with buttons">
+                        <div class="btn-group btn-group-toggle mx-3" data-coreui-toggle="buttons">
+                          <input class="btn-check" id="option1" type="radio" name="options" autocomplete="off">
+                          <label class="btn btn-outline-secondary"> Day</label>
+                          <input class="btn-check" id="option2" type="radio" name="options" autocomplete="off" checked="">
+                          <label class="btn btn-outline-secondary active"> Month</label>
+                          <input class="btn-check" id="option3" type="radio" name="options" autocomplete="off">
+                          <label class="btn btn-outline-secondary"> Year</label>
+                        </div>
+                        <button class="btn btn-primary" type="button">
+                          <svg class="icon">
+                            <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-cloud-download"></use>
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="c-chart-wrapper" style="height:300px;margin-top:40px;">
+                      <canvas class="chart" id="main-chart" height="300"></canvas>
+                    </div>
+                  </div>
+      
+                </div>
+              </div>
+            </div>
+          </div>
+    </section>
 
+    <script src="asstes/library/dashboard/js/chart.min.js"></script>
+    <script src="asstes/library/dashboard/js/coreui-chartjs.js"></script>
+    <script src="asstes/library/dashboard/js/coreui-utils.js"></script>
+    <script src="asstes/js/dashboard.js"></script>
+</body>
 </html>

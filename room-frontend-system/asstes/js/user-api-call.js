@@ -1,7 +1,3 @@
-$(document).ready(function () {
-  getUserListing();
-});
-
 function getUserById(id) {
   var settings = {
     "url": backendServerUrl + "/user/"+id+"?projection=UserDTO",

@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $('body').loader('show');
+    // $('body').loader('show');
     var queryParams = new URLSearchParams(window.location.search);
     var userId = queryParams.get('userId');
     if (userId != null && userId != "") {
@@ -12,7 +12,7 @@ $(document).ready(function () {
             setUserProfileDOM(sessionUserJson);
         }
     }
-    $('body').loader('hide');
+    // $('body').loader('hide');
 
     $(".delete-user").click(function(){
         // Display confirmation popup
@@ -53,20 +53,20 @@ function setUserProfileDOM(sessionUserJson){
     if(address != null){
         $('#general-value').text(address.generalAddress);
         $('#pincode-value').text(address.pincode);
-        $('#state-value').text(sessionUserJson.state);
-        $('#country-value').text(sessionUserJson.country);
+        $('#state-value').text(address.state);
+        $('#country-value').text(address.country);
     }
 }
 
 function viewUserProfile(userId) {
-    $('body').loader('show');
+    $('.card').loader('show');
     getUserById(userId)
     .then(function(response) {
         setUserProfileDOM(response.data);
-        $('body').loader('hide');
+        $('.card').loader('hide');
     })
     .catch(function(error) {
-      $('body').loader('hide');
+      $('.card').loader('hide');
       showToast('Failed to set user.', 'error');
     });
 }
