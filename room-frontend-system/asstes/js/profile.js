@@ -54,7 +54,8 @@ function setUserProfileDOM(sessionUserJson){
         $('#general-value').text(address.generalAddress);
         $('#pincode-value').text(address.pincode);
         $('#state-value').text(address.state);
-        $('#country-value').text(address.country);
+        $('#city-value').text(address.city);
+        $('.country-value').text(address.country);
     }
 }
 

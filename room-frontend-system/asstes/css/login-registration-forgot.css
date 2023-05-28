@@ -20,7 +20,7 @@ body {
 }
 
 .main form {
-    width: 320px;
+    width: 100%;
     border: 1px solid;
     padding: 12px 18px;
     border-radius: 3px;
@@ -29,6 +29,10 @@ body {
 
 .main form div h2 {
     font-family: 'Oswald', sans-serif;
+}
+
+.form-group{
+    margin: 7% 0px;
 }
 
 .form-group .error {
@@ -78,4 +82,13 @@ body {
     .main {
         width: 95vw;
     }
+
+    .form-group{
+        margin: 5% 0px;
+    }
+
+    .main form {
+        width: 80%;
+    }
+    
 }

@@ -2,7 +2,7 @@ var yData=[];
 var xData=[];
 
 async function getDashboardData() {
-  $('.card-body').loader('show');
+  $('body').loader('show');
   var myHeaders = new Headers();
   myHeaders.append("Authorization", window.sessionStorage.getItem("token"));
 
@@ -26,10 +26,10 @@ async function getDashboardData() {
       $("#month-data").text(yData[0]+" - "+yData[yData.length-1] + " 2023");
     }
 
-    $('.card-body').loader('hide');
+    $('body').loader('hide');
   } catch (error) {
     showToast("Expense not fetched", 'error');
-    $('.card-body').loader('hide');
+    $('body').loader('hide');
   }
 }
 

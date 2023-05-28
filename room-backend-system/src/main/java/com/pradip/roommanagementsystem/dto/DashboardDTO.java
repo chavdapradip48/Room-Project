@@ -6,10 +6,10 @@ import java.util.Map;
 
 @Data
 public class DashboardDTO {
-    private Long totalAmount;
-    private Long myTotalAmount;
-    private Long currentMonthAmount;
-    private Long previousMonthAmount;
+    private long totalAmount;
+    private long myTotalAmount;
+    private long currentMonthAmount;
+    private long previousMonthAmount;
     private float currentPreviousMonthPercent;
     private Map<String, Long> graphData;
 }

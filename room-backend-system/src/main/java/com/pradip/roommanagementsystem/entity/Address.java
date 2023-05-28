@@ -18,9 +18,11 @@ public class Address {
     @NotBlank
     private String generalAddress;
     @NotBlank
-    private String country;
+    private String city;
     @NotBlank
     private String state;
+    @NotBlank
+    private String country;
     @NotBlank
     private int pincode;
     @OneToOne(fetch = FetchType.LAZY)

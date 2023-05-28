@@ -19,43 +19,40 @@ $("#change-password").click(function () {
     var conPasswordRen = conpassVlid($('#rePassword').val(), $('#newPassword').val(), $('#rePassword-err'));
     borderErrorColor(conPasswordRen, $('#rePassword'))
     if (newPasswordRen && conPasswordRen) {
-        $(".new-password-section,#change-password").prop("disabled", true);
         passwordChenge();
     }
 });
 
 function callSendOtp() {
-    // $('#cover-spin').show();
-
+    $('body').loader('show');
+    $("#generate-otp , #fEmail").prop("disabled", true);
     $.ajax({
-// <<<<<<< HEAD
         url: backendServerUrl + "/user/send-otp/" + $('#fEmail').val(),
         method: "GET",
-// =======
-//         url: apiUrl + "/user/send-otp/" + $('#fEmail').val(),
-//         method: "GET",
-// >>>>>>> feature/render-deploy-frontend
         headers: {
             'Content-Type': 'application/json'
         },
         success: function (responce) {
             $(".otp-section").css("display", "block");
             $("#verified-otp").css("display", "block");
-            $("#generate-otp , #fEmail").prop("disabled", true);
+            $("#forgot-email-field").css("display", "none");
+            $("#generate-otp").css("display", "none");
+            showToast(responce.message, 'success')
+            $('body').loader('hide');
         },
         error: function (xhr, status, error) {
-            // var errorMessage = JSON.parse(xhr.responseText);
-            // console.log(errorMessage.message);
-            $('#cover-spin').hide();
+            showToast(xhr.responseJSON.message, 'error');
+            $("#generate-otp , #fEmail").prop("disabled", false);
+            $('body').loader('hide');
         }
     });
 }
 
 function verifyOtp() {
-    // $('#cover-spin').show();
-
+    $('body').loader('show');
+    $("#verified-otp,#otp-field").prop("disabled", true);
     $.ajax({
-        url: apiUrl + "/user/verify-otp/" + $('#fEmail').val() + "/" + $('#otp-field').val(),
+        url: backendServerUrl + "/user/verify-otp/" + $('#fEmail').val() + "/" + $('#otp-field').val(),
         method: "GET",
         headers: {
             'Content-Type': 'application/json'
@@ -63,21 +60,35 @@ function verifyOtp() {
         success: function (responce) {
             $(".new-password-section").css("display", "block");
             $("#change-password").css("display", "block");
-            $("#verified-otp,#otp-field").prop("disabled", true);
+            $(".otp-section").css("display", "none");
+            $("#verified-otp").css("display", "none");
+            showToast(responce.message, 'success');
+            $('body').loader('hide');
         },
         error: function (xhr, status, error) {
-            // var errorMessage = JSON.parse(xhr.responseText);
-            // console.log(errorMessage.message);
-            $('#cover-spin').hide();
+            showToast(xhr.responseJSON.message, 'error');
+            if(xhr.responseJSON.message === "Invalid OTP."){
+                $("#verified-otp,#otp-field").prop("disabled", false);    
+            }
+            else{
+                $(".otp-section").css("display", "none");
+                $("#verified-otp").css("display", "none");
+                $("#forgot-email-field").css("display", "block");
+                $("#generate-otp").css("display", "block");
+                $("#generate-otp , #fEmail").prop("disabled", false);
+                $("#verified-otp,#otp-field").prop("disabled", false);
+            }
+            
+            $('body').loader('hide');
         }
     });
 }
 
 function passwordChenge() {
-    // $('#cover-spin').show();
-
+    $('body').loader('show');
+    $(".new-password-section,#change-password").prop("disabled", true);
     $.ajax({
-        url: apiUrl + "/user/change-password",
+        url: backendServerUrl + "/user/change-password",
         method: "POST",
         data: JSON.stringify({
             "email": $('#fEmail').val(),
@@ -87,17 +98,14 @@ function passwordChenge() {
             'Content-Type': 'application/json'
         },
         success: function (responce) {
-            // $(".new-password-section").css("display", "block");
-            // $("#change-password").css("display", "block");
-            // $("#verified-otp,#otp-field").prop("disabled", true);
+            showToast(responce.message, 'success');
+            $('body').loader('hide');
             window.location.href = "login.html";
-            alert("password successfully change ");
         },
         error: function (xhr, status, error) {
-            // var errorMessage = JSON.parse(xhr.responseText);
-            // console.log(errorMessage.message);
-            alert("password not change");
-            $('#cover-spin').hide();
+            $(".new-password-section,#change-password").prop("disabled", false);
+            showToast(xhr.responseJSON.message, 'error');
+            $('body').loader('hide');
         }
     });
 }

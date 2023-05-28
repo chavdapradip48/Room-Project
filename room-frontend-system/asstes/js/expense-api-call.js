@@ -172,6 +172,10 @@ function getExpenses() {
           });
           $('.table tbody').html(rows);
         }
+        $('#user-table').DataTable({
+          paging: true,
+          searching: true
+        });
         $('.card-body').loader('hide');
       }
     })

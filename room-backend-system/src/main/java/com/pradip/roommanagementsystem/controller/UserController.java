@@ -74,7 +74,7 @@ public class UserController {
     }
 
     @GetMapping("/verify-otp/{email}/{otp}")
-    public ResponseEntity<ApiResponse<String>> verifyEmail(@PathVariable String email,@PathVariable String otp) throws ClassNotFoundException, MessagingException {
+    public ResponseEntity<ApiResponse<String>> verifyEmail(@PathVariable String email,@PathVariable String otp) {
         return ResponseEntity.ok(new ApiResponse<String>(HttpStatus.OK.value(),
                 userService.verifyOtpToEmail(email,otp))
         );

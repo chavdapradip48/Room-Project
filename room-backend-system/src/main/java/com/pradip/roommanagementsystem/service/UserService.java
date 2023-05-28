@@ -170,7 +170,7 @@ public class UserService {
             throw new EmailException("The OTP already verified.");
 
         if(!otp.equals(otpDTO.getCode()))
-            throw new EmailException("Invalid OTP. Please check the code and try again.");
+            throw new EmailException("Invalid OTP.");
 
         // check otp to ensure it has not expired
         long timeLapse = new Date().getTime() - otpDTO.getCreatedAt().getTime();

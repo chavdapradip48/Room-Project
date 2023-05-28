@@ -34,7 +34,7 @@ public class ExpenseService {
     private JwtUtils jwtUtils;
 
     public List<ExpenseProjection> getAllExpenses() {
-        List<ExpenseProjection> allBy = expenseRepository.findAllByOrderByCreatedAtDesc(ExpenseProjection.class);
+            List<ExpenseProjection> allBy = expenseRepository.findAllByOrderByCreatedAtDesc(ExpenseProjection.class);
 //        List<ExpenseProjection> allBy = expenseRepository.findAllBy(ExpenseProjection.class);
         if (allBy.isEmpty())
             throw new ResourceNotFoundException("Expense not available.");
@@ -57,11 +57,12 @@ public class ExpenseService {
     }
 
     public List<ExpenseProjection> getExpenseByUserId(Long userId) {
-        System.out.println(expenseRepository.existsByUserId(userId));
         if (!expenseRepository.existsByUserId(userId))
             throw new ResourceNotFoundException("User not have any expenses or might user not exist.");
 
-        List<ExpenseProjection> byUserId = expenseRepository.findByUserId(userId);
+//        List<ExpenseProjection> byUserId = expenseRepository.findByUserId(userId);
+        List<ExpenseProjection> byUserId = expenseRepository.findByUserIdOrderByCreatedAtDesc(userId);
+
         if (byUserId.isEmpty())
             throw new ResourceNotFoundException("Expense not available with specified user id.");
 
@@ -83,30 +84,30 @@ public class ExpenseService {
     }
 
     public Object getDashboardData(String token) {
-        int year= LocalDate.now().getYear();
-        Long totalExp=0L, myTotalExp=0L, currentMonthExp=0L, previousMonthExp=0L;
+        int year= LocalDate.now().getYear(), month = new Date().getMonth() + 1;
         DashboardDTO dashboardDTO=new DashboardDTO();
         List<Object[]> monthlyExpenseDataByYear = expenseRepository.findMonthlyExpenseDataByYear(year);
+        Map<String, Long> monthlyExpenseData = new TreeMap<>(Comparator.comparing(Month::valueOf));
 
         if(monthlyExpenseDataByYear != null && monthlyExpenseDataByYear.isEmpty())
             throw new ResourceNotFoundException("Expenses are not available with "+year+" year.");
 
-        Map<String, Long> monthlyExpenseData = new TreeMap<>(Comparator.comparing(Month::valueOf));
-        int month = new Date().getMonth() + 1;
-
         for (Object[] result : monthlyExpenseDataByYear)
             monthlyExpenseData.put(getMonthName((Integer) result[0]).toUpperCase(), (Long) result[1]);
-        currentMonthExp=expenseRepository.sumAmountByYearAndMonth(year,month);
-        totalExp=expenseRepository.sumAmountByYear(year);
-        myTotalExp=expenseRepository.sumAmountByUserEmailAndMonth(jwtUtils.getUserNameFromJwtToken(token), year, month);
-        previousMonthExp=expenseRepository.sumAmountByYearAndMonth(year,month-1);
+
+        Long tempCcurrentMonthExp = expenseRepository.sumAmountByYearAndMonth(year, month);
+        Long tempTotalExp = expenseRepository.sumAmountByYear(year);
+        Long tempMyTotalExp = expenseRepository.sumAmountByUserEmailAndMonth(jwtUtils.getUserNameFromJwtToken(token), year, month);
+        Long tempPreviousMonthExp = expenseRepository.sumAmountByYearAndMonth(year, month - 1);
+
+        if (tempTotalExp != null) dashboardDTO.setTotalAmount(tempTotalExp);
+        if (tempMyTotalExp != null) dashboardDTO.setMyTotalAmount(tempMyTotalExp);
+        if (tempCcurrentMonthExp != null) dashboardDTO.setCurrentMonthAmount(tempCcurrentMonthExp);
+        if (tempPreviousMonthExp != null) dashboardDTO.setPreviousMonthAmount(tempPreviousMonthExp);
 
         dashboardDTO.setGraphData(monthlyExpenseData);
-        dashboardDTO.setCurrentMonthAmount(currentMonthExp);
-        dashboardDTO.setPreviousMonthAmount(previousMonthExp);
-        dashboardDTO.setMyTotalAmount(myTotalExp);
-        dashboardDTO.setCurrentPreviousMonthPercent(calculatePercentageChange(previousMonthExp,currentMonthExp));
-        dashboardDTO.setTotalAmount(totalExp);
+        dashboardDTO.setCurrentPreviousMonthPercent(calculatePercentageChange(tempPreviousMonthExp,tempCcurrentMonthExp));
+
         return  dashboardDTO;
     }
 
@@ -115,8 +116,10 @@ public class ExpenseService {
     }
 
     public float calculatePercentageChange(Long previousExp, Long currentExp) {
-        double difference = currentExp - previousExp;
-        float percentageChange = (float) (difference / previousExp * 100);
-        return percentageChange;
+        if (currentExp == null) currentExp=0L;
+        if (previousExp == null) previousExp=0L;
+        if (previousExp.equals(0L)) return 100.0F;
+
+        return (float) (((double)(currentExp - previousExp)) / previousExp * 100);
     }
 }
