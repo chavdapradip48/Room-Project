@@ -256,7 +256,7 @@ function createExpense() {
       }
       else {
         showToast("Expense not added", 'error');
-        window.location.reload();
+        // window.location.reload();
       }
       $('.card-body').loader('hide');
     })
