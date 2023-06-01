@@ -1,5 +1,5 @@
-var yData=[];
-var xData=[];
+var yData=["Jan","Feb","March","April","May"];
+var xData=[29540,30450,25435,38790,20435];
 
 async function getDashboardData() {
   $('body').loader('show');
@@ -21,8 +21,8 @@ async function getDashboardData() {
       $("#my-total-exp").text("RS. " + apiData.myTotalAmount);
       $("#previous-exp").text("RS. " + apiData.previousMonthAmount);
       $("#current-prev-exp-percent").text(apiData.currentPreviousMonthPercent + "%");
-      yData = Object.keys(apiData.graphData);
-      xData = Object.values(apiData.graphData);
+     // yData = Object.keys(apiData.graphData);
+    //  xData = Object.values(apiData.graphData);
       $("#month-data").text(yData[0]+" - "+yData[yData.length-1] + " 2023");
     }
 
