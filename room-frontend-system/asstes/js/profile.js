@@ -44,8 +44,8 @@ function setUserProfileDOM(sessionUserJson){
     if(sessionUserphoto != null && sessionUserphoto != ""){
         $('#profile-image').attr('src',sessionUserphoto);
     }
-    $('#name').text(sessionUserJson.firstName +" "+ sessionUserJson.lastName);
-    $('#full-name').text(sessionUserJson.firstName +" "+ sessionUserJson.lastName);
+    $('#name').text(sessionUserJson.fullName);
+    $('#full-name').text(sessionUserJson.fullName);
     $('#gender').text(sessionUserJson.gender);
     $('#email').text(sessionUserJson.email);
     $('#mobile').text(sessionUserJson.mobile);

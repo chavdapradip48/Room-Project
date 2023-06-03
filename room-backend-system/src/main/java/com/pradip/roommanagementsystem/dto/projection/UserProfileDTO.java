@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 import java.util.List;
 
-public interface UserDTO {
+public interface UserProfileDTO {
 	Long getId();
 	String getEmail();
 	@Value("#{target.firstName + ' ' + target.lastName}")
@@ -15,7 +15,5 @@ public interface UserDTO {
 	String getGender();
 	Address getAddress();
 	boolean isEnabled();
-	List<Role> getRoles();
-	
 	String getProfilePhoto();
 }

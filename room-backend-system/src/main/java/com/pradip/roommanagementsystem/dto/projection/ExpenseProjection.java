@@ -14,9 +14,7 @@ public interface ExpenseProjection {
     String getPaymentMode();
     String getAmount();
     String getDescription();
-    UserPersonal getUser();
+    ExpenseLoadUser getUser();
     Timestamp getCreatedAt();
     Timestamp getUpdatedAt();
-
-
 }

@@ -152,7 +152,7 @@ function getExpenses() {
             rows += `
           <tr>
             <td data-title="SR NO"class="col-xs-1 col-sm-1 col-md-1 col-lg-1  ">${i + 1}</td>
-            <td data-title="Full Name">${expense.user.firstName} ${expense.user.lastName}</td>
+            <td data-title="Full Name">${expense.user.fullName}</td>
             <td data-title="Payment Mode">${expense.paymentMode}</td>
             <td data-title="Amount">${expense.amount}</td>
             <td data-title="Description">${expense.description}</td>
@@ -198,7 +198,7 @@ function loadUsername() {
     redirect: 'follow'
   };
   const nameSelect = $('#fullname-dropdown');
-  fetch(backendServerUrl + "/user?projection=CreateUserPage", requestOptions)
+  fetch(backendServerUrl + "/user?projection=ExpenseLoadUser", requestOptions)
     .then(result => result.json())
     .then(response => {
 
@@ -206,7 +206,7 @@ function loadUsername() {
         // Iterate over the response data and add rows to the table
         response.data.forEach(user => {
           const row = `
-                <option value='${user.id}'>${user.firstName} ${user.lastName}</option>
+                <option value='${user.id}'>${user.fullName}</option>
             `;
           nameSelect.append(row);
         });

@@ -2,7 +2,7 @@ var yData=["Jan","Feb","March","April","May"];
 var xData=[29540,30450,25435,38790,20435];
 
 async function getDashboardData() {
-  $('body').loader('show');
+  // $('body').loader('show');
   var myHeaders = new Headers();
   myHeaders.append("Authorization", window.sessionStorage.getItem("token"));
 
@@ -26,10 +26,10 @@ async function getDashboardData() {
       $("#month-data").text(yData[0]+" - "+yData[yData.length-1] + " 2023");
     }
 
-    $('body').loader('hide');
+    // $('body').loader('hide');
   } catch (error) {
     showToast("Expense not fetched", 'error');
-    $('body').loader('hide');
+    // $('body').loader('hide');
   }
 }
 
