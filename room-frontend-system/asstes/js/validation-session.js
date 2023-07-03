@@ -1,6 +1,16 @@
+// var scheduleTaskCounter = 0;
 $(document).ready(function () {
     $("body").prepend("<div id='header'></div><div id='api-responce'></div>");
-    verifyUserToken();
+    verifyUserToken();  
+    if(sessionStorage.getItem("session_user") == null){
+        SetUserSession(decodeJwt(getJwtTokenFromLocalStrorage()).id);
+    }
+    // if(scheduleTaskCounter++ === 0){
+    //     scheduleTask();
+    // }
+    setTimeout(function() {
+        scheduleTask();
+    },notificationDurationInHour * 3600000);
 });
 function showToast(message, type) {
     const $newDiv = $('<div>' + message + '</div>');   // create a div element
@@ -22,7 +32,7 @@ function validateJwtToken(accessToken) {
             url: backendServerUrl + "/verify-token",
             method: "POST",
             data: JSON.stringify({
-                "jwt": window.sessionStorage.getItem("token")
+                "jwt": getJwtTokenFromLocalStrorage()
             }),
             headers: {
                 'Content-Type': 'application/json'
@@ -49,11 +59,11 @@ function validateJwtToken(accessToken) {
 
 function verifyUserToken(){
     $('body').loader('show');
-    var accessToken = window.sessionStorage.getItem("token"); // get token and store accessToken
+    var accessToken = getJwtTokenFromLocalStrorage(); // get token and store accessToken
     var sessionCheck = false;
     if (accessToken != null) { // accessToken find then this block execute
         if (validateJwtToken(accessToken)) {
-            if(window.sessionStorage.getItem("token") != null){
+            if(getJwtTokenFromLocalStrorage() != null){
                 sessionCheck = true;
             }
         }
@@ -97,3 +107,52 @@ function decodeJwt(token) {
     var payload = new TextDecoder().decode(uint8Array);
     return JSON.parse(payload);
 }
+
+function showOptions(element, operation) {
+    $(element).siblings(".dropdown-menu").toggleClass(operation);
+}
+
+function getJwtTokenFromLocalStrorage(){
+    return window.sessionStorage.getItem("token");
+}
+
+function validateForm() {
+    // Reset error styles and messages
+    $('.form-control').removeClass('error');
+    $('.error-message').remove();
+    
+    // Flag to track form validity
+    var isValid = true;
+    
+    // Validate each input field
+    $('.form-control').each(function() {
+      if ($(this).val() === '') {
+        isValid = false;
+        $(this).addClass('error');
+        $(this).after('<p class="error-message">This field is required.</p>');
+      }
+    });
+  return isValid;  
+}
+
+function SetUserSession(userId) {
+    
+      var settings = {
+        "url": backendServerUrl + "/user/"+userId+"?projection=UserDTO",
+        "method": "GET",
+        "headers": {
+          "Authorization": window.sessionStorage.getItem("token"),
+        },
+      };
+      
+      $.ajax(settings).done(function (response) {
+        var sessionUser = response.data;
+        sessionStorage.setItem('session_user', JSON.stringify(sessionUser));
+        if(sessionUser.profilePhoto != null) {
+            $("#user-profile").attr("src",sessionUser.profilePhoto);
+        }
+      }).fail(function(xhr, status, error) {
+        showToast("Error setting user session: " + error, 'error');
+      });
+  }
+  

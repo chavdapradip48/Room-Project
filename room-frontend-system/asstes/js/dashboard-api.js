@@ -4,7 +4,7 @@ var xData=[29540,30450,25435,38790,20435];
 async function getDashboardData() {
   // $('body').loader('show');
   var myHeaders = new Headers();
-  myHeaders.append("Authorization", window.sessionStorage.getItem("token"));
+  myHeaders.append("Authorization", getJwtTokenFromLocalStrorage());
 
   var requestOptions = {
     method: 'GET',

@@ -1,0 +1,69 @@
+
+  .container {
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+
+  h1, h2 {
+    color: #333;
+  }
+
+  .form-group label {
+    color: #666;
+    font-weight: 500;
+  }
+
+  .form-control {
+    border-color: #ccc;
+  }
+
+  .input-group-append button {
+    border-color: #ccc;
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+
+  .btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+  }
+
+  .table {
+    background-color: #fff;
+    width: 100%;
+  }
+
+  th {
+    background-color: #f7f7f7;
+  }
+
+  td {
+    vertical-align: middle;
+  }
+
+  /* Responsive styles */
+  @media (max-width: 576px) {
+    .form-group label {
+      margin-bottom: 0.5rem;
+    }
+
+    .form-control {
+      margin-bottom: 1rem;
+    }
+
+    .input-group-append button {
+      margin-bottom: 1rem;
+    }
+
+    .table-responsive {
+      overflow-x: auto;
+    }
+  }
+
+  #dynamicParams div .col-md-5 {
+    margin-right: 10px;
+  }

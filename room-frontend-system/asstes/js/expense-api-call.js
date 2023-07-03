@@ -15,7 +15,7 @@ function operationsCheck() {
 function getExpenseById(type, expenseId) {
   $('.card-body').loader('show');
   var myHeaders = new Headers();
-  myHeaders.append("Authorization", window.sessionStorage.getItem("token"));
+  myHeaders.append("Authorization", getJwtTokenFromLocalStrorage());
 
   var requestOptions = {
     method: 'GET',
@@ -55,7 +55,7 @@ function getExpenseAndSetUserSession(expenseId) {
     "url": backendServerUrl + "/user/expense/" + expenseId,
     "method": "GET",
     "headers": {
-      "Authorization": window.sessionStorage.getItem("token"),
+      "Authorization": getJwtTokenFromLocalStrorage(),
     },
   };
   
@@ -65,23 +65,6 @@ function getExpenseAndSetUserSession(expenseId) {
       sessionStorage.setItem('session_user', JSON.stringify(sessionUser));
     }
   });
-  // var myHeaders = new Headers();
-  // myHeaders.append("Authorization", window.sessionStorage.getItem("token"));
-
-  // var requestOptions = {
-  //   method: 'GET',
-  //   headers: myHeaders,
-  // };
-
-  // fetch(backendServerUrl + "/user/expense/" + expenseId, requestOptions)
-  //   .then(response => response.json())
-  //   .then(result => {
-  //     var sessionUser = result.data;
-  //     if (result.status == 200 && result.data != '') {
-  //       sessionStorage.setItem('session_user', JSON.stringify(sessionUser));
-  //     }
-  //   })
-  //   .catch(error => showToast("Expense not fetched", 'error'));
 }
 
 function operations(type, id) {
@@ -93,7 +76,7 @@ function operations(type, id) {
   }
   else if (type == "delete") {
     var myHeaders = new Headers();
-    myHeaders.append("Authorization", window.sessionStorage.getItem("token"));
+    myHeaders.append("Authorization", getJwtTokenFromLocalStrorage());
 
     var requestOptions = {
       method: 'DELETE',
@@ -123,7 +106,7 @@ function operations(type, id) {
 function getExpenses() {
   $('.card-body').loader('show');
   var apiUrl=backendServerUrl + "/user";
-  var tokenId=decodeJwt(window.sessionStorage.getItem("token")).id;
+  var tokenId=decodeJwt(getJwtTokenFromLocalStrorage()).id;
   var operationType=new URLSearchParams(window.location.search).get('type');
   if(operationType == "my"){
     apiUrl+= "/"+tokenId+"/expense";
@@ -138,7 +121,7 @@ function getExpenses() {
     "method": "GET",
     "timeout": 0,
     "headers": {
-      "Authorization": window.sessionStorage.getItem("token")
+      "Authorization": getJwtTokenFromLocalStrorage()
     },
   };
 
@@ -190,7 +173,7 @@ function getExpenses() {
 function loadUsername() {
   $('.fullname').loader('show');
   var myHeaders = new Headers();
-  myHeaders.append("Authorization", window.sessionStorage.getItem("token"));
+  myHeaders.append("Authorization", getJwtTokenFromLocalStrorage());
 
   var requestOptions = {
     method: 'GET',
@@ -225,11 +208,12 @@ function createExpense() {
   var apiUrl = backendServerUrl + "/user/" + $("#fullname-dropdown").val() + "/expense";
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
-  myHeaders.append("Authorization", window.sessionStorage.getItem("token"));
+  myHeaders.append("Authorization", getJwtTokenFromLocalStrorage());
   var dataForSave = {
     "paymentMode": $("#payment-mode").val(),
     "amount": $("#amount").val(),
-    "description": $("#description").val()
+    "description": $("#description").val(),
+    "createdAt": $("#datetime").val()
   };
 
   var editCondition=new URLSearchParams(window.location.search).get("type") == "edit";
@@ -271,8 +255,4 @@ function createExpense() {
     window.location.href = "/expense-listing.html"
   }
 
-}
-
-function showOptions(element, operation) {
-  $(element).siblings(".dropdown-menu").toggleClass(operation);
 }

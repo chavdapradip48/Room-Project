@@ -60,7 +60,11 @@
                                     <label for="amount">Amount</label>
                                     <input type="number" class="form-control" name="amount" id="amount" placeholder="amount" required>
                                 </div>
-                                <br><br>
+                                <div class="form-group">
+                                    <label for="cronExpression">Create Date and Time</label>
+                                    <input type="datetime-local" class="form-control" id="datetime" name="datetime">
+                                </div>
+                                <br>
                                 <div class="d-grid">
                                     <input class="btn btn-primary text-uppercase font-weight-bold" type="button" onclick="createExpense()" value="Create" />
                                 </div>

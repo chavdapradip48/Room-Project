@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expenses Listing</title>
+    
+    <link href="asstes/library/bootstrap-4.0.0/bootstrap.min.css" rel="stylesheet">
+    <link href="asstes/library/Easy-Page-Element-Loader-Plugin-with-jQuery-loader-js/jquery.loader.css" rel="stylesheet">
+    <link href="asstes/css/style.css" rel="stylesheet">
+    <link href="asstes/css/general.css" rel="stylesheet">
+    <link href="asstes/css/expense.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+    <link rel="stylesheet" href="asstes/css/job.css">
+
+    <script src="asstes/library/jquery-3.6.4.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+    <script src="asstes/library/bootstrap-4.0.0/bootstrap.min.js"></script>
+    <script src="asstes/library/bootstrap-4.0.0/bootstrap.bundle.min.js"></script>
+    <script src="asstes/library/Easy-Page-Element-Loader-Plugin-with-jQuery-loader-js/jquery.loader.js"></script>
+    <script src="asstes/js/variable.js"></script>
+    <script src="asstes/js/validation-session.js"></script>
+    <script src="asstes/js/import-header-footer.js"></script>
+</head>
+<body>
+<section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12 mx-auto">
+          <div class="card border-0 shadow rounded-3 my-5">
+            <div class="card-body p-8 p-sm-8" id="no-more-tables">
+              <br><h3 class="card-title text-center mb-5 fw-light fs-5">All Jobs</h3>
+  
+              <table class="table table-bordered table-striped table-hover" id="user-table">
+                <thead class="bg-primary">
+                  <tr>
+                    <th scope="col" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">SR No</th>
+                    <th scope="col">Work Name</th>
+                    <th scope="col">Cron Expression</th>
+                    <th scope="col">Current Trun</th>
+                    <th scope="col">Next Turn</th>
+                    <th scope="col">Total Exection</th>
+                    <th scope="col">Status</th>
+                    <th scope="col" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="job-table-body">
+                  <!-- Job listing rows will be added dynamically using JavaScript -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script>
+    $(document).ready(function () {
+      getJobs("User Friendly");
+    });
+  </script>
+  <script src="asstes/js/job-new.js"></script>
+<script>
+
+</script> 
+</body>
+</html>

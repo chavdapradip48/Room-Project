@@ -4,7 +4,7 @@ function getUserById(id) {
     "method": "GET",
     "timeout": 0,
     "headers": {
-      "Authorization": window.sessionStorage.getItem("token")
+      "Authorization": getJwtTokenFromLocalStrorage()
     },
   };
 
@@ -17,7 +17,7 @@ function deleteUser(userId) {
     "method": "DELETE",
     "timeout": 0,
     "headers": {
-      "Authorization": window.sessionStorage.getItem("token")
+      "Authorization": getJwtTokenFromLocalStrorage()
     },
   };
 
@@ -40,7 +40,7 @@ function getUserListing() {
     "method": "GET",
     "timeout": 0,
     "headers": {
-      "Authorization": window.sessionStorage.getItem("token")
+      "Authorization": getJwtTokenFromLocalStrorage()
     },
   };
 

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Management</title>
+  
+  <link href="asstes/library/bootstrap-4.0.0/bootstrap.min.css" rel="stylesheet">
+  <link href="asstes/library/Easy-Page-Element-Loader-Plugin-with-jQuery-loader-js/jquery.loader.css" rel="stylesheet">
+  <link href="asstes/css/style.css" rel="stylesheet">
+  <link href="asstes/css/general.css" rel="stylesheet">
+  <link href="asstes/css/user.css" rel="stylesheet">
+
+  <script src="asstes/library/jquery-3.6.4.js"></script>
+  <script src="asstes/library/bootstrap-4.0.0/bootstrap.min.js"></script>
+  <script src="asstes/library/bootstrap-4.0.0/bootstrap.bundle.min.js"></script>
+  <script src="asstes/library/Easy-Page-Element-Loader-Plugin-with-jQuery-loader-js/jquery.loader.js"></script>
+  <script src="asstes/js/variable.js"></script>
+  <script src="asstes/js/validation-session.js"></script>
+  <script src="asstes/js/import-header-footer.js"></script>
+
+  <link rel="stylesheet" href="asstes/css/job.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Job Management</h1>
+    <h2>Create Job</h2>
+    <form id="createJobForm">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="jobName">Job Name</label>
+              <input type="text" class="form-control" id="jobName" name="jobName" required>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="triggerName">Trigger Name</label>
+              <input type="text" class="form-control" id="triggerName" name="triggerName" required>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="jobClass">Job Class</label>
+              <input type="text" class="form-control" id="jobClass" name="jobClass" value="com.pradip.roommanagementsystem.dto.SimpleJob" required>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="cronExpression">Cron Expression</label>
+              <input type="text" class="form-control" id="cronExpression" name="cronExpression" value="0 0/1 * * * ?" required>
+            </div>
+          </div>
+        </div>
+        <input type="hidden" id="isUpdate" name="isUpdate" value="false">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group" id="dynamicParams">
+              <label>Dynamic Params</label>
+              <div class="input-group mb-3">
+                <div class="col-md-5">
+                  <input type="text" class="form-control key-input" placeholder="Key">
+                </div>
+                <div class="col-md-5">
+                  <input type="text" class="form-control value-input" placeholder="Value">
+                </div>
+                <div class="col-md-2">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary add-param-btn" type="button">+</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+            
+      
+      <button type="submit" class="btn btn-primary" id="job-submit">Create Job</button>
+    </form>
+    <h2>Job Listing</h2>
+    <table id="jobListing" class="table table-striped">
+      <thead>
+        <tr>
+          <th>Job Name</th>
+          <th>Trigger Name</th>
+          <th>Job Class</th>
+          <th>Cron Expression</th>
+          <th>Job Start Time</th>
+          <th>Last Fire Time</th>
+          <th>Next Fire Time</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="job-table-body">
+        <!-- Job listing rows will be added dynamically using JavaScript -->
+      </tbody>
+    </table>
+  </div>
+  <script src="asstes/js/job.js"></script>
+</body>
+</html>
