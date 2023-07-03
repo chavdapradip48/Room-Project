@@ -30,7 +30,14 @@ public class ExpenseDTO {
     @NotNull
     private UserExpenseDTO user;
 
-//    private Timestamp createdAt;
-//
-//    private Timestamp updatedAt;
+    private Timestamp createdAt;
+
+    private Timestamp updatedAt;
+
+    @PrePersist
+    public void prePersist() {
+        if (createdAt == null) {
+            createdAt = new Timestamp(System.currentTimeMillis());
+        }
+    }
 }

@@ -41,11 +41,12 @@ public class Expense {
     @JsonProperty("user")
     private User user;
 
-    @CreationTimestamp
+//    @CreationTimestamp
     @Column(updatable = false)
     private Timestamp createdAt;
 
     @UpdateTimestamp
     @Column(nullable = false)
     private Timestamp updatedAt;
+
 }

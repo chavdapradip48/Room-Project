@@ -16,6 +16,5 @@ public interface UserDTO {
 	Address getAddress();
 	boolean isEnabled();
 	List<Role> getRoles();
-	
 	String getProfilePhoto();
 }
