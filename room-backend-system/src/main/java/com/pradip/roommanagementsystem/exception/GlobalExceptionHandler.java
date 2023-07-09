@@ -1,8 +1,6 @@
 package com.pradip.roommanagementsystem.exception;//package com.pradip.demoproject.exception;
 
-import com.pradip.roommanagementsystem.dto.ApiResponse;
 import io.jsonwebtoken.JwtException;
-import org.hibernate.HibernateException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

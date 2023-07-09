@@ -42,11 +42,17 @@ public class Expense {
     private User user;
 
 //    @CreationTimestamp
-    @Column(updatable = false)
+//    @Column(updatable = false)
     private Timestamp createdAt;
 
     @UpdateTimestamp
     @Column(nullable = false)
     private Timestamp updatedAt;
 
+    @PrePersist
+    public void prePersist() {
+        if (createdAt == null) {
+            createdAt = new Timestamp(System.currentTimeMillis());
+        }
+    }
 }

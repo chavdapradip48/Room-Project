@@ -1,5 +1,6 @@
 package com.pradip.roommanagementsystem.repository;
 
+import com.pradip.roommanagementsystem.dto.PaymentMode;
 import com.pradip.roommanagementsystem.dto.projection.ExpenseProjection;
 import com.pradip.roommanagementsystem.entity.Expense;
 import org.springframework.data.domain.Page;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
 import java.awt.print.Pageable;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,4 +43,8 @@ public interface ExpenseRepository extends JpaRepository<Expense,Long> {
             "AND YEAR(e.createdAt) = :year AND MONTH(e.createdAt) = :month")
     Long sumAmountByUserEmailAndMonth(@Param("email") String email, @Param("year") int year, @Param("month") int month);
 
+    @Query("SELECT SUM(e.amount) FROM Expense e WHERE e.createdAt >= :fromDate " +
+            "AND e.createdAt <= :toDate AND e.paymentMode IN :payments")
+    Long sumByAmountFromToAndPaymentMode(@Param("fromDate") Date fromDate,
+                                         @Param("toDate") Date toDate, @Param("payments") List<PaymentMode> payments);
 }
