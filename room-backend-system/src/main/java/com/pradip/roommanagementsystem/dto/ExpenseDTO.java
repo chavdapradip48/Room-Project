@@ -33,11 +33,4 @@ public class ExpenseDTO {
     private Timestamp createdAt;
 
     private Timestamp updatedAt;
-
-    @PrePersist
-    public void prePersist() {
-        if (createdAt == null) {
-            createdAt = new Timestamp(System.currentTimeMillis());
-        }
-    }
 }

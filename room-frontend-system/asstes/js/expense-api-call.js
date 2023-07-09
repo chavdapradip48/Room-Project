@@ -26,11 +26,13 @@ function getExpenseById(type, expenseId) {
     .then(response => response.json())
     .then(result => {
       var apiData = result.data;
+      
       if (result.status == 200 && result.data != '') {
         $("#fullname-dropdown").val(apiData.user.id);
         $("#description").val(apiData.description);
         $("#payment-mode").val(apiData.paymentMode);
         $("#amount").val(apiData.amount);
+        $("#datetime").val(new Date(apiData.createdAt).toLocaleString('sv-SE', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }).replace(' ', 'T'));
       }
       if (type == "view") {
         $("#fullname-dropdown").attr('disabled', 'disabled');
@@ -44,6 +46,7 @@ function getExpenseById(type, expenseId) {
         $(".card-title").text("Edit Expense");
         $(".btn").val("Update");
       }
+      $("#datetime").attr('disabled', 'disabled');
       $('.card-body').loader('hide');
     })
     .catch(error => showToast("Expense not fetched", 'error'));
@@ -62,7 +65,7 @@ function getExpenseAndSetUserSession(expenseId) {
   $.ajax(settings).done(function (response) {
     var sessionUser = result.data;
     if (result.status == 200 && result.data != '') {
-      sessionStorage.setItem('session_user', JSON.stringify(sessionUser));
+      localStorage.setItem('session_user', JSON.stringify(sessionUser));
     }
   });
 }
@@ -209,11 +212,16 @@ function createExpense() {
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
   myHeaders.append("Authorization", getJwtTokenFromLocalStrorage());
+  var userDate=$("#datetime").val();
+  if(userDate !== "") {
+    userDate=new Date(userDate).toUTCString();
+  } 
+  
   var dataForSave = {
     "paymentMode": $("#payment-mode").val(),
     "amount": $("#amount").val(),
     "description": $("#description").val(),
-    "createdAt": $("#datetime").val()
+    "createdAt": userDate 
   };
 
   var editCondition=new URLSearchParams(window.location.search).get("type") == "edit";
@@ -250,9 +258,78 @@ function createExpense() {
     });
   $("#amount").val("")
   $("#description").val("")
+  $("#datetime").val("")
 
   if (editCondition) {
     window.location.href = "/expense-listing.html"
   }
 
+}
+
+function calcualteExpense() {
+  $(".error-message").text("");
+  // Validate Persons
+  if ($("#persons").val() <= 0) {
+    $("#persons-error").text("Please enter a valid number of persons.");
+    return;
+  }
+
+  // Validate From Date
+  if ($("#from-datetime").val() === "") {
+    $("#from-datetime-error").text("Please select a valid From Date.");
+    return;
+  }
+
+  // Validate To Date
+  if ($("#to-datetime").val() === "") {
+    $("#to-datetime-error").text("Please select a valid To Date.");
+    return;
+  }
+
+  $('.card-body').loader('show');
+
+  var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  myHeaders.append("Authorization", getJwtTokenFromLocalStrorage());
+
+
+  var requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: JSON.stringify({
+      "extraExpenses": {
+        "Room-Rent": $("#room-rent").val(),
+        "Safai-Vala-Massi": $("#safai-vala-massi").val(),
+        "Randhva-Vala-Massi": $("#randhava-vala-massi").val(),
+        "Water-Bill": $("#other").val(),
+        "Other": $("#other").val()
+      },
+      "persons": $("#persons").val(),
+      "from": new Date($("#from-datetime").val()).toUTCString(),
+      "to": new Date($("#to-datetime").val()).toUTCString() 
+    }),
+    redirect: 'follow'
+  };
+
+  fetch(backendServerUrl + "/user/expense/count", requestOptions)
+    .then(response => response.json())
+    .then(result => {
+      if (result.status == 200 && result.data != '') {
+        showToast(result.message, 'success');
+        $(".calculate-form-section").show();
+        $("#total-exp").text(result.data.totalAmount);
+        $("#total-person").text(result.data.persons);
+        $("#total-exp-head").text(result.data.perHeadAmount); 
+        $("#from-datetime").val("")
+        $("#to-datetime").val("")
+      }
+      else {
+        showToast(result.message, 'error');
+      }
+      $('.card-body').loader('hide');
+    })
+    .catch(error => {
+      showToast("Expense calculation is not done", 'error');
+      $('.card-body').loader('hide');
+    });
 }

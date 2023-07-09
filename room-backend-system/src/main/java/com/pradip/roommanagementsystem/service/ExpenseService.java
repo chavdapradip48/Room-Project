@@ -1,7 +1,6 @@
 package com.pradip.roommanagementsystem.service;
 
-import com.pradip.roommanagementsystem.dto.DashboardDTO;
-import com.pradip.roommanagementsystem.dto.ExpenseDTO;
+import com.pradip.roommanagementsystem.dto.*;
 import com.pradip.roommanagementsystem.dto.projection.ExpenseProjection;
 import com.pradip.roommanagementsystem.entity.Expense;
 import com.pradip.roommanagementsystem.exception.ResourceNotFoundException;
@@ -121,5 +120,22 @@ public class ExpenseService {
         if (previousExp.equals(0L)) return 100.0F;
 
         return (float) (((double)(currentExp - previousExp)) / previousExp * 100);
+    }
+
+    public ExpenseCountResponseDTO countExpenses(ExpenseCountRequestDTO expenseCountRequestDTO) {
+
+        Long totalAmount = expenseRepository.sumByAmountFromToAndPaymentMode(expenseCountRequestDTO.getFrom(), expenseCountRequestDTO.getTo(), Arrays.asList(PaymentMode.PERSONAL));
+
+        if(totalAmount == null || totalAmount == 0)
+            throw new NullPointerException("Total Amount is null or 0");
+
+        totalAmount += expenseCountRequestDTO.getExtraExpenses().values().stream().mapToInt(i -> i).sum();
+
+        ExpenseCountResponseDTO expenseCountResponseDTO = new ExpenseCountResponseDTO();
+        expenseCountResponseDTO.setTotalAmount(totalAmount);
+        expenseCountResponseDTO.setPerHeadAmount(totalAmount / expenseCountRequestDTO.getPersons());
+        expenseCountResponseDTO.setPersons(expenseCountRequestDTO.getPersons());
+
+        return expenseCountResponseDTO;
     }
 }
