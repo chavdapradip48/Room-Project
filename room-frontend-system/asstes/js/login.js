@@ -17,9 +17,11 @@ $(document).ready(function () {
             'Content-Type': 'application/json'
           },
           success: function (response) {
-            window.sessionStorage.setItem("token", "Bearer " + response.jwt);
+            window.localStorage.setItem("visit_user", 0);
+            window.localStorage.setItem("token", "Bearer " + response.jwt);
             showToast("User logged-in successfully", 'success');
             window.location.href = "home.html";
+            scheduleTask();
             $('body').loader('hide');
           },
           error: function (xhr, status, error) {
@@ -43,7 +45,7 @@ $(document).ready(function () {
                 'Content-Type': 'application/json'
             },
             success: function (responce) {
-                window.sessionStorage.setItem("token", "Bearer " + responce.jwt);
+                window.localStorage.setItem("token", "Bearer " + responce.jwt);
                 showToast("User logged-in successsfully", 'success');
                 $('body').loader('hide');
                 window.location.href = "home.html";

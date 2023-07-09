@@ -6,7 +6,7 @@ $(document).ready(function () {
         $(".delete-user").attr("disabled","disabled");
         viewUserProfile(userId);
     }else{
-        var sessionUser=sessionStorage.getItem("session_user");
+        var sessionUser=localStorage.getItem("session_user");
         if(sessionUser != null){
             sessionUserJson=JSON.parse(sessionUser);
             setUserProfileDOM(sessionUserJson);
@@ -21,7 +21,7 @@ $(document).ready(function () {
         // Check user's response
         if (confirmed) {
             $('body').loader('show');
-            deleteUser(JSON.parse(window.sessionStorage.getItem("session_user")).id)
+            deleteUser(JSON.parse(window.localStorage.getItem("session_user")).id)
             .then(function(success) {
                 if (success) {
                     showToast('User deleted successfully!', 'success');

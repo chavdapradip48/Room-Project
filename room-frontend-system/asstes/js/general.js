@@ -28,8 +28,8 @@ function validateJwtToken(accessToken) {
             },
             error: function (xhr, status, error) {
                 var errorMessage = JSON.parse(xhr.responseText);
-                window.sessionStorage.removeItem("token");
-                window.sessionStorage.removeItem("session_user");
+                window.localStorage.removeItem("token");
+                window.localStorage.removeItem("session_user");
                 showToast(errorMessage.message, 'error');
                 window.location.reload();
             }
@@ -77,8 +77,9 @@ function verifyUserToken(){
 }
 
 function logout(){
-    window.sessionStorage.removeItem("token");
-    window.sessionStorage.removeItem("session_user");
+    window.localStorage.removeItem("token");
+    window.localStorage.removeItem("visit_user");
+    window.localStorage.removeItem("session_user");
     showToast("Logout Successfully...", 'success');
     window.location.reload();
 }
@@ -99,7 +100,7 @@ function showOptions(element, operation) {
 }
 
 function getJwtTokenFromLocalStrorage(){
-    return window.sessionStorage.getItem("token");
+    return window.localStorage.getItem("token");
 }
 
 function validateForm() {
@@ -127,13 +128,13 @@ function SetUserSession(userId) {
         "url": backendServerUrl + "/user/"+userId+"?projection=UserDTO",
         "method": "GET",
         "headers": {
-          "Authorization": window.sessionStorage.getItem("token"),
+          "Authorization": window.localStorage.getItem("token"),
         },
       };
       
       $.ajax(settings).done(function (response) {
         var sessionUser = response.data;
-        sessionStorage.setItem('session_user', JSON.stringify(sessionUser));
+        localStorage.setItem('session_user', JSON.stringify(sessionUser));
         if(sessionUser.profilePhoto != null) {
             $("#user-profile").attr("src",sessionUser.profilePhoto);
         }

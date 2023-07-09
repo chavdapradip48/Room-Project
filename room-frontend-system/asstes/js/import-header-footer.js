@@ -11,7 +11,7 @@
 //     $.ajax(settings).done(function (response) {
 //       var sessionUser = response.data;
 //     //   if (response.status == 200 && response.data != '') {
-//         sessionStorage.setItem('session_user', JSON.stringify(sessionUser));
+//         localStorage.setItem('session_user', JSON.stringify(sessionUser));
 //     //   }
 //     });
 // }
