@@ -33,8 +33,11 @@ public class ChatGroupService {
     private GeneralUtil generalUtil;
 
     public ChatGroupDTO save(ChatGroupDTO group, boolean isUpdate) {
+        boolean isGroupNameExist = false;
+        try {
+            isGroupNameExist = ((List<ChatGroupDTO>) getAllGroups()).stream().anyMatch(perGroup -> perGroup.getName().equals(group.getName()));
+        } catch (Exception e){}
 
-        boolean isGroupNameExist = ((List<ChatGroupDTO>) getAllGroups()).stream().anyMatch(perGroup -> perGroup.getName().equals(group.getName()));
         if (isGroupNameExist) {
             throw new GroupException("The Group name provided already exists. Please choose a different name");
         }

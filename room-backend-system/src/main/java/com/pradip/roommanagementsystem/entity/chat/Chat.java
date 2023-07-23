@@ -26,7 +26,7 @@ public class Chat {
     private boolean isGroupChat;
 
     @OneToOne
-    @JoinColumn(name = "sender_id", nullable = false)
+    @JoinColumn(name = "sender_id")
     @JsonBackReference
     private User sender;
 

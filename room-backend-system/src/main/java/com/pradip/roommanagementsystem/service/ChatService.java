@@ -2,9 +2,12 @@ package com.pradip.roommanagementsystem.service;
 
 import com.pradip.roommanagementsystem.dto.ChatUser;
 import com.pradip.roommanagementsystem.dto.chat.ChatDTO;
+import com.pradip.roommanagementsystem.dto.chat.ChatGroupDTO;
 import com.pradip.roommanagementsystem.entity.User;
 import com.pradip.roommanagementsystem.entity.chat.Chat;
+import com.pradip.roommanagementsystem.entity.chat.ChatGroup;
 import com.pradip.roommanagementsystem.exception.ChatException;
+import com.pradip.roommanagementsystem.repository.ChatGroupRepository;
 import com.pradip.roommanagementsystem.repository.ChatRepository;
 import com.pradip.roommanagementsystem.security.util.JwtUtils;
 import com.pradip.roommanagementsystem.util.GeneralUtil;
@@ -32,15 +35,29 @@ public class ChatService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ChatGroupRepository chatGroupRepository;
+
     public Chat saveChat(ChatDTO chatMessage) {
 
         boolean isreqReceiverExist = userService.isUserExistUserById(chatMessage.getReceiver().getId());
-        boolean isreqSenReceiverderExist = userService.isUserExistUserById(chatMessage.getSender().getId());
 
-        if (!isreqReceiverExist || !isreqSenReceiverderExist)
-            throw new ChatException("Sender or Receiver might not exist with us");
+        if (chatMessage.isGroupChat()) {
+            ChatGroupDTO chatGroup = chatMessage.getChatGroup();
 
-        return chatRepository.save(ChatDTOToEntity(chatMessage));
+            if (!isreqReceiverExist || !chatGroupRepository.existsById(chatGroup.getId()))
+                throw new ChatException("Sender or Group might not exist");
+
+        } else {
+            boolean isreqSenReceiverderExist = userService.isUserExistUserById(chatMessage.getSender().getId());
+
+            if (!isreqReceiverExist || !isreqSenReceiverderExist)
+                throw new ChatException("Sender or Receiver might not exist");
+
+        }
+
+        Chat chat = ChatDTOToEntity(chatMessage);
+        return chatRepository.save(chat);
     }
 
     public Object getAllChats(String token) {
@@ -58,8 +75,13 @@ public class ChatService {
     private ChatDTO ChatEntityToDTO(Chat chat) {
         ChatDTO chatDTO = generalUtil.convertObject(chat, ChatDTO.class);
 
-        chatDTO.setSender(generalUtil.convertObject(chat.getSender(), ChatUser.class));
         chatDTO.setReceiver(generalUtil.convertObject(chat.getReceiver(), ChatUser.class));
+        if(!chat.isGroupChat()){
+            chatDTO.setSender(generalUtil.convertObject(chat.getSender(), ChatUser.class));
+        }
+        else {
+            chatDTO.setChatGroup(generalUtil.convertObject(chatDTO.getReceiver(), ChatGroupDTO.class));
+        }
 
         return chatDTO;
     }
@@ -67,7 +89,14 @@ public class ChatService {
     private Chat ChatDTOToEntity(ChatDTO chatDTO) {
         Chat chat = new Chat();
         chat.setGroupChat(chatDTO.isGroupChat());
-        chat.setSender(generalUtil.convertObject(chatDTO.getSender(), User.class));
+        if(!chat.isGroupChat()){
+            chat.setSender(generalUtil.convertObject(chatDTO.getSender(), User.class));
+        }
+        else {
+
+            chat.setChatGroup(generalUtil.convertObject(chatDTO.getReceiver(), ChatGroup.class));
+        }
+
         chat.setReceiver(generalUtil.convertObject(chatDTO.getReceiver(), User.class));
 
         return chat;
