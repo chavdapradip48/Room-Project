@@ -14,13 +14,13 @@ import io.jsonwebtoken.*;
 
 @Component
 public class JwtUtils {
-    private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
+    public static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
     @Value("${jwt.app.jwtSecret}")
-    private String jwtSecret;
+    public String jwtSecret;
 
     @Value("${jwt.app.jwtExpirationMs}")
-    private int jwtExpirationMs;
+    public int jwtExpirationMs;
 
     public String getUsernameFromToken(String token) {
         return getClaimFromToken(removeBearer(token), Claims::getSubject);
@@ -34,11 +34,11 @@ public class JwtUtils {
         final Claims claims = getAllClaimsFromToken(token);
         return claimsResolver.apply(claims);
     }
-    private Claims getAllClaimsFromToken(String token) {
+    public Claims getAllClaimsFromToken(String token) {
         return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
     }
 
-    private Boolean isTokenExpired(String token) {
+    public Boolean isTokenExpired(String token) {
         final Date expiration = getExpirationDateFromToken(token);
         return expiration.before(new Date());
     }
@@ -50,7 +50,7 @@ public class JwtUtils {
         return doGenerateToken(claims, userDetails.getUsername());
     }
 
-    private String doGenerateToken(Map<String, Object> claims, String subject) {
+    public String doGenerateToken(Map<String, Object> claims, String subject) {
 
         return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs)).signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
@@ -77,7 +77,7 @@ public class JwtUtils {
         }
     }
 
-    private String removeBearer(String authToken) {
+    public String removeBearer(String authToken) {
         if (!authToken.startsWith("Bearer "))
             throw new JwtException("JWT Token does not begin with Bearer String");
 

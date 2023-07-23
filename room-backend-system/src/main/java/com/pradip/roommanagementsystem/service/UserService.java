@@ -46,7 +46,7 @@ public class UserService {
     AuthenticationManager authenticationManager;
 
     @Autowired
-    JwtUtils jwtUtils;
+    private JwtUtils jwtUtils;
 
     @Autowired
     private GeneralUtil util;
@@ -225,7 +225,6 @@ public class UserService {
             user.setLastName("Chavda");
             user.setGender("Male");
             user.setPassword(passwordEncoder.encode("99097@Pradip"));
-            user.setLocked(false);
             user.setEnabled(true);
 
             Address address=new Address();
@@ -244,5 +243,9 @@ public class UserService {
             userRepository.save(user);
             log.info("Default User Created Successfully.");
         }
+    }
+
+    public boolean isUserExistUserById(Long id) {
+        return userRepository.existsById(id);
     }
 }

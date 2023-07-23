@@ -1,5 +1,6 @@
 package com.pradip.roommanagementsystem.util;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.pradip.roommanagementsystem.exception.SmtpException;
@@ -56,6 +57,7 @@ public class GeneralUtil {
 
     public <T, U> U convertObject(T sourceObject, Class<U> destinationObjectType) {
 //        mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, destinationObjectType.);
+//        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         return mapper.convertValue(sourceObject, destinationObjectType);
     }
 

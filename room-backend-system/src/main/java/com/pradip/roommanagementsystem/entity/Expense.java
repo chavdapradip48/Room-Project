@@ -1,9 +1,6 @@
 package com.pradip.roommanagementsystem.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import com.pradip.roommanagementsystem.dto.PaymentMode;
 import lombok.*;
 import org.hibernate.annotations.ColumnTransformer;
@@ -12,13 +9,14 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Objects;
 
 @Entity
 @Table(name = "expenses")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-//@ToString(exclude = "user")
+@ToString(exclude = {"user"})
 //@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
 public class Expense {
     @Id
@@ -39,6 +37,7 @@ public class Expense {
     @JoinColumn(name = "user_id")
     @JsonBackReference
     @JsonProperty("user")
+    @JsonIgnore
     private User user;
 
 //    @CreationTimestamp
@@ -54,5 +53,11 @@ public class Expense {
         if (createdAt == null) {
             createdAt = new Timestamp(System.currentTimeMillis());
         }
+    }
+
+    @Override
+    public int hashCode() {
+        // Only include the id in the hashCode calculation to avoid cyclic dependency
+        return Objects.hash(id);
     }
 }

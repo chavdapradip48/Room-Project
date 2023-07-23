@@ -3,6 +3,7 @@ package com.pradip.roommanagementsystem.service;
 import com.pradip.roommanagementsystem.dto.*;
 import com.pradip.roommanagementsystem.dto.projection.ExpenseProjection;
 import com.pradip.roommanagementsystem.entity.Expense;
+import com.pradip.roommanagementsystem.entity.chat.Chat;
 import com.pradip.roommanagementsystem.exception.ResourceNotFoundException;
 import com.pradip.roommanagementsystem.repository.ExpenseRepository;
 import com.pradip.roommanagementsystem.repository.UserRepository;
