@@ -39,7 +39,6 @@ public class Chat {
     @JsonManagedReference
     private List<ChatMessage> chatMessages = new ArrayList<>();
 
-    @OneToOne(mappedBy = "chat", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    @JsonManagedReference
+    @ManyToOne//(mappedBy = "chat", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private ChatGroup chatGroup;
 }

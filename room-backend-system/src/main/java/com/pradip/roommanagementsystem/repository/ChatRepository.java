@@ -13,4 +13,8 @@ import java.util.Optional;
 @Transactional
 public interface ChatRepository extends JpaRepository<Chat,Long> {
     List<Chat> findBySenderId(Long senderId);
+
+    boolean existsBySenderIdAndReceiverId(Long senderId, Long receiverId);
+
+    boolean existsBySenderIdAndChatGroupId(Long senderId, Long chatGroupId);
 }

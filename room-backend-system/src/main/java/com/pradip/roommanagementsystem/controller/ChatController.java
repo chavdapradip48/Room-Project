@@ -43,14 +43,14 @@ public class ChatController {
 
     @PostMapping
     public ResponseEntity<Object> addChat(@Valid @RequestBody ChatDTO chat){
-        return ResponseEntity.ok(new ApiResponse<Chat>(HttpStatus.OK.value(),
+        return ResponseEntity.ok(new ApiResponse<Object>(HttpStatus.OK.value(),
                 "Chat saved successfully.", chatService.saveChat(chat))
         );
     }
 
     @PostMapping("/by-group")
     public ResponseEntity<Object> addGroupChat(@Valid @RequestBody ChatDTO chat){
-        return ResponseEntity.ok(new ApiResponse<Chat>(HttpStatus.OK.value(),
+        return ResponseEntity.ok(new ApiResponse<Object>(HttpStatus.OK.value(),
                 "Chat saved successfully.", chatService.saveChat(chat))
         );
     }

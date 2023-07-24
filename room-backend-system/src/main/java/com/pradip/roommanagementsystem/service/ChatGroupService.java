@@ -42,7 +42,10 @@ public class ChatGroupService {
             throw new GroupException("The Group name provided already exists. Please choose a different name");
         }
 
-        ChatGroup chatGroup = generalUtil.convertObject(group, ChatGroup.class);
+        ChatGroup chatGroup = new ChatGroup();
+        chatGroup.setName(group.getName());
+
+//                ChatGroup chatGroup = generalUtil.convertObject(group, ChatGroup.class);
 
         if (isUpdate) chatGroup.setMembers(getGroupById(group.getId()).getMembers());
         else chatGroup.setMembers(group.getMembers().stream().map(member -> generalUtil.convertObject(member, User.class)).collect(Collectors.toSet()));

@@ -33,10 +33,10 @@ public class ChatGroup {
     @JsonIgnore
     private Set<User> members = new HashSet<>();
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "chat_id")
-    @JsonBackReference
-    @JsonIgnore
-    private Chat chat;
+//    @OneToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "chat_id")
+//    @JsonBackReference
+//    @JsonIgnore
+//    private Chat chat;
 
 }

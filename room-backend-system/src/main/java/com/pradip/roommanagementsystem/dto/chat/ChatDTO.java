@@ -15,6 +15,6 @@ public class ChatDTO {
 
     private ChatUser receiver;
 
-    private ChatGroupDTO chatGroup;
+    private ChatGroupListingDTO chatGroup;
 
 }
