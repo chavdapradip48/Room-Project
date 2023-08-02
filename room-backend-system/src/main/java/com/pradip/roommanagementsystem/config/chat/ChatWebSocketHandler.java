@@ -18,35 +18,33 @@ import java.util.Set;
 @Component
 public class ChatWebSocketHandler extends TextWebSocketHandler {
 
-    private final SimpMessageSendingOperations messagingTemplate;
-    private final UserRepository userRepository;
-    private final ChatService chatService;
+//    private final SimpMessageSendingOperations messagingTemplate = ;
 
-    @Autowired
-    public ChatWebSocketHandler(SimpMessageSendingOperations messagingTemplate, UserRepository userRepository,
-                                ChatService chatService) {
-        this.messagingTemplate = messagingTemplate;
-        this.userRepository = userRepository;
-        this.chatService = chatService;
-    }
+//    @Autowired
+//    public ChatWebSocketHandler(SimpMessageSendingOperations messagingTemplate, UserRepository userRepository,
+//                                ChatService chatService) {
+//        this.messagingTemplate = messagingTemplate;
+//        this.userRepository = userRepository;
+//        this.chatService = chatService;
+//    }
 
-    @Override
-    public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        String username = session.getPrincipal().getName();
-        User user = userRepository.findByEmail(username).get();
-        user.setOnlineStatus(true);
-        userRepository.save(user);
-        broadcastOnlineStatusUpdate(user);
-    }
-
-    @Override
-    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-        String username = session.getPrincipal().getName();
-        User user = userRepository.findByEmail(username).get();
-        user.setOnlineStatus(false);
-        userRepository.save(user);
-        broadcastOnlineStatusUpdate(user);
-    }
+//    @Override
+//    public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+//        String username = session.getPrincipal().getName();
+//        User user = userRepository.findByEmail(username).get();
+//        user.setOnlineStatus(true);
+//        userRepository.save(user);
+//        broadcastOnlineStatusUpdate(user);
+//    }
+//
+//    @Override
+//    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+//        String username = session.getPrincipal().getName();
+//        User user = userRepository.findByEmail(username).get();
+//        user.setOnlineStatus(false);
+//        userRepository.save(user);
+//        broadcastOnlineStatusUpdate(user);
+//    }
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
@@ -67,14 +65,14 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
 //        }
     }
 
-    private WebSocketSession findParticipantSession(String participantUsername) {
-        // Implement this method to find the WebSocketSession of the chat participant based on the participant's username.
-        // You might store WebSocket sessions in a map or use a user-specific cache for efficient retrieval.
-        // If the participant is not connected, return null or handle the situation accordingly.
-        return null;
-    }
-
-    private void broadcastOnlineStatusUpdate(User user) {
-        messagingTemplate.convertAndSend("/topic/online-status", user);
-    }
+//    private WebSocketSession findParticipantSession(String participantUsername) {
+//        // Implement this method to find the WebSocketSession of the chat participant based on the participant's username.
+//        // You might store WebSocket sessions in a map or use a user-specific cache for efficient retrieval.
+//        // If the participant is not connected, return null or handle the situation accordingly.
+//        return null;
+//    }
+//
+//    private void broadcastOnlineStatusUpdate(User user) {
+//        messagingTemplate.convertAndSend("/topic/online-status", user);
+//    }
 }
