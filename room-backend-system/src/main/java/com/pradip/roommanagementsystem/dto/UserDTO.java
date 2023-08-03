@@ -12,5 +12,4 @@ public class UserDTO {
     @JsonIgnore
     private String password;
     private boolean enabled;
-    private boolean locked;
 }

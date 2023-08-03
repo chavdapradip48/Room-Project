@@ -221,15 +221,14 @@ public class UserService {
             User user=new User();
             user.setEmail(defEmail);
             user.setMobile("1234567897");
-            user.setFirstName("Pradip");
-            user.setLastName("Chavda");
+            user.setFirstName("Default");
+            user.setLastName("User");
             user.setGender("Male");
-            user.setPassword(passwordEncoder.encode("99097@Pradip"));
-            user.setLocked(false);
+            user.setPassword(passwordEncoder.encode("Default@123"));
             user.setEnabled(true);
 
             Address address=new Address();
-            address.setGeneralAddress("Shankar para, Khas road, Botad");
+            address.setGeneralAddress("Not THere");
             address.setCountry("India");
             address.setState("Gujarat");
             address.setPincode(364710);

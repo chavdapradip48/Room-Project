@@ -3,6 +3,7 @@ package com.pradip.roommanagementsystem.service;
 import com.pradip.roommanagementsystem.dto.*;
 import com.pradip.roommanagementsystem.dto.projection.ExpenseProjection;
 import com.pradip.roommanagementsystem.entity.Expense;
+import com.pradip.roommanagementsystem.entity.User;
 import com.pradip.roommanagementsystem.exception.ResourceNotFoundException;
 import com.pradip.roommanagementsystem.repository.ExpenseRepository;
 import com.pradip.roommanagementsystem.repository.UserRepository;
@@ -44,8 +45,13 @@ public class ExpenseService {
 
     public Expense  addExpense(ExpenseDTO expenseDTO) {
         if (!userRepository.existsById(expenseDTO.getUser().getId()))
-            throw new ResourceNotFoundException("User not exist.");
-        return expenseRepository.save(generalUtil.convertObject(expenseDTO, Expense.class));
+            throw new ResourceNotFoundException("User is not exist.");
+
+        Expense expense = generalUtil.convertObject(expenseDTO, Expense.class);
+        User user = new User();
+        user.setId(expenseDTO.getUser().getId());
+        expense.setUser(user);
+        return expenseRepository.save(expense);
     }
 
     public ExpenseProjection getExpenseByExpenseId(Long id) {

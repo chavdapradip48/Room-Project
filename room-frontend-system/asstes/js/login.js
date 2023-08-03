@@ -17,7 +17,7 @@ $(document).ready(function () {
             'Content-Type': 'application/json'
           },
           success: function (response) {
-            window.localStorage.setItem("visit_user", 0);
+            // window.localStorage.setItem("visit_user", 0);
             window.localStorage.setItem("token", "Bearer " + response.jwt);
             showToast("User logged-in successfully", 'success');
             window.location.href = "home.html";
@@ -25,39 +25,11 @@ $(document).ready(function () {
             $('body').loader('hide');
           },
           error: function (xhr, status, error) {
-            var errorMessage = JSON.parse(xhr.responseText);
-            showToast(errorMessage.message, 'error');
             $('body').loader('hide');
+            errorMessageProcess(xhr);
           }
         });
       }
-
-    function authenticate(email, password) {
-        $('body').loader('show');
-        $.ajax({
-            url: backendServerUrl + "/authenticate",
-            method: "POST",
-            data: JSON.stringify({
-                "email": email,
-                "password": password
-            }),
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            success: function (responce) {
-                window.localStorage.setItem("token", "Bearer " + responce.jwt);
-                showToast("User logged-in successsfully", 'success');
-                $('body').loader('hide');
-                window.location.href = "home.html";
-            },
-            error: function (xhr, status, error) {
-                var errorMessage = JSON.parse(xhr.responseText);
-                showToast(errorMessage.message, 'error');
-                $('body').loader('hide');
-                
-            }
-        });
-    }
 
     $('#sub').click(function () {
         // get value

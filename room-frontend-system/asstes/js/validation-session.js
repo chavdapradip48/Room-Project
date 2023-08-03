@@ -5,11 +5,11 @@ $(document).ready(function () {
     if(localStorage.getItem("session_user") == null){
         SetUserSession(decodeJwt(getJwtTokenFromLocalStrorage()).id);
     }
-    if(localStorage.getItem("visit_user") == "0"){
-        scheduleTask();
-        localStorage.setItem("visit_user", "1");
-    }
-    setTimeout(function() {
-        scheduleTask();
-    },notificationDurationInHour * 3600000);
+    // if(localStorage.getItem("visit_user") == "0"){
+    //     scheduleTask();
+    //     localStorage.setItem("visit_user", "1");
+    // }
+    // setTimeout(function() {
+    //     scheduleTask();
+    // },notificationDurationInHour * 3600000);
 });

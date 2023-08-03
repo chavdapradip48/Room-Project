@@ -5,11 +5,11 @@ function showToast(message, type) {
     $newDiv.css("background-color", type === 'success' ? '#4CAF50' : '#F44336'); // set new div background color
     setTimeout(() => {
         $newDiv.css("opacity", "0.5");
-    }, 3000);
+    }, 6000);
     setTimeout(() => {
         $newDiv.css("display", "none");
 
-    }, 3000);
+    }, 6000);
 }
 
 function validateJwtToken(accessToken) {
@@ -78,7 +78,7 @@ function verifyUserToken(){
 
 function logout(){
     window.localStorage.removeItem("token");
-    window.localStorage.removeItem("visit_user");
+    // window.localStorage.removeItem("visit_user");
     window.localStorage.removeItem("session_user");
     showToast("Logout Successfully...", 'success');
     window.location.reload();
@@ -206,4 +206,12 @@ function clearCustomInterval(id) {
       clearInterval(intervalId);
       delete window.customIntervals[id];
     }
+}
+
+function errorMessageProcess(xhr) {
+  if(xhr.status === 0) {
+    showToast("The backend server is down. Please try after sometime.", 'error');
+  } else {
+    showToast(JSON.parse(xhr.responseText).message, 'error');
+  }
 }

@@ -41,8 +41,7 @@ function callLRegistrationApi() {
             // $('#cover-spin').hide(); // disable loader
             localStorage.clear("user_image");
             $('body').loader('hide');
-            var errorMessage = JSON.parse(xhr.responseText); // convert json to plantext
-            showToast(errorMessage.status + errorMessage.message, 'error');
+            errorMessageProcess(xhr);
         }
     });
     

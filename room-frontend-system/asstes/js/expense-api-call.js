@@ -175,6 +175,13 @@ function getExpenses() {
 
 function loadUsername() {
   $('.fullname').loader('show');
+
+  var loadUsers= window.localStorage.getItem("load-users");
+
+  if(loadUsers !== null){
+    setDataDrop(JSON.parse(loadUsers));
+  }
+
   var myHeaders = new Headers();
   myHeaders.append("Authorization", getJwtTokenFromLocalStrorage());
 
@@ -183,19 +190,14 @@ function loadUsername() {
     headers: myHeaders,
     redirect: 'follow'
   };
-  const nameSelect = $('#fullname-dropdown');
+  
   fetch(backendServerUrl + "/user?projection=ExpenseLoadUser", requestOptions)
     .then(result => result.json())
     .then(response => {
 
       if (response.status == 200 && response.data != '') {
-        // Iterate over the response data and add rows to the table
-        response.data.forEach(user => {
-          const row = `
-                <option value='${user.id}'>${user.fullName}</option>
-            `;
-          nameSelect.append(row);
-        });
+        setDataDrop(response.data);
+        localStorage.setItem('load-users', JSON.stringify(response.data));
       }
       $('.fullname').loader('hide');
     })
@@ -203,6 +205,16 @@ function loadUsername() {
       $('.fullname').loader('hide');
       showToast("Names are not setted in dropdown", 'error');
     });
+}
+
+function setDataDrop(data) {
+  const nameSelect = $('#fullname-dropdown');
+  data.forEach(user => {
+    const row = `
+          <option value='${user.id}'>${user.fullName}</option>
+      `;
+    nameSelect.append(row);
+  });
 }
 
 function createExpense() {

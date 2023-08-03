@@ -103,9 +103,9 @@ function passwordChenge() {
             window.location.href = "login.html";
         },
         error: function (xhr, status, error) {
-            $(".new-password-section,#change-password").prop("disabled", false);
-            showToast(xhr.responseJSON.message, 'error');
             $('body').loader('hide');
+            errorMessageProcess(xhr);
+            $(".new-password-section,#change-password").prop("disabled", false);
         }
     });
 }

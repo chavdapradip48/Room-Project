@@ -85,9 +85,8 @@ function getUserListing() {
       }
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
-      var errorResponse=jqXHR.responseJSON.message;
-      showToast(errorResponse, 'error');
-      $('#dynamic-user-listing').html("<div class='alert alert-danger' role='alert'>"+errorResponse+"</div>");
       $('body').loader('hide');
+      errorMessageProcess(xhr);
+      $('#dynamic-user-listing').html("<div class='alert alert-danger' role='alert'>"+errorResponse+"</div>");
     });
 }
