@@ -180,6 +180,7 @@ function loadUsername() {
 
   if(loadUsers !== null){
     setDataDrop(JSON.parse(loadUsers));
+    return;
   }
 
   var myHeaders = new Headers();
