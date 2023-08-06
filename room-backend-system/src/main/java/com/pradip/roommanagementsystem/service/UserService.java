@@ -58,24 +58,36 @@ public class UserService {
     private static final String projectionPackage = "com.pradip.roommanagementsystem.dto.projection.";
 
     public List<?> getAllUsers(String projectionName) {
-//        List<User> allBy = userRepository.findAll();
-        System.out.println(projectionName);
-                List<?> allBy = userRepository.findAllBy(getClassName(projectionName));
-        if(allBy == null || allBy.isEmpty()){
-            throw  new EntityNotFoundException("User not found.");
+        List<?> allBy = null;
+
+        if (projectionName.equals("Normal")) {
+            allBy = userRepository.findUsersIdFullname();
+            return usersNotFound(allBy);
+
+        } else if (projectionName.equals("NormalWithProfile")) {
+            allBy = userRepository.findUsersIdFullnameProfile();
+            return usersNotFound(allBy);
         }
 
+        allBy = userRepository.findAllBy(getClassName(projectionName));
+
+        return usersNotFound(allBy);
+    }
+
+    private List<?> usersNotFound(List<?> allBy){
+        if(allBy == null || allBy.isEmpty()){
+            throw  new EntityNotFoundException("Users are not found.");
+        }
         return allBy;
     }
 
     public Object getUserById(Long id, String projectionName) {
         Optional<?> userById = userRepository.findById(id,getClassName(projectionName));
-//        Optional<?> userById=userRepository.findById(id);
         if(userById.isPresent()){
             return userById.get();
         }
         else {
-            throw  new EntityNotFoundException("User not found.");
+            throw  new EntityNotFoundException("User is not found.");
         }
     }
 
@@ -133,7 +145,11 @@ public class UserService {
         user.setRoles(Collections.singletonList(role));
         user.setPassword(encoder.encode(user.getPassword()));
 
-        registerUser.setAddress(registerUser.getAddress());
+        Address address = registerUser.getAddress();
+        address.setUser(user);
+
+        user.setAddress(address);
+        user.setEnabled(true);
 
         return util.convertObject(userRepository.save(user), RegisterUser.class);
     }

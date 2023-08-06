@@ -36,7 +36,7 @@ function getUserListing() {
   $('body').loader('show');
 
   var settings = {
-    "url": backendServerUrl + "/user?projection=UserListingDTO",
+    "url": backendServerUrl + "/user?projection=NormalWithProfile",
     "method": "GET",
     "timeout": 0,
     "headers": {

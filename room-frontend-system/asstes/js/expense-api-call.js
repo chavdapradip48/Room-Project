@@ -193,7 +193,7 @@ function loadUsername() {
     redirect: 'follow'
   };
   
-  fetch(backendServerUrl + "/user?projection=ExpenseLoadUser", requestOptions)
+  fetch(backendServerUrl + "/user?projection=Normal", requestOptions)
     .then(result => result.json())
     .then(response => {
 
