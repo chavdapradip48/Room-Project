@@ -167,15 +167,97 @@ function validateFields(stepNum) {
         borderErrorColor(pass_retu, $('#password-fild'));
         borderErrorColor(cpass_retu, $('#cpassword-fild'));
         if (mobile_retu && email_retu && pass_retu && cpass_retu) {
-            setProfileBase64LocalStorage().then(() => {
+            // setProfileBase64LocalStorage().then(() => {
+            //     callLRegistrationApi();
+            // });
+
+            resizeAndStoreImage("upload-profile-picture", 1)
+            .then(() => {
+                console.log("Image resized and stored successfully.");
                 callLRegistrationApi();
+            })
+            .catch(error => {
+                console.error("An error occurred:", error);
             });
+
             return true;
         } else {
             return false;
         }
 
     }
+}
+
+function resizeAndStoreImage(fileInputId, maxSizeMB) {
+    return new Promise((resolve, reject) => {
+        const fileInput = document.getElementById(fileInputId);
+        const file = fileInput.files[0];
+
+        if (!file) {
+            reject(new Error("No file selected."));
+            return;
+        }
+
+        const originalSizeMB = file.size / (1024 * 1024); // Size in MB
+
+        if (originalSizeMB <= maxSizeMB) {
+            console.log(`Original image size: ${originalSizeMB.toFixed(2)} MB`);
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const base64String = event.target.result;
+                localStorage.setItem("user_image", base64String);
+                resolve();
+            };
+            reader.onerror = function(error) {
+                reject(error);
+            };
+            reader.readAsDataURL(file);
+        } else {
+            const image = new Image();
+            image.src = URL.createObjectURL(file);
+            image.onload = function() {
+                const maxWidth = 1024; // Adjust as needed
+                const maxHeight = 1024; // Adjust as needed
+
+                let newWidth = image.width;
+                let newHeight = image.height;
+
+                if (newWidth > maxWidth || newHeight > maxHeight) {
+                    if (newWidth > maxWidth) {
+                        const scaleFactor = maxWidth / newWidth;
+                        newWidth = maxWidth;
+                        newHeight *= scaleFactor;
+                    }
+
+                    if (newHeight > maxHeight) {
+                        const scaleFactor = maxHeight / newHeight;
+                        newHeight = maxHeight;
+                        newWidth *= scaleFactor;
+                    }
+                }
+
+                const canvas = document.createElement("canvas");
+                canvas.width = newWidth;
+                canvas.height = newHeight;
+
+                const context = canvas.getContext("2d");
+                context.drawImage(image, 0, 0, newWidth, newHeight);
+
+                const resizedBase64 = canvas.toDataURL(file.type, 0.7); // Adjust quality if needed
+
+                const resizedSizeMB = resizedBase64.length / (1024 * 1024); // Size in MB
+
+                console.log(`Original image size: ${originalSizeMB.toFixed(2)} MB`);
+                console.log(`Resized image size: ${resizedSizeMB.toFixed(2)} MB`);
+
+                localStorage.setItem("user_image", resizedBase64);
+                resolve();
+            };
+            image.onerror = function(error) {
+                reject(error);
+            };
+        }
+    });
 }
 
 function setProfileBase64LocalStorage() {
@@ -195,6 +277,9 @@ function setProfileBase64LocalStorage() {
       reader.readAsDataURL(file.files[0]);
     });
 }  
+
+
+
 
 // Set Preview Image function
 var preview = $('#preview');

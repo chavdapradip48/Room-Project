@@ -174,7 +174,6 @@ function getExpenses() {
 }
 
 function loadUsername() {
-  $('.fullname').loader('show');
 
   var loadUsers= window.localStorage.getItem("load-users");
 
@@ -182,6 +181,8 @@ function loadUsername() {
     setDataDrop(JSON.parse(loadUsers));
     return;
   }
+
+  $('.fullname').loader('show');
 
   var myHeaders = new Headers();
   myHeaders.append("Authorization", getJwtTokenFromLocalStrorage());
@@ -314,7 +315,7 @@ function calcualteExpense() {
         "Room-Rent": $("#room-rent").val(),
         "Safai-Vala-Massi": $("#safai-vala-massi").val(),
         "Randhva-Vala-Massi": $("#randhava-vala-massi").val(),
-        "Water-Bill": $("#other").val(),
+        "Water-Bill": $("#water-bill").val(),
         "Other": $("#other").val()
       },
       "persons": $("#persons").val(),

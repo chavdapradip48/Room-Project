@@ -4,6 +4,7 @@ import com.pradip.roommanagementsystem.dto.*;
 import com.pradip.roommanagementsystem.dto.projection.ExpenseProjection;
 import com.pradip.roommanagementsystem.entity.Expense;
 import com.pradip.roommanagementsystem.entity.User;
+import com.pradip.roommanagementsystem.exception.InvalidInputException;
 import com.pradip.roommanagementsystem.exception.ResourceNotFoundException;
 import com.pradip.roommanagementsystem.repository.ExpenseRepository;
 import com.pradip.roommanagementsystem.repository.UserRepository;
@@ -11,6 +12,7 @@ import com.pradip.roommanagementsystem.security.util.JwtUtils;
 import com.pradip.roommanagementsystem.util.GeneralUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Lookup;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -130,10 +132,16 @@ public class ExpenseService {
 
     public ExpenseCountResponseDTO countExpenses(ExpenseCountRequestDTO expenseCountRequestDTO) {
 
-        Long totalAmount = expenseRepository.sumByAmountFromToAndPaymentMode(expenseCountRequestDTO.getFrom(), expenseCountRequestDTO.getTo(), Arrays.asList(PaymentMode.PERSONAL));
+        if (expenseCountRequestDTO.getFrom().compareTo(expenseCountRequestDTO.getTo()) > 0){
+            throw new InvalidInputException("Start Date must be less than end date.");
+        }
 
-        if(totalAmount == null || totalAmount == 0)
-            throw new NullPointerException("Total Amount is null or 0");
+        Long totalAmount = 0L;
+
+        Long totalAmountDB = expenseRepository.sumByAmountFromToAndPaymentMode(expenseCountRequestDTO.getFrom(), expenseCountRequestDTO.getTo(), Arrays.asList(PaymentMode.PERSONAL));
+
+        if(totalAmountDB != null)
+            totalAmount = totalAmountDB;
 
         totalAmount += expenseCountRequestDTO.getExtraExpenses().values().stream().mapToInt(i -> i).sum();
 

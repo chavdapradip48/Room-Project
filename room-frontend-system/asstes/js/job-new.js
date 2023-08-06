@@ -57,7 +57,7 @@ function handleCreateJobFormSubmit(event) {
     $('.card-body').loader('show');
     const jobData = {
       jobName: $('#jobName').val(),
-      triggerName: $('#triggerName').val(),
+      triggerName: $('#jobName').val(),
       jobClass: $('#jobClass').val(),
       cronExpression: $('#cronExpression').val(),
       jobData: {}
@@ -89,7 +89,6 @@ function resetForm() {
     $('.value-input').val('');
     $('#jobName').prop('disabled', false).val('');
     $('#jobClass').prop('disabled', false).val('SimpleJob');
-    $('#triggerName').prop('disabled', false).val('');
 }
 
 function createJob(jobData, jobName, isUpdate) {
@@ -131,11 +130,8 @@ function updateJob(jobName) {
       success: function(singleJob) {
         $('#jobName').val(singleJob.data.jobName);
         $('#jobName').prop('disabled', true);
-        $('#triggerName').prop('disabled', true);
         $('#jobClass').prop('disabled', true);
         $('#isUpdate').val("true");
-
-        $('#triggerName').val(singleJob.data.triggerName);
         $('#jobClass').val(singleJob.data.jobClass);
         $('#cronExpression').val(singleJob.data.cronExpression);
   

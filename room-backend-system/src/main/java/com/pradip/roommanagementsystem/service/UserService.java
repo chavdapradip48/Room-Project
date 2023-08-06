@@ -118,7 +118,7 @@ public class UserService {
             return userById.get();
         }
         else {
-            throw  new EntityNotFoundException("User not found.");
+            throw  new EntityNotFoundException("User is not found.");
         }
     }
 
@@ -126,11 +126,15 @@ public class UserService {
         if(userRepository.existsByEmail(registerUser.getEmail()))
             throw new UserAlreadyExistlException("User already register with us.");
         User user = util.convertObject(registerUser, User.class);
+
         Role role=new Role();
         role.setName(ERoles.ROLE_USER);
         role.setUser(user);
         user.setRoles(Collections.singletonList(role));
         user.setPassword(encoder.encode(user.getPassword()));
+
+        registerUser.setAddress(registerUser.getAddress());
+
         return util.convertObject(userRepository.save(user), RegisterUser.class);
     }
 

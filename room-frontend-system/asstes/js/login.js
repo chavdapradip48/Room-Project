@@ -21,7 +21,7 @@ $(document).ready(function () {
             window.localStorage.setItem("token", "Bearer " + response.jwt);
             showToast("User logged-in successfully", 'success');
             window.location.href = "home.html";
-            scheduleTask();
+            // scheduleTask();
             $('body').loader('hide');
           },
           error: function (xhr, status, error) {
