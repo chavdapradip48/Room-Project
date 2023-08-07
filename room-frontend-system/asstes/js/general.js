@@ -78,7 +78,7 @@ function verifyUserToken(){
 
 function logout(){
     window.localStorage.removeItem("token");
-    // window.localStorage.removeItem("visit_user");
+    window.localStorage.removeItem("load-user");
     window.localStorage.removeItem("session_user");
     showToast("Logout Successfully...", 'success');
     window.location.reload();
