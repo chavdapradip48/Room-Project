@@ -23,6 +23,7 @@
     <script src="asstes/js/general.js"></script>
     <script src="asstes/js/validation-session.js"></script>
     <script src="asstes/js/import-header-footer.js"></script>
+    <script src="asstes/js/validation.js"></script>
 
 </head>
 
@@ -47,20 +48,23 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="description">Description</label>
-                                    <input type="text" class="form-control" name="description" id="description" placeholder="Please enter full description" required>
+                                    <input type="text" class="form-control" name="description" id="description" placeholder="Please enter full description" onblur="addressVlid($('#description').val(), $('#description-err'))" required>
+                                    <p id="description-err" class="error-message"></p>
                                 </div>
                                 <div class="form-group">
                                     <label for="payment-mode">Payment Type</label>
-                                    <select class="form-control" id="payment-mode" aria-label="Default select example">
+                                    <select class="form-control" id="payment-mode" aria-label="Default select example" onblur="paymentTypeVlid($('#payment-mode').val(), $('#payment-mode-err'))">
                                         <option selected>Open this select menu</option>
                                         <option value="ROOM_CASH">ROOM_CASH</option>
                                         <option value="ROOM_BANK">ROOM_BANK</option>
                                         <option value="PERSONAL">PERSONAL</option>
                                     </select>
+                                    <p id="payment-mode-err" class="error-message"></p>
                                 </div>
                                 <div class="form-group">
                                     <label for="amount">Amount</label>
-                                    <input type="number" class="form-control" name="amount" id="amount" placeholder="amount" required>
+                                    <input type="number" class="form-control" name="amount" id="amount" placeholder="amount" onblur="paymentAmountVlid($('#amount').val(), $('#amount-err'))" required>
+                                    <p id="amount-err" class="error-message"></p>
                                 </div>
                                 <br>
                                 <div class="d-grid">

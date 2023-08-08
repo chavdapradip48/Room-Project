@@ -132,6 +132,8 @@ function getExpenses() {
     .done(function (response) {
       if (response.status == 200 && response.data != '') {
         if (response.data.length != 0) {
+          $('#no-more-tables').show();
+          $('#loading-message').remove();
           var rows = "";
           $.each(response.data, function (i, expense) {
             var date = new Date(expense.createdAt).toLocaleDateString('en-IN', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
@@ -167,6 +169,8 @@ function getExpenses() {
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
       var errorResponse=jqXHR.responseJSON.message;
+      $('#no-more-tables').show();
+      $('#loading-message').remove();
       showToast(errorResponse, 'error');
       $('.table').html("<div class='alert alert-danger' role='alert'>"+errorResponse+"</div>");
       $('.card-body').loader('hide');
@@ -330,6 +334,7 @@ function calcualteExpense() {
     .then(result => {
       if (result.status == 200 && result.data != '') {
         showToast(result.message, 'success');
+        $(".form-section").hide();
         $(".calculate-form-section").show();
         $("#total-exp").text(result.data.totalAmount);
         $("#total-person").text(result.data.persons);

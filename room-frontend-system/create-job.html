@@ -23,6 +23,7 @@
     <script src="asstes/js/variable.js"></script>
     <script src="asstes/js/general.js"></script>
     <script src="asstes/js/validation-session.js"></script>
+    <script src="asstes/js/validation.js"></script>
     <script src="asstes/js/import-header-footer.js"></script>
 </head>
 
@@ -37,26 +38,29 @@
                             <form id="formId">
                                 <div class="form-group">
                                     <label for="jobName">Name</label>
-                                    <input type="text" class="form-control" id="jobName" name="jobName" required>
+                                    <input type="text" class="form-control" id="jobName" name="jobName" onblur="jobNameVlid($('#jobName').val(), $('#job-name-err'))" required>
+                                    <p id="job-name-err" class="error-message"></p>
                                   </div>
                                   <div class="form-group">
                                     <label for="jobClass">Job Class</label>
-                                    <input type="text" class="form-control" id="jobClass" name="jobClass" value="SimpleJob" required>
+                                    <input type="text" class="form-control" id="jobClass" name="jobClass" value="SimpleJob" onblur="jobNameVlid($('#jobClass').val(), $('#job-class-err'))" required>
+                                    <p id="job-class-err" class="error-message"></p>
                                   </div>
                                   <div class="form-group">
                                     <label for="cronExpression">Cron Expression</label>
-                                    <input type="text" class="form-control" id="cronExpression" name="cronExpression" value="0 0/1 * * * ?" required>
+                                    <input type="text" class="form-control" id="cronExpression" name="cronExpression" value="0 0/1 * * * ?" onblur="normalVlid($('#cronExpression').val(), $('#cron-expression-err'))"  required>
+                                    <p id="cron-expression-err" class="error-message"></p>
                                   </div>
                                   <input type="hidden" id="isUpdate" name="isUpdate"  value="false">
                                   <div class="form-group" id="dynamicParams">
                                     <label>Dynamic Params</label>
                                     <div class="input-group mb-3">
                                       <div class="col-md-5">
-                                        <input type="text" class="form-control key-input" placeholder="Key">
-                                      </div>
-                                      <!-- <div class="col-md-1"></div> -->
-                                      <div class="col-md-5">
-                                        <input type="text" class="form-control value-input" placeholder="Value">
+                                        <input type="text" class="form-control key-input" placeholder="Key" >
+                                    </div>
+                                    <!-- <div class="col-md-1"></div> -->
+                                    <div class="col-md-5">
+                                      <input type="text" class="form-control value-input" placeholder="Value">
                                       </div>
                                       <!-- <div class="col-md-1"></div> -->
                                       <div class="col-md-1">

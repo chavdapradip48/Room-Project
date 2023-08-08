@@ -24,6 +24,7 @@ async function getDashboardData() {
      // yData = Object.keys(apiData.graphData);
     //  xData = Object.values(apiData.graphData);
       $("#month-data").text(yData[0]+" - "+yData[yData.length-1] + " 2023");
+      $("#loading-message").hide();
     }
 
     // $('body').loader('hide');

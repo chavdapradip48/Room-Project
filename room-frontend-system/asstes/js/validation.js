@@ -84,6 +84,56 @@ function userVlid(user, errEle) {
         return true;
     }
 }
+function jobNameVlid(jobName, errEle) {
+    var nameRetn = true;
+    if (jobName == "") {
+        errEle.css("display", "block");
+        errEle.text(" Please fill this field");
+        nameRetn = false;
+    }
+    else if (jobName.length <= 3 || jobName.length > 30) {
+        errEle.css("display", "block");
+        errEle.text("lenght must be between 3 and 20");
+        nameRetn = false;
+    }
+    else if (!isNaN(jobName)) {
+        errEle.css("display", "block");
+        errEle.text("only characters are allowed");
+        nameRetn = false;
+    } else {
+        errEle.css("display", "none");
+        errEle.text("");
+        nameRetn = true;
+    }
+    if (nameRetn != true) {
+        return false;
+    } else {
+        return true;
+    }
+}
+function normalVlid(jobName, errEle) {
+    var nameRetn = true;
+    if (jobName == "") {
+        errEle.css("display", "block");
+        errEle.text(" Please fill this field");
+        nameRetn = false;
+    }
+    else if (jobName.length <= 3 || jobName.length > 30) {
+        errEle.css("display", "block");
+        errEle.text("lenght must be between 3 and 20");
+        nameRetn = false;
+    }
+    else {
+        errEle.css("display", "none");
+        errEle.text("");
+        nameRetn = true;
+    }
+    if (nameRetn != true) {
+        return false;
+    } else {
+        return true;
+    }
+}
 
 function addressVlid(user, errEle) {
     var nameRetn = true;
@@ -207,6 +257,29 @@ function numberVlid(mobileNumber, errEle) {
         return true;
     }
 }
+function paymentAmountVlid(amount, errEle) {
+    var nameRetn = true;
+    if (amount == "") {
+        errEle.css("display", "block");
+        errEle.text(" Please fill the amount");
+        nameRetn = false;
+    }
+    else if (isNaN(amount)) {
+        errEle.css("display", "block");
+        errEle.text(" user must write digits only not characters");
+        nameRetn = false;
+    }
+    else {
+        errEle.css("display", "none");
+        errEle.text("");
+        nameRetn = true;
+    }
+    if (nameRetn != true) {
+        return false;
+    } else {
+        return true;
+    }
+}
 function pincodeVlid(pincode, errEle) {
     var nameRetn = true;
     if (pincode == "") {
@@ -266,6 +339,24 @@ function otpVlid(otp, errEle) {
 function genderVlid(gender, errEle) {
     var nameRetn = true;
     if (gender == "selected" || gender == "") {
+        errEle.css("display", "block");
+        errEle.text("Please select this field ");
+        nameRetn = false;
+    }
+    else {
+        errEle.css("display", "none");
+        errEle.text("");
+        nameRetn = true;
+    }
+    if (nameRetn != true) {
+        return false;
+    } else {
+        return true;
+    }
+}
+function paymentTypeVlid(payType, errEle) {
+    var nameRetn = true;
+    if (payType == "Open this select menu" || payType == "") {
         errEle.css("display", "block");
         errEle.text("Please select this field ");
         nameRetn = false;
