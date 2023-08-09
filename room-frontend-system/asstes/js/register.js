@@ -171,7 +171,8 @@ function validateFields(stepNum) {
             //     callLRegistrationApi();
             // });
 
-            resizeAndStoreImage("upload-profile-picture", 1)
+            // pass file element and 0.5 mb max size
+            resizeAndStoreImage("upload-profile-picture", 0.5)
             .then(() => {
                 console.log("Image resized and stored successfully.");
                 callLRegistrationApi();
