@@ -1,9 +1,6 @@
 package com.pradip.roommanagementsystem.controller;
 
-import com.pradip.roommanagementsystem.dto.ApiResponse;
-import com.pradip.roommanagementsystem.dto.ExpenseCountRequestDTO;
-import com.pradip.roommanagementsystem.dto.ExpenseDTO;
-import com.pradip.roommanagementsystem.dto.UserExpenseDTO;
+import com.pradip.roommanagementsystem.dto.*;
 import com.pradip.roommanagementsystem.dto.projection.ExpenseProjection;
 import com.pradip.roommanagementsystem.entity.Expense;
 import com.pradip.roommanagementsystem.service.ExpenseService;
@@ -87,10 +84,10 @@ public class ExpenseController {
         );
     }
 
-    @PostMapping("/expense/count")
-    public ResponseEntity<ApiResponse<?>> getExpenseCount(@Valid @RequestBody ExpenseCountRequestDTO expenseCountRequestDTO) {
+    @PostMapping("/expense/calculate")
+    public ResponseEntity<ApiResponse<?>> getExpenseCount(@Valid @RequestBody ExpenseCalculatorRequestDTO expenseCountRequestDTO) {
         return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(),
-                "Expenses counted successfully.", expenseService.countExpenses(expenseCountRequestDTO))
+                "Calculated successfully.", expenseService.calculateMothlyExpenses(expenseCountRequestDTO))
         );
     }
 }

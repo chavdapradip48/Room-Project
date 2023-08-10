@@ -2,6 +2,7 @@ package com.pradip.roommanagementsystem.service;
 
 import com.pradip.roommanagementsystem.dto.*;
 import com.pradip.roommanagementsystem.dto.projection.ExpenseProjection;
+import com.pradip.roommanagementsystem.dto.projection.UserCalculator;
 import com.pradip.roommanagementsystem.entity.Expense;
 import com.pradip.roommanagementsystem.entity.User;
 import com.pradip.roommanagementsystem.exception.InvalidInputException;
@@ -12,7 +13,6 @@ import com.pradip.roommanagementsystem.security.util.JwtUtils;
 import com.pradip.roommanagementsystem.util.GeneralUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Lookup;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -29,6 +29,9 @@ public class ExpenseService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private UserService userService;
+    
     @Autowired
     private GeneralUtil generalUtil;
 
@@ -151,5 +154,75 @@ public class ExpenseService {
         expenseCountResponseDTO.setPersons(expenseCountRequestDTO.getPersons());
 
         return expenseCountResponseDTO;
+    }
+
+    public Object calculateMothlyExpenses(ExpenseCalculatorRequestDTO expenseCalculatorRequestDTO) {
+
+        Date calculationFrom = expenseCalculatorRequestDTO.getFrom();
+        Date calculationTo = expenseCalculatorRequestDTO.getTo();
+
+        if (calculationFrom.compareTo(calculationTo) > 0){
+            throw new InvalidInputException("Start Date must be less than end date.");
+        }
+
+        // Calculate all the expenses
+        long totalAmount = 0L;
+        long totalAmountDB = expenseRepository.sumByAmountFromToAndPaymentMode(calculationFrom, calculationTo, Arrays.asList(PaymentMode.PERSONAL));
+        if(totalAmountDB != 0L) totalAmount = totalAmountDB;
+        int totalFixedMonthlyExpenses = expenseCalculatorRequestDTO.getFixedMonthlyExpenses().values().stream().mapToInt(i -> i).sum();
+        int totalVariableMonthlyExpenses = expenseCalculatorRequestDTO.getVariableMonthlyExpenses().values().stream().mapToInt(i -> i).sum();;
+
+        // Fetch persons
+        List<Integer> fullPersons = expenseCalculatorRequestDTO.getFullPersons();
+        List<Integer> halfPersons = expenseCalculatorRequestDTO.getHalfPersons();
+        List<Integer> onVacationPersons = expenseCalculatorRequestDTO.getOnVacationPersons();
+        int fullHalfSize = fullPersons.size() + halfPersons.size();
+
+        int totalCalculatedFixedPerHead = totalFixedMonthlyExpenses / (fullHalfSize + onVacationPersons.size());
+
+        ExpenseCalculatorResponseDTO expenseCalculatorResponseDTO = new ExpenseCalculatorResponseDTO();
+        List<ExpenseCalculatorPersons> expenseCalculatorPersonList = new ArrayList<>();
+
+        if (!fullPersons.isEmpty()) {
+            for (Integer person : fullPersons) {
+                int fullpersonCalExp = (int) (totalCalculatedFixedPerHead + ((totalVariableMonthlyExpenses +totalAmount) / (fullHalfSize)) + 900);
+                expenseCalculatorPersonList.add(getExpenseCalculatorPersons("Full", person, fullpersonCalExp, calculationFrom, calculationTo));
+            }
+        }
+
+        if (!halfPersons.isEmpty()) {
+            for (Integer person : halfPersons) {
+                int fullpersonCalExp = (int) (totalCalculatedFixedPerHead + (((totalVariableMonthlyExpenses +totalAmount) / (fullHalfSize)) + 900) / 2);
+                expenseCalculatorPersonList.add(getExpenseCalculatorPersons("Half", person, fullpersonCalExp, calculationFrom, calculationTo));
+            }
+        }
+
+        if (!onVacationPersons.isEmpty()) {
+            for (Integer person : onVacationPersons) {
+                expenseCalculatorPersonList.add(getExpenseCalculatorPersons("OnVacation", person, totalCalculatedFixedPerHead, calculationFrom,calculationTo));
+            }
+        }
+
+        expenseCalculatorResponseDTO.setTo(calculationTo);
+        expenseCalculatorResponseDTO.setFrom(calculationFrom);
+        expenseCalculatorResponseDTO.setTotalAmount((int) (totalAmount + totalVariableMonthlyExpenses + totalFixedMonthlyExpenses));
+        expenseCalculatorResponseDTO.setPersons(expenseCalculatorPersonList);
+
+        return expenseCalculatorResponseDTO;
+    }
+
+    private ExpenseCalculatorPersons getExpenseCalculatorPersons(String personType, int person, int totalCalculatedAmt, Date from, Date to) {
+        UserCalculator userCalculator = (UserCalculator) userService.getUserById((long) person, "UserCalculator");
+
+        int myExp =expenseRepository.sumByAmountFromToAndPaymentModeMy(from, to, Arrays.asList(PaymentMode.PERSONAL),userCalculator.getId());
+
+        ExpenseCalculatorPersons expenseCalculatorPersons = new ExpenseCalculatorPersons();
+        expenseCalculatorPersons.setPerson(userCalculator);
+        expenseCalculatorPersons.setTotalCalcualtedMonthlyAmount(totalCalculatedAmt);
+        expenseCalculatorPersons.setTotalMyMonthlyAmount(myExp);
+        expenseCalculatorPersons.setTotalPayableAmount(totalCalculatedAmt - myExp);
+        expenseCalculatorPersons.setPersonType(personType);
+
+        return expenseCalculatorPersons;
     }
 }
