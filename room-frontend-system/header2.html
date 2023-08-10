@@ -1,0 +1,226 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="asstes/library/jquery-3.6.4.js"></script>
+<script src="asstes/js/general.js"></script>
+<style>
+    * {
+        margin: 0px;
+        padding: 0px;
+        box-sizing: border-box;
+    }
+
+    .sidebar {
+        font-family: "Raleway", sans-serif;
+        position: fixed;
+        top: 0px;
+        left: -300px;
+        width: 300px;
+        height: 100%;
+        background: #111;
+        transition: all 300ms ease-in-out;
+        /* overflow: auto; */
+        z-index: 9999;
+    }
+
+    .sidebar .toggle-btn {
+        position: absolute;
+        top: 10px;
+        right: -40px;
+        height: 30px;
+        width: 30px;
+        cursor: pointer;
+    }
+
+    .sidebar .toggle-btn span {
+        position: absolute;
+        width: 100%;
+        height: 4px;
+        background: #111;
+        transform: translateY(-50%);
+        transition: all 300ms ease-in-out;
+    }
+
+    .sidebar .toggle-btn span:nth-child(1) {
+        top: 10%
+    }
+
+    .sidebar .toggle-btn span:nth-child(2) {
+        top: 50%
+    }
+
+    .sidebar .toggle-btn span:nth-child(3) {
+        top: 90%
+    }
+
+    .sidebar .profile {
+        margin: 20px 0;
+        text-align: center;
+        width: 100%;
+        color: #f5f5f5;
+        cursor: pointer;
+    }
+
+    .sidebar .profile .profile-image {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+    }
+
+    .sidebar .profile .name {
+        margin-top: 7px;
+    }
+
+    .sidebar .links>a {
+        display: block;
+        padding: 15px 10px;
+        text-decoration: none;
+        color: #f5f5f5;
+        cursor: pointer;
+        border-bottom: 1px solid #1d1d1d;
+        border-top: 1px solid #1d1d1d;
+    }
+
+    .sidebar .links>a:hover {
+        background: #222;
+        color: #00acee;
+    }
+
+    .sidebar .links a i {
+        display: inline-block;
+        margin-right: 10px;
+    }
+
+    .sidebar.active {
+        left: 0px;
+    }
+
+    .sidebar.active .toggle-btn span:nth-child(1) {
+        top: 50%;
+        transform: translateY(-50%) rotate(45deg);
+    }
+
+    .sidebar.active .toggle-btn span:nth-child(2) {
+        display: none;
+    }
+
+    .sidebar.active .toggle-btn span:nth-child(3) {
+        top: 50%;
+        transform: translateY(-50%) rotate(-45deg);
+    }
+
+    .expense-menu a,
+    .user-menu a,
+    .job-menu a {
+        display: block;
+        padding: 10px 10px;
+        text-decoration: none;
+        color: #f5f5f5;
+        cursor: pointer;
+        margin-left: 40px;
+    }
+
+    .profile a {
+        text-decoration: none;
+        color: #f5f5f5;
+    }
+
+    .expense-menu a:hover,
+    .user-menu a:hover,
+    .job-menu a:hover {
+        background: #222;
+        color: #00acee;
+    }
+</style>
+
+<body>
+    <div class="sidebar">
+        <div class="toggle-btn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="profile">
+            <a href="profile.html">
+                <img src="asstes/images/default-profile-image.png" alt="Image" id="user-profile-image"
+                    class="profile-image">
+                <h3 class="name" id="user-name">XYZ</h3>
+            </a>
+        </div>
+        <div class="links">
+            <a href="home.html" id="home-field">
+                <i class="fa fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="#" id="expense-field">
+                <i class="fa-solid fa-hand-holding-dollar"></i>
+                <span>Expense</span></a>
+            <div class="expense-menu">
+                <a href="create-expense.html"><i class="fa-solid fa-plus"></i>Create Expense</a>
+                <a href="expense-listing.html?type=my"><i class="fa-regular fa-file"></i>My Expense</a>
+                <a href="expense-listing.html"><i class="fa-solid fa-file"></i>Get Expense</a>
+                <a href="calculate-expense.html"><i class="fa-solid fa-calculator"></i>Expense Calculator</a>
+            </div>
+
+            <a href="#" id="user-field">
+                <i class="fa-solid fa-users"></i>
+                <span>User</span>
+            </a>
+            <div class="user-menu">
+                <a href="create-user.html"><i class="fa-solid fa-user-plus"></i>Create User</a>
+                <a href="user-listing.html"><i class="fa-solid fa-users-viewfinder"></i>Get All User</a>
+
+            </div>
+            <a href="#" id="job-field">
+                <i class="fa-solid fa-briefcase"></i>
+                <span>Job</span>
+            </a>
+            <div class="job-menu">
+                <a href="create-job.html"><i class="fa-solid fa-plus"></i>Create Job</a>
+                <a href="job-listing-fr.html"><i class="fa-solid fa-briefcase"></i>Get All Scheduled Works</a>
+                <a href="job-listing.html"><i class="fa-solid fa-user-doctor"></i>Get Quartz Job</a>
+            </div>
+            <a href="#" onclick="logout()" id="logout-field">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Logout</span>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        let iamgePath = "asstes/images/default-profile-image.png", userName = "Chavda Sandip";
+        $(".expense-menu,.user-menu,.job-menu").hide();
+        $("#user-field").click(function () {
+            $(".user-menu").toggle();
+        });
+        $("#job-field").click(function () {
+            $(".job-menu").toggle();
+        });
+        $("#expense-field").click(function () {
+            $(".expense-menu").toggle();
+        });
+
+
+
+    </script>
+    <script>
+        $(".toggle-btn").click(function () {
+            $(".sidebar").toggleClass("active");
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            var sessionUser = localStorage.getItem("session_user");
+            if (sessionUser != null) {
+                var sectionFullName = JSON.parse(sessionUser).fullName;
+                if (sectionFullName != null && sectionFullName != "") {
+                    $("#user-name").text(sectionFullName);
+                }
+                var sessionUserphoto = JSON.parse(sessionUser).profilePhoto;
+                if (sessionUserphoto != null && sessionUserphoto != "") {
+                    $("#user-profile-image").attr("src", sessionUserphoto);
+                }
+            }
+        });
+    </script>
+</body>
