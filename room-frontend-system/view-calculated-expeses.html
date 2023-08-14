@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Expense</title>
+    <link rel="icon" type="image/x-icon" href="asstes/images/favicon/favicon-icon.png">
+
+    <!-- <link href="asstes/library/bootstrap-4.0.0/bootstrap.min.css" rel="stylesheet"> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="asstes/library/Easy-Page-Element-Loader-Plugin-with-jQuery-loader-js/jquery.loader.css"
+        rel="stylesheet">
+    <link href="asstes/css/style.css" rel="stylesheet">
+    <link href="asstes/css/general.css" rel="stylesheet">
+    <link href="asstes/css/expense.css" rel="stylesheet">
+    <style>
+        .coll-first {
+            padding-right: 10px;
+        }
+    </style>
+    <script src="asstes/library/jquery-3.6.4.js"></script>
+    <script src="asstes/library/bootstrap-4.0.0/bootstrap.min.js"></script>
+    <script src="asstes/library/bootstrap-4.0.0/bootstrap.bundle.min.js"></script>
+    <script src="asstes/library/Easy-Page-Element-Loader-Plugin-with-jQuery-loader-js/jquery.loader.js"></script>
+    <script src="asstes/js/variable.js"></script>
+    <script src="asstes/js/general.js"></script>
+    <script src="asstes/js/validation-session.js"></script>
+    <script src="asstes/js/import-header-footer.js"></script>
+
+</head>
+
+<body>
+    <br>
+
+    <section class="form-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 col-md-10 col-lg-6 mx-auto">
+                    <div class="card border-0 shadow rounded">
+                        <div class="card-body p-4 p-sm-5">
+                            <h5 class="card-title text-center mb-5 font-weight-light fs-5">Calculate Expenses</h5>
+                            <div class="duration">
+                                <b>Duration : </b>
+                                <u><span id="startDate">dd-mm-yyyy</span></u> To <u><span id="endDate">dd-mm-yyyy</span></u>
+                            </div><br>
+                            <div class="total-exp-field">
+                                <b>Total Expenses : </b>
+                                <span id="total-exp">00.00</span>
+                            </div><br>
+                            <form id="formId">
+                                <fieldset class="form-group border p-3">
+                                    <!-- <legend class="w-auto px-2">Variable Expenses</legend> -->
+                                    <div class="input-group mb-3">
+                                        <div class="form-group col-md-6 coll-first">
+                                            <label for="fullPersons">Full Month Persons</label>
+                                            <input type="number" class="form-control" name="fullPersons"
+                                                id="fullPersons" value="0" disabled>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="fullPersonPerhead">Full Person Perhead</label>
+                                            <input type="number" class="form-control" name="fullPersonPerhead"
+                                                id="fullPersonPerhead" value="0" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <div class="form-group col-md-6 coll-first">
+                                            <label for="halfPersons">Half Month Persons</label>
+                                            <input type="number" class="form-control" name="halfPersons"
+                                                id="halfPersons" value="0" disabled>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="halfPersonPerhead">Half Person Perhead</label>
+                                            <input type="number" class="form-control" name="halfPersonPerhead"
+                                                id="halfPersonPerhead" value="0" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <div class="form-group col-md-6 coll-first">
+                                            <label for="vacationPersons">Persons on Vacatio</label>
+                                            <input type="number" class="form-control" name="vacationPersons"
+                                                id="vacationPersons" value="0" disabled>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="vacationPersonPerhead">Persons on Vacatio Perhead</label>
+                                            <input type="number" class="form-control" name="vacationPersonPerhead"
+                                                id="vacationPersonPerhead" value="0" disabled>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <br>
+                                <div class="d-grid">
+                                        <a class="btn btn-primary text-uppercase font-weight-bold" href="calculate-expense.html">Back</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <script>
+        $(".calculate-form-section").hide();
+    </script>
+    <script type="text/javascript" src="asstes/js/expense-api-call.js"></script>
+
+</body>
+
+</html>

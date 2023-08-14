@@ -9,13 +9,15 @@
     <link rel="icon" type="image/x-icon" href="asstes/images/favicon/favicon-icon.png">
 
     <!-- <link href="asstes/library/bootstrap-4.0.0/bootstrap.min.css" rel="stylesheet"> -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link href="asstes/library/Easy-Page-Element-Loader-Plugin-with-jQuery-loader-js/jquery.loader.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="asstes/library/Easy-Page-Element-Loader-Plugin-with-jQuery-loader-js/jquery.loader.css"
+        rel="stylesheet">
     <link href="asstes/css/style.css" rel="stylesheet">
     <link href="asstes/css/general.css" rel="stylesheet">
     <link href="asstes/css/expense.css" rel="stylesheet">
     <style>
-        .coll-first{
+        .coll-first {
             padding-right: 10px;
         }
     </style>
@@ -32,7 +34,7 @@
 
 <body>
     <br>
-    
+
     <section class="form-section">
         <div class="container">
             <div class="row">
@@ -42,42 +44,75 @@
                             <h5 class="card-title text-center mb-5 font-weight-light fs-5">Calculate Expenses</h5>
                             <form id="formId">
                                 <fieldset class="form-group border p-3">
-                                    <legend class="w-auto px-2">Type of Expenses</legend>
+                                    <legend class="w-auto px-2">Fixed Monthly Expenses</legend>
                                     <div class="input-group mb-3">
                                         <div class="form-group col-md-6 coll-first">
                                             <label for="room-rent">Room Rent</label>
-                                            <input type="number" class="form-control" name="room-rent" id="room-rent" value="10200" placeholder="Please enter full room rent" required>
+                                            <input type="number" class="form-control" name="room-rent" id="room-rent"
+                                                value="10200" placeholder="Please enter full room rent" required>
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="randhava-vala-massi">Randhava Vala Massi</label>
-                                            <input type="number" class="form-control" name="randhava-vala-massi" id="randhava-vala-massi" value="0" placeholder="Please enter amount for randhava vala massi" required>
-                                        </div> 
+                                            <input type="number" class="form-control" name="randhava-vala-massi"
+                                                id="randhava-vala-massi" value="0"
+                                                placeholder="Please enter amount for randhava vala massi" required>
+                                        </div>
                                     </div>
                                     <div class="input-group mb-3">
                                         <div class="form-group col-md-6 coll-first">
                                             <label for="safai-vala-massi">Safai Vala Massi</label>
-                                            <input type="number" class="form-control" name="safai-vala-massi" id="safai-vala-massi" value="1400" placeholder="Please enter amount for safai vala massi" required>
+                                            <input type="number" class="form-control" name="safai-vala-massi"
+                                                id="safai-vala-massi" value="1400"
+                                                placeholder="Please enter amount for safai vala massi" required>
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <label for="water-bill">Water Bill</label>
-                                            <input type="number" class="form-control" name="water-bill" id="water-bill" value="0" placeholder="Please enter amount for water bill" required>
+                                            <label for="electricity-bill">Electricity Bill</label>
+                                            <input type="number" class="form-control" name="electricity-bill"
+                                                id="electricity-bill" value="0"
+                                                placeholder="Please enter amount for Electricity Bill" required>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="other">Other</label>
-                                        <input type="number" class="form-control" name="other" id="other" value="0" placeholder="Please enter amount for the other" required>
+                                    <div class="input-group mb-3">
+                                        <div class="form-group col-12">
+                                            <label for="fixedOther">Other</label>
+                                            <input type="number" class="form-control" name="fixedOther" id="fixedOther" value="0"
+                                                placeholder="Please enter amount for the other" required>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <fieldset class="form-group border p-3">
+                                    <legend class="w-auto px-2">Variable Expenses</legend>
+                                    <div class="input-group mb-3">
+                                        <div class="form-group col-md-6 coll-first">
+                                            <label for="water-bill">Water Bill</label>
+                                            <input type="number" class="form-control" name="water-bill" id="water-bill"
+                                                value="0" placeholder="Please enter amount for water bill" required>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="VariableOther">Other</label>
+                                            <input type="number" class="form-control" name="VariableOther" id="VariableOther" value="0"
+                                                placeholder="Please enter amount for the other" required>
+                                        </div>
                                     </div>
                                 </fieldset>
                                 <div class="form-group">
-                                    <label for="persons">Persons</label>
-                                    <input type="number" class="form-control" name="persons" id="persons" value="0" placeholder="Please enter amount for the persons" required>
+                                    <label for="fullPersone">Full Month Persons</label>
+                                    <input type="number" class="form-control" name="fullPersone" id="fullPersone" value="0"
+                                        placeholder="Please enter amount for the persons" required>
+                                    <label for="halfPersone">Half Month Persons</label>
+                                    <input type="number" class="form-control" name="halfPersone" id="halfPersone" value="0"
+                                        placeholder="Please enter amount for the persons" required>
+                                    <label for="vacationPersons">Persons on Vacation</label>
+                                    <input type="number" class="form-control" name="vacationPersons" id="vacationPersons" value="0"
+                                        placeholder="Please enter amount for the persons" required>
                                     <span id="persons-error" class="error-message"></span>
                                 </div>
                                 <div class="form-group">
                                     <label for="cronExpression">From Date</label>
-                                    <input type="datetime-local" class="form-control" id="from-datetime" name="datetime">
+                                    <input type="datetime-local" class="form-control" id="from-datetime"
+                                        name="datetime">
                                     <span id="from-datetime-error" class="error-message"></span>
-                                </div>                                
+                                </div>
                                 <div class="form-group">
                                     <label for="cronExpression">To Date</label>
                                     <input type="datetime-local" class="form-control" id="to-datetime" name="datetime">
@@ -85,7 +120,8 @@
                                 </div>
                                 <br>
                                 <div class="d-grid">
-                                    <input class="btn btn-primary text-uppercase font-weight-bold" type="button" onclick="calcualteExpense()" value="Create" />
+                                    <input class="btn btn-primary text-uppercase font-weight-bold" type="button"
+                                        onclick="calcualteExpense()" value="Create" />
                                 </div>
                             </form>
                         </div>
@@ -95,7 +131,7 @@
         </div>
     </section>
     <br>
-    <section class="calculate-form-section">
+    <!-- <section class="calculate-form-section">
         <div class="container">
             <div class="row">
                 <div class="col-sm-12 col-md-10 col-lg-6 mx-auto">
@@ -103,34 +139,34 @@
                         <div class="card-body p-4 p-sm-5">
                             <h5 class="card-title text-center mb-5 font-weight-light fs-5">Calculate Expenses</h5>
                             <table class="table caption-top">
-                                
+
                                 <tbody>
-                                  <tr>
-                                    <th scope="row">Total Calculated Expenses</th>
-                                    <td id="total-exp">0</td>
-                                  </tr>
-                                  <tr>
-                                    <th scope="row">Persons</th>
-                                    <td id="total-person">0</td>
-                                  </tr>
-                                  <tr>
-                                    <th scope="row">Total Expenses Per Head</th>
-                                    <td id="total-exp-head">0</td>
-                                  </tr>
+                                    <tr>
+                                        <th scope="row">Total Calculated Expenses</th>
+                                        <td id="total-exp">0</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Persons</th>
+                                        <td id="total-person">0</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Total Expenses Per Head</th>
+                                        <td id="total-exp-head">0</td>
+                                    </tr>
                                 </tbody>
-                              </table>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-    
+    </section> -->
+
     <script>
         $(".calculate-form-section").hide();
     </script>
     <script type="text/javascript" src="asstes/js/expense-api-call.js"></script>
-    
+
 </body>
 
 </html>
