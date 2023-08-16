@@ -19,6 +19,7 @@ import java.util.List;
 @Data
 @Component
 public class RegisterUser {
+    private long id;
     @Email
     private String email;
 
