@@ -1,84 +1,90 @@
+<style>
+    .navbar-toggler:focus {
+        box-shadow: none !important;
+    }
+
+    a.navbar-brand.text-light.pr-sm-2 {
+        margin-left: 10px !important;
+        margin-right: 0px !important;
+    }
+
+    .navbar-toggler {
+        border: 2px solid #fff !important;
+        padding-top: 10px !important;
+    }
+
+    .navbar-nav {
+        padding-top: 5px !important;
+    }
+
+    .nav-link {
+        padding-left: 10px !important;
+    }
+
+    .nav-item {
+        list-style: none;
+    }
+</style>
 <section class="header-section">
-    <!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Room Management Service</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="home.html">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="expense-listing.html?type=my">My Expenses</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="expense-listing.html">Get Expenses</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="create-expense.html">Create Expense</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="logout()">Logout</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav> -->
-        <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark">
         <div class="nav-item">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01"
-                aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+            <button id="menu-btn" class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false"
+                aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
+
             </button>
             <a class="navbar-brand text-light pr-sm-2" href="#">The Room</a>
         </div>
-        <div class="collapse  navbar-collapse " id="navbarColor01">
+        <div style="margin-top: 10px !important;" class="collapse  navbar-collapse " id="navbarColor01">
             <ul class="navbar-nav">
                 <li class=" nav-item active">
                     <a class="nav-link text-light " href="home.html">Home</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      Expense
+                    <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Expense
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark">
-                      <li><a class="dropdown-item" href="create-expense.html">Create Expense</a></li>
-                      <li><a class="dropdown-item" href="expense-listing.html?type=my">My Expenses</a></li>
-                      <li><a class="dropdown-item" href="expense-listing.html">Get Expenses</a></li>
-                      <li><a class="dropdown-item" href="calculate-expense.html">Expense Calculator</a></li>
+                        <li><a class="dropdown-item" href="create-expense.html">Create Expense</a></li>
+                        <li><a class="dropdown-item" href="expense-listing.html?type=my">My Expenses</a></li>
+                        <li><a class="dropdown-item" href="expense-listing.html">Get Expenses</a></li>
+                        <li><a class="dropdown-item" href="calculate-expense.html">Expense Calculator</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      User
+                    <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        User
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark">
-                      <li><a class="dropdown-item" href="create-user.html">Create User (Not Working)</a></li>
-                      <li><a class="dropdown-item" href="user-listing.html">Get All User</a></li>
+                        <li><a class="dropdown-item" href="create-user.html">Create User (Not Working)</a></li>
+                        <li><a class="dropdown-item" href="user-listing.html">Get All User</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      Job
+                    <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Job
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark">
-                      <li><a class="dropdown-item" href="create-job.html">Create Job</a></li>
-                      <li><a class="dropdown-item" href="job-listing-fr.html">Get All Scheduled Works</a></li>
-                      <li><a class="dropdown-item" href="job-listing.html">Get Quartz Jobs</a></li>
+                        <li><a class="dropdown-item" href="create-job.html">Create Job</a></li>
+                        <li><a class="dropdown-item" href="job-listing-fr.html">Get All Scheduled Works</a></li>
+                        <li><a class="dropdown-item" href="job-listing.html">Get Quartz Jobs</a></li>
                     </ul>
                 </li>
             </ul>
         </div>
         <div class="profile-link">
             <li class="nav-item dropdown">
-                <a class="dropdown-toggle text-light" style="text-decoration: none ;" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <a class="dropdown-toggle text-light" style="text-decoration: none ;" role="button"
+                    data-bs-toggle="dropdown" aria-expanded="false">
                     <img src="asstes/images/default-profile-image.png" id="user-profile" alt="loading...">
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark profile-dropdown">
-                  <li><a class="dropdown-item" href="profile.html">My Profile</a></li>
-                  <li><a class="dropdown-item" href="#" onclick="logout()">Logout</a></li>
+                    <li><a class="dropdown-item" href="profile.html">My Profile</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="logout()">Logout</a></li>
                 </ul>
             </li>
         </div>
@@ -87,12 +93,15 @@
 
 <script>
     $(document).ready(function () {
-        var sessionUser=localStorage.getItem("session_user");
-        if(sessionUser != null){
-            var sessionUserphoto=JSON.parse(sessionUser).profilePhoto;
-            if(sessionUserphoto != null && sessionUserphoto != ""){
-                $('.dropdown-toggle img').attr('src',sessionUserphoto);
+        var sessionUser = localStorage.getItem("session_user");
+        if (sessionUser != null) {
+            var sessionUserphoto = JSON.parse(sessionUser).profilePhoto;
+            if (sessionUserphoto != null && sessionUserphoto != "") {
+                $('.dropdown-toggle img').attr('src', sessionUserphoto);
             }
         }
+    });
+    $("#menu-btn").click(function () {
+        $("#navbarColor01").toggle();
     });
 </script>

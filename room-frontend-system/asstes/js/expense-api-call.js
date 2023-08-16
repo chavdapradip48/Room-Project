@@ -26,7 +26,7 @@ function getExpenseById(type, expenseId) {
     .then(response => response.json())
     .then(result => {
       var apiData = result.data;
-      
+
       if (result.status == 200 && result.data != '') {
         $("#fullname-dropdown").val(apiData.user.id);
         $("#description").val(apiData.description);
@@ -61,7 +61,7 @@ function getExpenseAndSetUserSession(expenseId) {
       "Authorization": getJwtTokenFromLocalStrorage(),
     },
   };
-  
+
   $.ajax(settings).done(function (response) {
     var sessionUser = result.data;
     if (result.status == 200 && result.data != '') {
@@ -108,15 +108,15 @@ function operations(type, id) {
 
 function getExpenses() {
   $('.card-body').loader('show');
-  var apiUrl=backendServerUrl + "/user";
-  var tokenId=decodeJwt(getJwtTokenFromLocalStrorage()).id;
-  var operationType=new URLSearchParams(window.location.search).get('type');
-  if(operationType == "my"){
-    apiUrl+= "/"+tokenId+"/expense";
+  var apiUrl = backendServerUrl + "/user";
+  var tokenId = decodeJwt(getJwtTokenFromLocalStrorage()).id;
+  var operationType = new URLSearchParams(window.location.search).get('type');
+  if (operationType == "my") {
+    apiUrl += "/" + tokenId + "/expense";
     $(".card-title").text("My Expenses")
   }
-  else{
-    apiUrl+= "/expense";
+  else {
+    apiUrl += "/expense";
   }
 
   var settings = {
@@ -132,6 +132,8 @@ function getExpenses() {
     .done(function (response) {
       if (response.status == 200 && response.data != '') {
         if (response.data.length != 0) {
+          $('#no-more-tables').show();
+          $('#loading-message').remove();
           var rows = "";
           $.each(response.data, function (i, expense) {
             var date = new Date(expense.createdAt).toLocaleDateString('en-IN', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
@@ -166,18 +168,20 @@ function getExpenses() {
       }
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
-      var errorResponse=jqXHR.responseJSON.message;
+      var errorResponse = jqXHR.responseJSON.message;
+      $('#no-more-tables').show();
+      $('#loading-message').remove();
       showToast(errorResponse, 'error');
-      $('.table').html("<div class='alert alert-danger' role='alert'>"+errorResponse+"</div>");
+      $('.table').html("<div class='alert alert-danger' role='alert'>" + errorResponse + "</div>");
       $('.card-body').loader('hide');
     });
 }
 
 function loadUsername() {
 
-  var loadUsers= window.localStorage.getItem("load-users");
+  var loadUsers = window.localStorage.getItem("load-users");
 
-  if(loadUsers !== null){
+  if (loadUsers !== null) {
     setDataDrop(JSON.parse(loadUsers));
     return;
   }
@@ -192,7 +196,7 @@ function loadUsername() {
     headers: myHeaders,
     redirect: 'follow'
   };
-  
+
   fetch(backendServerUrl + "/user?projection=Normal", requestOptions)
     .then(result => result.json())
     .then(response => {
@@ -226,19 +230,19 @@ function createExpense() {
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
   myHeaders.append("Authorization", getJwtTokenFromLocalStrorage());
-  var userDate=$("#datetime").val();
-  if(userDate !== "") {
-    userDate=new Date(userDate).toUTCString();
-  } 
-  
+  var userDate = $("#datetime").val();
+  if (userDate !== "") {
+    userDate = new Date(userDate).toUTCString();
+  }
+
   var dataForSave = {
     "paymentMode": $("#payment-mode").val(),
     "amount": $("#amount").val(),
     "description": $("#description").val(),
-    "createdAt": userDate 
+    "createdAt": userDate
   };
 
-  var editCondition=new URLSearchParams(window.location.search).get("type") == "edit";
+  var editCondition = new URLSearchParams(window.location.search).get("type") == "edit";
 
   if (editCondition) {
     apiUrl += "/" + new URLSearchParams(window.location.search).get("expenseId");
@@ -316,11 +320,16 @@ function calcualteExpense() {
         "Safai-Vala-Massi": $("#safai-vala-massi").val(),
         "Randhva-Vala-Massi": $("#randhava-vala-massi").val(),
         "Water-Bill": $("#water-bill").val(),
-        "Other": $("#other").val()
+        "Electricity-Bill": $("#electricity-bill").val(), //new added
+        "Other": $("#fixedOther").val() + $("#VariableOther").val()
       },
-      "persons": $("#persons").val(),
+      "persons": { //new added
+        "Full-Persone": $("#fullPersons").val(),
+        "Half-Persone": $("#halfPersons").val(),
+        "Vacation-Persone": $("#vacationPersons").val()
+      },
       "from": new Date($("#from-datetime").val()).toUTCString(),
-      "to": new Date($("#to-datetime").val()).toUTCString() 
+      "to": new Date($("#to-datetime").val()).toUTCString()
     }),
     redirect: 'follow'
   };
@@ -329,13 +338,21 @@ function calcualteExpense() {
     .then(response => response.json())
     .then(result => {
       if (result.status == 200 && result.data != '') {
+        window.location.href = "view-calculated-expeses.html";
         showToast(result.message, 'success');
-        $(".calculate-form-section").show();
+        // $(".form-section").hide();
+        // $(".calculate-form-section").show();
+
         $("#total-exp").text(result.data.totalAmount);
-        $("#total-person").text(result.data.persons);
-        $("#total-exp-head").text(result.data.perHeadAmount); 
-        $("#from-datetime").val("")
-        $("#to-datetime").val("")
+        // $("#fullPersons").val(result.data.persons);
+        // $("#halfPersons").val(result.data.persons);
+        // $("#vacationPersons").val(result.data.persons);
+        // $("#total-exp-head").text(result.data.perHeadAmount);
+        // $("#fullPersonPerhead").val(result.data.perHeadAmount);
+        // $("#halfPersonPerhead").val(result.data.perHeadAmount);
+        // $("#vacationPersonPerhead").val(result.data.perHeadAmount); 
+        $("#startDate").val("");
+        $("#endDate").val("");
       }
       else {
         showToast(result.message, 'error');

@@ -33,8 +33,7 @@ function deleteUser(userId) {
 }
 
 function getUserListing() {
-  $('body').loader('show');
-
+  $('#user-listing-container').loader('show');
   var settings = {
     "url": backendServerUrl + "/user?projection=NormalWithProfile",
     "method": "GET",
@@ -81,11 +80,11 @@ function getUserListing() {
           });
           $('#dynamic-user-listing').html(rows);
         }
-        $('body').loader('hide');
+        $('#user-listing-container').loader('hide');
       }
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
-      $('body').loader('hide');
+      $('#user-listing-container').loader('hide');
       errorMessageProcess(xhr);
       $('#dynamic-user-listing').html("<div class='alert alert-danger' role='alert'>"+errorResponse+"</div>");
     });

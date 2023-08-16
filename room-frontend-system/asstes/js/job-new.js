@@ -172,12 +172,15 @@ function getJobs(operationType) {
       },
       success: function(jsonResponse) {
         const jobs = jsonResponse.data;
+        $('#loading-message').remove();
+        $('#no-more-tables').show();
         setJobDataInTable(jobs,jobsContainer , operationType);
 
       },
       error: function(xhr, textStatus, errorThrown) {
         var errorResponse=xhr.responseJSON.message
         showToast(errorResponse, 'error');
+        $('#loading-message').remove();
         $('.table').html("<div class='alert alert-danger' role='alert'>"+ errorResponse +"</div>");
       }
     });
