@@ -57,6 +57,10 @@ function verifyUserToken(){
 
     var page_url = window.location.href;
     var extractedPath = page_url.split("/").slice(-1);
+    if(extractedPath.includes("?")) {
+      extractedPath.sp
+    }
+
     if (sessionCheck != true) {
         window.localStorage.removeItem("token");
         if (extractedPath != "login.html" && //false 

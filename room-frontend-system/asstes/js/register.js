@@ -5,9 +5,10 @@
 function callLRegistrationApi() {
     // $('#cover-spin').show(); // It enable spinner 
     // Below ajax use to call create user API by passing set of user fields
+
     $('body').loader('show');
     $.ajax({
-        url: backendServerUrl + "/user",
+        url: backendServerUrl + "/user/12",
         method: "POST",
         data: JSON.stringify({
             "firstName": $("#fname").val(),
