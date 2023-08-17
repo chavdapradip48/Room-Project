@@ -1,24 +1,31 @@
 package com.pradip.roommanagementsystem.service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.pradip.roommanagementsystem.dto.*;
 import com.pradip.roommanagementsystem.dto.projection.ExpenseProjection;
 import com.pradip.roommanagementsystem.dto.projection.UserCalculator;
 import com.pradip.roommanagementsystem.entity.Expense;
+import com.pradip.roommanagementsystem.entity.ExpenseCalculator;
 import com.pradip.roommanagementsystem.entity.User;
 import com.pradip.roommanagementsystem.exception.InvalidInputException;
 import com.pradip.roommanagementsystem.exception.ResourceNotFoundException;
+import com.pradip.roommanagementsystem.repository.ExpenseCalculatorRepository;
 import com.pradip.roommanagementsystem.repository.ExpenseRepository;
 import com.pradip.roommanagementsystem.repository.UserRepository;
 import com.pradip.roommanagementsystem.security.util.JwtUtils;
 import com.pradip.roommanagementsystem.util.GeneralUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.TextStyle;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -28,6 +35,9 @@ public class ExpenseService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ExpenseCalculatorRepository expenseCalculatorRepository;
 
     @Autowired
     private UserService userService;
@@ -156,17 +166,17 @@ public class ExpenseService {
         return expenseCountResponseDTO;
     }
 
-    public Object calculateExpensesAndStore(ExpenseCalculatorRequestDTO expenseCalculatorRequestDTO, boolean isStore){
+    public Object calculateExpensesAndStore(ExpenseCalculatorRequestDTO expenseCalculatorRequestDTO, boolean isStore) throws IOException {
+        ExpenseCalculatorResponseDTO expenseCalculatorResponseDTO = calculateMothlyExpenses(expenseCalculatorRequestDTO);
 
-        if (isStore) {
-            // Store in data base
-        }
+        if (isStore)
+            addExpenseCalculatorData(expenseCalculatorRequestDTO);
 
-        return calculateMothlyExpenses(expenseCalculatorRequestDTO);
+        return expenseCalculatorResponseDTO;
     }
 
 
-    public Object calculateMothlyExpenses(ExpenseCalculatorRequestDTO expenseCalculatorRequestDTO) {
+    public ExpenseCalculatorResponseDTO calculateMothlyExpenses(ExpenseCalculatorRequestDTO expenseCalculatorRequestDTO) {
 
         if (expenseCalculatorRequestDTO.getHalfPersons().isEmpty()
                 && expenseCalculatorRequestDTO.getFullPersons().isEmpty()
@@ -220,6 +230,7 @@ public class ExpenseService {
         }
 
         expenseCalculatorResponseDTO.setTo(calculationTo);
+        expenseCalculatorResponseDTO.setId(expenseCalculatorRequestDTO.getId());
         expenseCalculatorResponseDTO.setFrom(calculationFrom);
         expenseCalculatorResponseDTO.setTotalAmount((int) (totalAmount + totalVariableMonthlyExpenses + totalFixedMonthlyExpenses));
         expenseCalculatorResponseDTO.setPersons(expenseCalculatorPersonList);
@@ -244,5 +255,72 @@ public class ExpenseService {
         expenseCalculatorPersons.setTotalPayableAmount(totalCalculatedAmt - myExpInt);
 
         return expenseCalculatorPersons;
+    }
+
+    private ExpenseCalculator addExpenseCalculatorData(ExpenseCalculatorRequestDTO dto) throws IOException {
+        ExpenseCalculator expenseCalculator = new ExpenseCalculator();
+
+        expenseCalculator.setFixedMonthlyExpenses(generalUtil.parseObjectToJson(dto.getFixedMonthlyExpenses()));
+        expenseCalculator.setVariableMonthlyExpenses(generalUtil.parseObjectToJson(dto.getVariableMonthlyExpenses()));
+        expenseCalculator.setFullPersons(generalUtil.parseObjectToJson(dto.getFullPersons()));
+        expenseCalculator.setHalfPersons(generalUtil.parseObjectToJson(dto.getHalfPersons()));
+        expenseCalculator.setOnVacationPersons(generalUtil.parseObjectToJson(dto.getOnVacationPersons()));
+        expenseCalculator.setDurationFrom(dto.getFrom());
+        expenseCalculator.setDurationTo(dto.getTo());
+
+        return expenseCalculatorRepository.save(expenseCalculator);
+    }
+
+    public List<ExpenseCalculatorResponseDTO> getAllExpenseCalculatorData() throws IOException {
+        List<ExpenseCalculator> calculatedData = expenseCalculatorRepository.findAll(Sort.by("createdAt").descending());
+
+        if(calculatedData.isEmpty())
+            throw  new EntityNotFoundException("Calculated expenses data is not found.");
+
+        List<ExpenseCalculatorResponseDTO> expenseCalculatorResponseDTOS = new ArrayList<>();
+        for (ExpenseCalculator expenseCalculator: calculatedData) {
+            expenseCalculatorResponseDTOS.add(getExpenseCalculatorEntityToDTO(expenseCalculator));
+        }
+
+        return expenseCalculatorResponseDTOS;
+    }
+
+    public ExpenseCalculatorResponseDTO getExpenseCalculatorById(long expenseCalculatorId) throws IOException {
+        Optional<ExpenseCalculator> expenseCalculator = expenseCalculatorRepository.findById(expenseCalculatorId);
+
+        if(expenseCalculator.isEmpty())
+            throw  new EntityNotFoundException("Calculated expenses data is not found.");
+
+        return getExpenseCalculatorEntityToDTO(expenseCalculator.get());
+    }
+
+    public Object deleteExpenseCalculatorById(long expenseCalculatorId) {
+
+        if(!expenseCalculatorRepository.existsById(expenseCalculatorId))
+            throw  new EntityNotFoundException("Calculated expenses data is not found.");
+
+        expenseCalculatorRepository.deleteById(expenseCalculatorId);
+        return true;
+    }
+
+    private ExpenseCalculatorResponseDTO getExpenseCalculatorEntityToDTO(ExpenseCalculator expenseCalculator) throws IOException {
+        TypeReference<List<Integer>> listTypeReference = new TypeReference<List<Integer>>() {};
+        ExpenseCalculatorRequestDTO requestDTO = new ExpenseCalculatorRequestDTO();
+
+        requestDTO.setFixedMonthlyExpenses(mapOperations(expenseCalculator.getFixedMonthlyExpenses()));
+        requestDTO.setVariableMonthlyExpenses(mapOperations(expenseCalculator.getVariableMonthlyExpenses()));
+        requestDTO.setFullPersons(generalUtil.parseJsonToObject(expenseCalculator.getFullPersons(), listTypeReference));
+        requestDTO.setHalfPersons(generalUtil.parseJsonToObject(expenseCalculator.getHalfPersons(), listTypeReference));
+        requestDTO.setOnVacationPersons(generalUtil.parseJsonToObject(expenseCalculator.getOnVacationPersons(), listTypeReference));
+        requestDTO.setFrom(expenseCalculator.getDurationFrom());
+        requestDTO.setTo(expenseCalculator.getDurationTo());
+        requestDTO.setId(expenseCalculator.getId());
+
+        return calculateMothlyExpenses(requestDTO);
+    }
+
+    private Map<String, Integer> mapOperations(String monthlyExpenses) throws IOException {
+        return generalUtil.parseJsonToObject(monthlyExpenses, new TypeReference<Map<String, String>>() {}).entrySet().stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, entry -> Integer.parseInt(entry.getValue())));
     }
 }

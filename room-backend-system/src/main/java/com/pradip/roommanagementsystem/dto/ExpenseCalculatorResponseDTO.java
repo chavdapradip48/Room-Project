@@ -10,6 +10,7 @@ import java.util.Map;
 
 @Data
 public class ExpenseCalculatorResponseDTO {
+    private Long id;
     private List<ExpenseCalculatorPersons> persons;
     private Integer totalAmount;
     @NotBlank(message = "From Must Present")

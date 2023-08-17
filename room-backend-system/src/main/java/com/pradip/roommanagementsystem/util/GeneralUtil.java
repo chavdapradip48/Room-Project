@@ -1,16 +1,16 @@
 package com.pradip.roommanagementsystem.util;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.pradip.roommanagementsystem.exception.SmtpException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.io.IOException;
 import java.util.Random;
 
 @Component
@@ -59,5 +59,11 @@ public class GeneralUtil {
         return mapper.convertValue(sourceObject, destinationObjectType);
     }
 
+    public  <T> T parseJsonToObject(String jsonString, TypeReference<T> typeReference) throws IOException {
+        return mapper.readValue(jsonString, typeReference);
+    }
 
+    public  String parseObjectToJson(Object object) throws IOException {
+        return mapper.writeValueAsString(object);
+    }
 }

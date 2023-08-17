@@ -84,12 +84,4 @@ public class ExpenseController {
                 "Dashboard data fetched successfully.", expenseService.getDashboardData(authorizationHeader))
         );
     }
-
-    @PostMapping("/expense/calculate")
-    public ResponseEntity<ApiResponse<?>> getExpenseCount(
-            @Valid @RequestBody ExpenseCalculatorRequestDTO expenseCountRequestDTO,@PathParam("isStore") boolean isStore) {
-        return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(),
-                "Calculated successfully.", expenseService.calculateExpensesAndStore(expenseCountRequestDTO, isStore))
-        );
-    }
 }
