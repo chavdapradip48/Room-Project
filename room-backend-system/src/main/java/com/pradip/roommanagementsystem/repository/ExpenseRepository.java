@@ -52,6 +52,6 @@ public interface ExpenseRepository extends JpaRepository<Expense,Long> {
 
     @Query("SELECT SUM(e.amount) FROM Expense e WHERE e.createdAt >= :fromDate " +
             "AND e.createdAt <= :toDate AND e.paymentMode IN :payments AND e.user.id = :id")
-    int sumByAmountFromToAndPaymentModeMy(@Param("fromDate") Date fromDate, @Param("toDate") Date toDate,
+    Long sumByAmountFromToAndPaymentModeMy(@Param("fromDate") Date fromDate, @Param("toDate") Date toDate,
                                            @Param("payments") List<PaymentMode> payments, @Param("id") Long id);
 }

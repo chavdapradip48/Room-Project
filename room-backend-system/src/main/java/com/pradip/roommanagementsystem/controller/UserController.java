@@ -53,7 +53,7 @@ public class UserController {
         );
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{userId}")
     public ResponseEntity<ApiResponse<Object>> updateUser(@Valid @RequestBody RegisterUser user, @PathVariable Long userId){
         user.setId(userId);
         userService.updateUser(user);

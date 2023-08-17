@@ -156,7 +156,23 @@ public class ExpenseService {
         return expenseCountResponseDTO;
     }
 
+    public Object calculateExpensesAndStore(ExpenseCalculatorRequestDTO expenseCalculatorRequestDTO, boolean isStore){
+
+        if (isStore) {
+            // Store in data base
+        }
+
+        return calculateMothlyExpenses(expenseCalculatorRequestDTO);
+    }
+
+
     public Object calculateMothlyExpenses(ExpenseCalculatorRequestDTO expenseCalculatorRequestDTO) {
+
+        if (expenseCalculatorRequestDTO.getHalfPersons().isEmpty()
+                && expenseCalculatorRequestDTO.getFullPersons().isEmpty()
+                && expenseCalculatorRequestDTO.getOnVacationPersons().isEmpty()) {
+            throw new InvalidInputException("!! Persons are not selected");
+        }
 
         Date calculationFrom = expenseCalculatorRequestDTO.getFrom();
         Date calculationTo = expenseCalculatorRequestDTO.getTo();
@@ -167,8 +183,8 @@ public class ExpenseService {
 
         // Calculate all the expenses
         long totalAmount = 0L;
-        long totalAmountDB = expenseRepository.sumByAmountFromToAndPaymentMode(calculationFrom, calculationTo, Arrays.asList(PaymentMode.PERSONAL));
-        if(totalAmountDB != 0L) totalAmount = totalAmountDB;
+        Long totalAmountDB = expenseRepository.sumByAmountFromToAndPaymentMode(calculationFrom, calculationTo, Arrays.asList(PaymentMode.PERSONAL));
+        if(totalAmountDB != null) totalAmount = totalAmountDB;
         int totalFixedMonthlyExpenses = expenseCalculatorRequestDTO.getFixedMonthlyExpenses().values().stream().mapToInt(i -> i).sum();
         int totalVariableMonthlyExpenses = expenseCalculatorRequestDTO.getVariableMonthlyExpenses().values().stream().mapToInt(i -> i).sum();;
 
@@ -214,14 +230,18 @@ public class ExpenseService {
     private ExpenseCalculatorPersons getExpenseCalculatorPersons(String personType, int person, int totalCalculatedAmt, Date from, Date to) {
         UserCalculator userCalculator = (UserCalculator) userService.getUserById((long) person, "UserCalculator");
 
-        int myExp =expenseRepository.sumByAmountFromToAndPaymentModeMy(from, to, Arrays.asList(PaymentMode.PERSONAL),userCalculator.getId());
+        Long myExp =expenseRepository.sumByAmountFromToAndPaymentModeMy(from, to, Arrays.asList(PaymentMode.PERSONAL),userCalculator.getId());
 
         ExpenseCalculatorPersons expenseCalculatorPersons = new ExpenseCalculatorPersons();
         expenseCalculatorPersons.setPerson(userCalculator);
         expenseCalculatorPersons.setTotalCalcualtedMonthlyAmount(totalCalculatedAmt);
-        expenseCalculatorPersons.setTotalMyMonthlyAmount(myExp);
-        expenseCalculatorPersons.setTotalPayableAmount(totalCalculatedAmt - myExp);
         expenseCalculatorPersons.setPersonType(personType);
+
+        if (myExp == null) myExp = 0L;
+
+        int myExpInt= Math.toIntExact(myExp);
+        expenseCalculatorPersons.setTotalMyMonthlyAmount(myExpInt);
+        expenseCalculatorPersons.setTotalPayableAmount(totalCalculatedAmt - myExpInt);
 
         return expenseCalculatorPersons;
     }

@@ -36,8 +36,6 @@ public class RegisterUser {
 
     private Address address;
 
-    private List<Role> roles;
-
     @NotBlank
     private String password;
 }

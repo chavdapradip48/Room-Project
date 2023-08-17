@@ -60,7 +60,10 @@ public class UserService {
     public List<?> getAllUsers(String projectionName) {
         List<?> allBy = null;
 
-        if (projectionName.equals("Normal")) {
+        if (projectionName == null || projectionName.isEmpty()) {
+            allBy = userRepository.findAllBy(getClassName("UserPersonal"));
+            return usersNotFound(allBy);
+        } else if (projectionName.equals("Normal")) {
             allBy = userRepository.findUsersIdFullname();
             return usersNotFound(allBy);
 
@@ -97,7 +100,7 @@ public class UserService {
             return byEmail.get();
         }
         else {
-            throw  new EntityNotFoundException("User not found.");
+            throw  new EntityNotFoundException("User is not found.");
         }
     }
     public Object getUserByEmail(String email, String projectionName) {
@@ -106,13 +109,13 @@ public class UserService {
             return byEmail.get();
         }
         else {
-            throw  new EntityNotFoundException("User not found.");
+            throw  new EntityNotFoundException("User is not found.");
         }
     }
     private Class<?> getClassName(String projectionName) {
 
         try {
-            return Class.forName(projectionPackage+""+projectionName);
+            return Class.forName(projectionPackage+projectionName);
         } catch (ClassNotFoundException e) {
             try {
                 return Class.forName(projectionPackage+"UserDTO");
@@ -169,9 +172,7 @@ public class UserService {
         existingUser.setLastName(registerUser.getLastName());
         existingUser.setMobile(registerUser.getMobile());
         existingUser.setGender(registerUser.getGender());
-
-        String profilePhoto = registerUser.getProfilePhoto();
-        if(profilePhoto != null && !profilePhoto.isEmpty())existingUser.setProfilePhoto(profilePhoto);
+        existingUser.setProfilePhoto(registerUser.getProfilePhoto());
 
         Address address = registerUser.getAddress();
         if (address != null) {
@@ -181,7 +182,6 @@ public class UserService {
 
         return util.convertObject(userRepository.save(existingUser), RegisterUser.class);
     }
-
 
     public ResponseEntity<?> authenticateUser(LoginRequest loginRequest) {
         try{
