@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Job Management</title>
   <link rel="icon" type="image/x-icon" href="asstes/images/favicon/favicon-icon.png">
-  
+
   <link href="asstes/library/bootstrap-4.0.0/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link href="asstes/library/Easy-Page-Element-Loader-Plugin-with-jQuery-loader-js/jquery.loader.css" rel="stylesheet">
   <link href="asstes/css/style.css" rel="stylesheet">
   <link href="asstes/css/general.css" rel="stylesheet">
@@ -24,6 +28,7 @@
 
   <link rel="stylesheet" href="asstes/css/job.css">
 </head>
+
 <body>
   <div class="container">
     <h1>Job Management</h1>
@@ -48,13 +53,15 @@
           <div class="col-md-6">
             <div class="form-group">
               <label for="jobClass">Job Class</label>
-              <input type="text" class="form-control" id="jobClass" name="jobClass" value="com.pradip.roommanagementsystem.dto.SimpleJob" required>
+              <input type="text" class="form-control" id="jobClass" name="jobClass"
+                value="com.pradip.roommanagementsystem.dto.SimpleJob" required>
             </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
               <label for="cronExpression">Cron Expression</label>
-              <input type="text" class="form-control" id="cronExpression" name="cronExpression" value="0 0/1 * * * ?" required>
+              <input type="text" class="form-control" id="cronExpression" name="cronExpression" value="0 0/1 * * * ?"
+                required>
             </div>
           </div>
         </div>
@@ -80,8 +87,8 @@
           </div>
         </div>
       </div>
-            
-      
+
+
       <button type="submit" class="btn btn-primary" id="job-submit">Create Job</button>
     </form>
     <h2>Job Listing</h2>
@@ -105,4 +112,5 @@
   </div>
   <script src="asstes/js/job.js"></script>
 </body>
+
 </html>

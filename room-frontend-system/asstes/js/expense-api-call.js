@@ -7,6 +7,7 @@ function operationsCheck() {
   var expenseId = queryParams.get('expenseId');
   if (type != null && type != "") {
     if (expenseId != null && expenseId != "") {
+      
       getExpenseById(type, expenseId);
     }
   }

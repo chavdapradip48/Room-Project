@@ -2,31 +2,35 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Expenses Listing</title>
-    <link rel="icon" type="image/x-icon" href="asstes/images/favicon/favicon-icon.png">
-    
-    <link href="asstes/library/bootstrap-4.0.0/bootstrap.min.css" rel="stylesheet">
-    <link href="asstes/library/Easy-Page-Element-Loader-Plugin-with-jQuery-loader-js/jquery.loader.css" rel="stylesheet">
-    <link href="asstes/css/style.css" rel="stylesheet">
-    <link href="asstes/css/general.css" rel="stylesheet">
-    <link href="asstes/css/expense.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expenses Listing</title>
+  <link rel="icon" type="image/x-icon" href="asstes/images/favicon/favicon-icon.png">
 
-    <script src="asstes/library/jquery-3.6.4.js"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
-    <script src="asstes/library/bootstrap-4.0.0/bootstrap.min.js"></script>
-    <script src="asstes/library/bootstrap-4.0.0/bootstrap.bundle.min.js"></script>
-    <script src="asstes/library/Easy-Page-Element-Loader-Plugin-with-jQuery-loader-js/jquery.loader.js"></script>
-    <script src="asstes/js/variable.js"></script>
-    <script src="asstes/js/general.js"></script>
-    <script src="asstes/js/validation-session.js"></script>
-    <script src="asstes/js/import-header-footer.js"></script>
+  <link href="asstes/library/bootstrap-4.0.0/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link href="asstes/library/Easy-Page-Element-Loader-Plugin-with-jQuery-loader-js/jquery.loader.css" rel="stylesheet">
+  <link href="asstes/css/style.css" rel="stylesheet">
+  <link href="asstes/css/general.css" rel="stylesheet">
+  <link href="asstes/css/expense.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+
+  <script src="asstes/library/jquery-3.6.4.js"></script>
+  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+  <script src="asstes/library/bootstrap-4.0.0/bootstrap.min.js"></script>
+  <script src="asstes/library/bootstrap-4.0.0/bootstrap.bundle.min.js"></script>
+  <script src="asstes/library/Easy-Page-Element-Loader-Plugin-with-jQuery-loader-js/jquery.loader.js"></script>
+  <script src="asstes/js/variable.js"></script>
+  <script src="asstes/js/general.js"></script>
+  <script src="asstes/js/validation-session.js"></script>
+  <script src="asstes/js/import-header-footer.js"></script>
 </head>
+
 <body>
-<section class="content">
+  <section class="content">
     <div class="container-fluid">
       <div class="row">
         <h2 class="text-center mt-4" id="loading-message">Loading...</h2>
@@ -35,8 +39,9 @@
         <div class="col-sm-12 col-md-12 col-lg-12 mx-auto">
           <div class="card border-0 shadow rounded-3 my-5">
             <div class="card-body p-8 p-sm-8" id="no-more-tables">
-              <br><h3 class="card-title text-center mb-5 fw-light fs-5">All Expenses</h3>
-  
+              <br>
+              <h3 class="card-title text-center mb-5 fw-light fs-5">All Expenses</h3>
+
               <table class="table table-bordered table-striped table-hover" id="user-table">
                 <thead class="bg-primary">
                   <tr>
@@ -64,9 +69,10 @@
       getExpenses();
     });
   </script>
-  <script type = "text/javascript" src="asstes/js/expense-api-call.js"></script>
-<script>
+  <script type="text/javascript" src="asstes/js/expense-api-call.js"></script>
+  <script>
 
-</script> 
+  </script>
 </body>
+
 </html>
