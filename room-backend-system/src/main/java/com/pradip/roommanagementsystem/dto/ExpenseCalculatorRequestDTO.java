@@ -1,14 +1,10 @@
 package com.pradip.roommanagementsystem.dto;
 
 
-import com.pradip.roommanagementsystem.entity.User;
 import lombok.Data;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
 
 import javax.validation.constraints.NotBlank;
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 

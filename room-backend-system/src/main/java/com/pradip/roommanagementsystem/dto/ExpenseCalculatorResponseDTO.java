@@ -1,14 +1,17 @@
 package com.pradip.roommanagementsystem.dto;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ExpenseCalculatorResponseDTO {
     private Long id;
     private List<ExpenseCalculatorPersons> persons;
