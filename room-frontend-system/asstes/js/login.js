@@ -1,4 +1,13 @@
+// import "../library/jquery-3.6.4";
+// import "../library/Easy-Page-Element-Loader-Plugin-with-jQuery-loader-js/jquery.loader.js";
+// import "../js/variable.js";
+// import "../js/general.js";
+// import "../js/validation-session.js";
+// import "../js/validation.js";
+
+
 $(document).ready(function () {
+
   function callLoginApi() {
     authenticateAndSetUserSession($("#email").val(), $("#password").val());
   }
