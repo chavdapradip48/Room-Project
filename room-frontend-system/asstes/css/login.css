@@ -1,4 +1,11 @@
+@import url("../library/bootstrap-5.0.2/bootstrap.min.css");
+@import url("https://fonts.googleapis.com");
+@import url("https://fonts.gstatic.com");
+@import url("../library/font-style.css");
+@import url("../css/general.css");
+@import url("../library/Easy-Page-Element-Loader-Plugin-with-jQuery-loader-js/jquery.loader.css");
+@import url("../css/login-registration-forgot.css");
+
 .main>form {
     padding: 20px 40px;
 }
-
