@@ -60,7 +60,10 @@ public class UserService {
     public List<?> getAllUsers(String projectionName) {
         List<?> allBy = null;
 
-        if (projectionName.equals("Normal")) {
+        if (projectionName == null || projectionName.isEmpty()) {
+            allBy = userRepository.findAllBy(getClassName("UserPersonal"));
+            return usersNotFound(allBy);
+        } else if (projectionName.equals("Normal")) {
             allBy = userRepository.findUsersIdFullname();
             return usersNotFound(allBy);
 
@@ -97,7 +100,7 @@ public class UserService {
             return byEmail.get();
         }
         else {
-            throw  new EntityNotFoundException("User not found.");
+            throw  new EntityNotFoundException("User is not found.");
         }
     }
     public Object getUserByEmail(String email, String projectionName) {
@@ -106,13 +109,13 @@ public class UserService {
             return byEmail.get();
         }
         else {
-            throw  new EntityNotFoundException("User not found.");
+            throw  new EntityNotFoundException("User is not found.");
         }
     }
     private Class<?> getClassName(String projectionName) {
 
         try {
-            return Class.forName(projectionPackage+""+projectionName);
+            return Class.forName(projectionPackage+projectionName);
         } catch (ClassNotFoundException e) {
             try {
                 return Class.forName(projectionPackage+"UserDTO");
@@ -124,17 +127,19 @@ public class UserService {
 
 
     public Object deleteUserById(Long id) {
-        Optional<?> userById = userRepository.findById(id, getClassName("UserProjectionDTO"));
-        if(userById.isPresent()){
+//        Optional<?> userById = userRepository.findById(id, getClassName("UserProjectionDTO"));
+        if(userRepository.existsById(id)){
             userRepository.deleteById(id);
-            return userById.get();
+//            return userById.get();
         }
         else {
             throw  new EntityNotFoundException("User is not found.");
         }
+        return true;
     }
 
     public RegisterUser createUser(RegisterUser registerUser) {
+
         if(userRepository.existsByEmail(registerUser.getEmail()))
             throw new UserAlreadyExistlException("User already register with us.");
         User user = util.convertObject(registerUser, User.class);
@@ -152,6 +157,30 @@ public class UserService {
         user.setEnabled(true);
 
         return util.convertObject(userRepository.save(user), RegisterUser.class);
+    }
+
+    public RegisterUser updateUser(RegisterUser registerUser) {
+
+        Optional<User> existingUserOptional = userRepository.findByEmail(registerUser.getEmail());
+        if(existingUserOptional.isEmpty())
+            throw new UserAlreadyExistlException("User already register with us.");
+
+        User existingUser = existingUserOptional.get();
+
+        existingUser.setEmail(registerUser.getEmail());
+        existingUser.setFirstName(registerUser.getFirstName());
+        existingUser.setLastName(registerUser.getLastName());
+        existingUser.setMobile(registerUser.getMobile());
+        existingUser.setGender(registerUser.getGender());
+        existingUser.setProfilePhoto(registerUser.getProfilePhoto());
+
+        Address address = registerUser.getAddress();
+        if (address != null) {
+            address.setUser(existingUser);
+            existingUser.setAddress(address);
+        }
+
+        return util.convertObject(userRepository.save(existingUser), RegisterUser.class);
     }
 
     public ResponseEntity<?> authenticateUser(LoginRequest loginRequest) {

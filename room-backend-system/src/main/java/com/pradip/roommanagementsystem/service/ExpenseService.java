@@ -1,18 +1,18 @@
 package com.pradip.roommanagementsystem.service;
 
-import com.pradip.roommanagementsystem.dto.*;
+import com.pradip.roommanagementsystem.dto.DashboardDTO;
+import com.pradip.roommanagementsystem.dto.ExpenseDTO;
 import com.pradip.roommanagementsystem.dto.projection.ExpenseProjection;
 import com.pradip.roommanagementsystem.entity.Expense;
 import com.pradip.roommanagementsystem.entity.User;
-import com.pradip.roommanagementsystem.exception.InvalidInputException;
 import com.pradip.roommanagementsystem.exception.ResourceNotFoundException;
+import com.pradip.roommanagementsystem.repository.ExpenseCalculatorRepository;
 import com.pradip.roommanagementsystem.repository.ExpenseRepository;
 import com.pradip.roommanagementsystem.repository.UserRepository;
 import com.pradip.roommanagementsystem.security.util.JwtUtils;
 import com.pradip.roommanagementsystem.util.GeneralUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Lookup;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -29,6 +29,12 @@ public class ExpenseService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private ExpenseCalculatorRepository expenseCalculatorRepository;
+
+    @Autowired
+    private UserService userService;
+    
     @Autowired
     private GeneralUtil generalUtil;
 
@@ -128,28 +134,5 @@ public class ExpenseService {
         if (previousExp.equals(0L)) return 100.0F;
 
         return (float) (((double)(currentExp - previousExp)) / previousExp * 100);
-    }
-
-    public ExpenseCountResponseDTO countExpenses(ExpenseCountRequestDTO expenseCountRequestDTO) {
-
-        if (expenseCountRequestDTO.getFrom().compareTo(expenseCountRequestDTO.getTo()) > 0){
-            throw new InvalidInputException("Start Date must be less than end date.");
-        }
-
-        Long totalAmount = 0L;
-
-        Long totalAmountDB = expenseRepository.sumByAmountFromToAndPaymentMode(expenseCountRequestDTO.getFrom(), expenseCountRequestDTO.getTo(), Arrays.asList(PaymentMode.PERSONAL));
-
-        if(totalAmountDB != null)
-            totalAmount = totalAmountDB;
-
-        totalAmount += expenseCountRequestDTO.getExtraExpenses().values().stream().mapToInt(i -> i).sum();
-
-        ExpenseCountResponseDTO expenseCountResponseDTO = new ExpenseCountResponseDTO();
-        expenseCountResponseDTO.setTotalAmount(totalAmount);
-        expenseCountResponseDTO.setPerHeadAmount(totalAmount / expenseCountRequestDTO.getPersons());
-        expenseCountResponseDTO.setPersons(expenseCountRequestDTO.getPersons());
-
-        return expenseCountResponseDTO;
     }
 }

@@ -1,10 +1,11 @@
 package com.pradip.roommanagementsystem.util;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
+import com.pradip.roommanagementsystem.exception.DataParseException;
 import com.pradip.roommanagementsystem.exception.SmtpException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
@@ -59,5 +60,19 @@ public class GeneralUtil {
         return mapper.convertValue(sourceObject, destinationObjectType);
     }
 
+    public  <T> T parseJsonToObject(String jsonString, TypeReference<T> typeReference) {
+        try {
+            return mapper.readValue(jsonString, typeReference);
+        } catch (JsonProcessingException e) {
+            throw new DataParseException("Json Parsing exception accured");
+        }
+    }
 
+    public  String parseObjectToJson(Object object) {
+        try {
+            return mapper.writeValueAsString(object);
+        } catch (JsonProcessingException e) {
+            throw new DataParseException("Json Parsing exception accured");
+        }
+    }
 }

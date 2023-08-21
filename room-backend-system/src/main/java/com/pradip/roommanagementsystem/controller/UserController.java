@@ -47,22 +47,26 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<ApiResponse<RegisterUser>> createUser(@Valid @RequestBody RegisterUser user){
+        userService.createUser(user);
         return ResponseEntity.ok(new ApiResponse<RegisterUser>(HttpStatus.OK.value(),
-                "User saved successfully.",userService.createUser(user))
+                "User saved successfully.",null)
         );
     }
 
-    @PutMapping
-    public ResponseEntity<ApiResponse<RegisterUser>> updateUser(@Valid @RequestBody RegisterUser user){
-        return ResponseEntity.ok(new ApiResponse<RegisterUser>(HttpStatus.OK.value(),
-                "User updated successfully.",userService.createUser(user))
+    @PutMapping("/{userId}")
+    public ResponseEntity<ApiResponse<Object>> updateUser(@Valid @RequestBody RegisterUser user, @PathVariable Long userId){
+        user.setId(userId);
+        userService.updateUser(user);
+        return ResponseEntity.ok(new ApiResponse<Object>(HttpStatus.OK.value(),
+                "User updated successfully.",null)
         );
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<Object>> deleteUser(@PathVariable Long id) {
+        userService.deleteUserById(id);
         return ResponseEntity.ok(new ApiResponse<Object>(HttpStatus.OK.value(),
-                "User deleted successfully.",userService.deleteUserById(id))
+                "User deleted successfully.",null)
         );
     }
 

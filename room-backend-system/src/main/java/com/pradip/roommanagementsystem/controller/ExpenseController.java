@@ -1,9 +1,6 @@
 package com.pradip.roommanagementsystem.controller;
 
-import com.pradip.roommanagementsystem.dto.ApiResponse;
-import com.pradip.roommanagementsystem.dto.ExpenseCountRequestDTO;
-import com.pradip.roommanagementsystem.dto.ExpenseDTO;
-import com.pradip.roommanagementsystem.dto.UserExpenseDTO;
+import com.pradip.roommanagementsystem.dto.*;
 import com.pradip.roommanagementsystem.dto.projection.ExpenseProjection;
 import com.pradip.roommanagementsystem.entity.Expense;
 import com.pradip.roommanagementsystem.service.ExpenseService;
@@ -16,6 +13,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RestController
@@ -84,13 +82,6 @@ public class ExpenseController {
     public ResponseEntity<ApiResponse<?>> getDashboardData(@RequestHeader("Authorization") String authorizationHeader) {
         return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(),
                 "Dashboard data fetched successfully.", expenseService.getDashboardData(authorizationHeader))
-        );
-    }
-
-    @PostMapping("/expense/count")
-    public ResponseEntity<ApiResponse<?>> getExpenseCount(@Valid @RequestBody ExpenseCountRequestDTO expenseCountRequestDTO) {
-        return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(),
-                "Expenses counted successfully.", expenseService.countExpenses(expenseCountRequestDTO))
         );
     }
 }

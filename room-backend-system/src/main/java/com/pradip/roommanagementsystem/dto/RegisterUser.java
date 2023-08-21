@@ -19,6 +19,7 @@ import java.util.List;
 @Data
 @Component
 public class RegisterUser {
+    private long id;
     @Email
     private String email;
 
@@ -34,8 +35,6 @@ public class RegisterUser {
     private String profilePhoto;
 
     private Address address;
-
-    private List<Role> roles;
 
     @NotBlank
     private String password;
