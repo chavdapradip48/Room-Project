@@ -5,6 +5,7 @@
 @import url("../css/general.css");
 @import url("../library/Easy-Page-Element-Loader-Plugin-with-jQuery-loader-js/jquery.loader.css");
 @import url("../css/login-registration-forgot.css");
+@import url("../library/Easy-Page-Element-Loader-Plugin-with-jQuery-loader-js/jquery.loader.css");
 
 .main>form {
     padding: 20px 40px;

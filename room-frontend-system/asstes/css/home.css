@@ -3,26 +3,9 @@
 @import url("../library/Easy-Page-Element-Loader-Plugin-with-jQuery-loader-js/jquery.loader.css");
 @import url("../css/style.css");
 @import url("../css/general.css");
+@import url("../css/expense.css");
+@import url("../library/dashboard/css/dashboard.css");
 
-
-.navbar {
-    background-color: black;
-}
-
-.navbar-nav .nav-link {
-    color: white;
-}
-
-.card-bg-color {
-    background-color: #f6f6f6;
-}
-
-.card-body {
-    height: 28rem;
-}
-
-@media (max-width: 767px) {
-    .card-body {
-        height: auto;
-    }
-}
+.body {
+    background-color: white;
+  }

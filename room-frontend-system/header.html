@@ -63,6 +63,8 @@
         width: 120px;
         height: 120px;
         border-radius: 50%;
+        border:  2px solid #000;
+        outline: 2px solid #fff;
     }
 
     .sidebar .profile .name {
@@ -71,7 +73,7 @@
 
     .sidebar .links>a {
         display: block;
-        padding: 15px 10px;
+        padding: 15px 20px;
         text-decoration: none;
         color: #f5f5f5;
         cursor: pointer;
@@ -208,17 +210,19 @@
     </script>
     <script>
         $(document).ready(function () {
-            var sessionUser = localStorage.getItem("session_user");
-            if (sessionUser != null) {
-                var sectionFullName = JSON.parse(sessionUser).fullName;
-                if (sectionFullName != null && sectionFullName != "") {
-                    $("#user-name").text(sectionFullName);
+            setTimeout(function () {
+                var sessionUser = localStorage.getItem("session_user");
+                if (sessionUser != null) {
+                    var sectionFullName = JSON.parse(sessionUser).fullName;
+                    if (sectionFullName != null && sectionFullName != "") {
+                        $("#user-name").text(sectionFullName);
+                    }
+                    var sessionUserphoto = JSON.parse(sessionUser).profilePhoto;
+                    if (sessionUserphoto != null && sessionUserphoto != "") {
+                        $("#user-profile-image").attr("src", sessionUserphoto);
+                    }
                 }
-                var sessionUserphoto = JSON.parse(sessionUser).profilePhoto;
-                if (sessionUserphoto != null && sessionUserphoto != "") {
-                    $("#user-profile-image").attr("src", sessionUserphoto);
-                }
-            }
+            }, 6000);
         });
     </script>
 </body>
