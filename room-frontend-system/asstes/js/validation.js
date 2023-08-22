@@ -274,6 +274,11 @@ function paymentAmountVlid(amount, errEle) {
         errEle.text(" user must write digits only not characters");
         nameRetn = false;
     }
+    else if (amount==0||amount=="0") {
+        errEle.css("display", "block");
+        errEle.text("invalid input");
+        nameRetn = false;
+    }
     else {
         errEle.css("display", "none");
         errEle.text("");

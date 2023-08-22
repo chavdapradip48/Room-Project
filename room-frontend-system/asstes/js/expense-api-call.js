@@ -7,7 +7,7 @@ function operationsCheck() {
   var expenseId = queryParams.get('expenseId');
   if (type != null && type != "") {
     if (expenseId != null && expenseId != "") {
-      
+
       getExpenseById(type, expenseId);
     }
   }
@@ -216,15 +216,28 @@ function loadUsername() {
 
 function setDataDrop(data) {
   const nameSelect = $('#fullname-dropdown');
+  var current_user = JSON.parse(localStorage.getItem("session_user"));
   data.forEach(user => {
-    const row = `
-          <option value='${user.id}'>${user.fullName}</option>
-      `;
-    nameSelect.append(row);
+    if (user.id == current_user.id) {
+      const row = `
+      <option value='${user.id}' selected>${user.fullName}</option> `;
+      nameSelect.append(row);
+    }
+    else {
+      const row = `
+            <option value='${user.id}'>${user.fullName}</option>
+        `;
+      nameSelect.append(row);
+    }
   });
 }
 
 function createExpense() {
+if(!addressVlid($('#description').val(), $('#description-err')) ||
+  !paymentAmountVlid($('#amount').val(), $('#amount-err'))){
+    return false;
+  }
+
   $('.card-body').loader('show');
   var methodType = 'POST';
   var apiUrl = backendServerUrl + "/user/" + $("#fullname-dropdown").val() + "/expense";
@@ -264,6 +277,7 @@ function createExpense() {
     .then(result => {
       if (result.status == 200 && result.data != '') {
         showToast(result.message, 'success');
+        window.location.href="expense-listing.html"
       }
       else {
         showToast("Expense not added", 'error');

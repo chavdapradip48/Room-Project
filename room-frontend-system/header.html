@@ -63,7 +63,7 @@
         width: 120px;
         height: 120px;
         border-radius: 50%;
-        border:  2px solid #000;
+        border: 2px solid #000;
         outline: 2px solid #fff;
     }
 
@@ -210,19 +210,17 @@
     </script>
     <script>
         $(document).ready(function () {
-            setTimeout(function () {
-                var sessionUser = localStorage.getItem("session_user");
-                if (sessionUser != null) {
-                    var sectionFullName = JSON.parse(sessionUser).fullName;
-                    if (sectionFullName != null && sectionFullName != "") {
-                        $("#user-name").text(sectionFullName);
-                    }
-                    var sessionUserphoto = JSON.parse(sessionUser).profilePhoto;
-                    if (sessionUserphoto != null && sessionUserphoto != "") {
-                        $("#user-profile-image").attr("src", sessionUserphoto);
-                    }
+            var sessionUser = localStorage.getItem("session_user");
+            if (sessionUser != null) {
+                var sectionFullName = JSON.parse(sessionUser).fullName;
+                if (sectionFullName != null && sectionFullName != "") {
+                    $("#user-name").text(sectionFullName);
                 }
-            }, 6000);
+                var sessionUserphoto = JSON.parse(sessionUser).profilePhoto;
+                if (sessionUserphoto != null && sessionUserphoto != "") {
+                    $("#user-profile-image").attr("src", sessionUserphoto);
+                }
+            }
         });
     </script>
 </body>
