@@ -1,0 +1,809 @@
+CREATE USER 'pradip'@'%' IDENTIFIED BY 'PradipAws@123';	
+GRANT ALL ON *.* to 'pradip'@'%' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+
+
+
+mysqldump -u root -p roomdb > room_backup.sql
+mysqlimport -u root -p hello room_backup.sql
+mysql -u root -p room < room_backup.sql
+
+mysqldump -h ec2-13-126-198-67.ap-south-1.compute.amazonaws.com  -u root -p room > room_prod_25_08.sql
+
+mysql -h localhost -u root -p roomdb < room_prod_25_08.sql
+
+
+
+scp -i myAmazonKey.pem phpMyAdmin-3.4.5-all-languages.tar.gz ec2-user@mec2-50-17-16-67.compute-1.amazonaws.com:~/.
+
+
+ssh -i "pradip-aws-new.pem" room_backup.sql ubuntu@ec2-16-171-35-126.eu-north-1.compute.amazonaws.com:/home/ubantu
+
+
+scp -i pradip-aws-new.pem room_backup.sql ubuntu@ec2-13-49-67-84.eu-north-1.compute.amazonaws.com:/home/ubuntu
+
+scp -i pradip-aws.pem /home/root320/Desktop/Projects/Room-Project/Backend-Server-jar/room-management-system.jar ubuntu@ec2-43-205-240-194.ap-south-1.compute.amazonaws.com:/home/ubuntu/room-server
+
+
+ssh -i "pradip-aws.pem" ubuntu@ec2-13-126-198-67.ap-south-1.compute.amazonaws.com
+
+
+scp -i pradip-aws.pem /home/root320/Desktop/Projects/Room-Project/Backend-Server-jar/room-management-system.jar ubuntu@ec2-13-126-198-67.ap-south-1.compute.amazonaws.com:/home/ubuntu/room-server
+
+
+
+scp -i pradip-aws.pem /home/root320/Desktop/Projects/Room-Project/ProdDatabaseBackup/room_20230825_113618.sql ubuntu@ec2-13-126-198-67.ap-south-1.compute.amazonaws.com:/home/ubuntu/mysql-data/
+
+
+postgres sql dump of the remote server
+
+ssh user@remote_machine "room_render_db_7c56 -U roomadmin -h dpg-cj52cv9itvpc73fpj2qg-a.oregon-postgres.render.com -C --column-inserts" \
+> backup_file_on_your_local_machine.sql
+
+
+PGPASSWORD=tdUhIEeMOnHUV8i3jUcbftWaWc748d72 psql -h dpg-cj52cv9itvpc73fpj2qg-a.oregon-postgres.render.com -U roomadmin room_render_db_7c56
+
+
+pg_dump -h dpg-cj52cv9itvpc73fpj2qg-a.oregon-postgres.render.com -U roomadmin -C room_render_db_7c56 > backup_file_on_your_local_machine.sql
+tdUhIEeMOnHUV8i3jUcbftWaWc748d72
+
+pg_dump -h 67.8.78.10 -Fc -o -U myuser mydb > mydb_backup.dump
+
+https://www.sqlines.com/online    -> to convert any db type to any like mysql to postgres
+http://www.lightbox.ca/pg2mysql.php
+
+
+ssh -i "pradip-aws.pem" ubuntu@ec2-43-205-240-194.ap-south-1.compute.amazonaws.com
+
+
+mkcert -pkcs12 192.168.0.104
+
+
+
+mysqldump -u pradip -p room -h ec2-43-205-240-194.ap-south-1.compute.amazonaws.com > room_backup.sql
+mysqlimport -u root -p hello room_backup.sql
+mysql -u root -p room < room_backup.sql
+
+
+mysql -u pradip -p room -h ec2-43-205-240-194.ap-south-1.compute.amazonaws.com < /home/root320/Desktop/room_backup_prod2.sql
+
+
+mysqldump -h ec2-13-126-198-67.ap-south-1.compute.amazonaws.com  -u root -p room > room_prod_25_08.sql
+
+mysql -u pradip -p room -h ec2-43-205-240-194.ap-south-1.compute.amazonaws.com < room_prod_25_08.sql
+
+
+#!/bin/bash
+
+# MySQL server details
+host="ec2-13-126-198-67.ap-south-1.compute.amazonaws.com"ec2-13-126-198-67.ap-south-1.compute.amazonaws.com
+port="3306"
+user="pradip"
+password="PradipAws@123"
+database="room"
+backup_dir="/home/root320/Desktop/Projects/Room-Project/ProdDatabaseBackup"
+datetime=$(date +"%Y%m%d_%H%M%S")
+backup_file="$backup_dir/${database}_${datetime}.sql"
+
+# Create backup directory if it doesn't exist
+mkdir -p "$backup_dir"
+
+# Perform the backup
+mysqldump -h "$host" -P "$port" -u "$user" -p"$password" "$database" > "$backup_file"
+
+# Check if mysqldump command was successful
+if [ $? -eq 0 ]; then
+  echo "Backup created: $backup_file"
+else
+  echo "Backup failed."
+fi
+
+
+
+mysqldump -h "ec2-13-126-198-67.ap-south-1.compute.amazonaws.com" -P "3306" -u "pradip" -p"PradipAws@123" "room" > "tttest.sql"
+mysql -u pradip -p room -h ec2-16-171-249-239.eu-north-1.compute.amazonaws.com < room_prod_25_08.sql
+mysql -u pradip -p room  < room_prod_25_08.sql
+
+scp -i pradip-aws.pem /home/root320/Desktop/Projects/Room-Project/ProdDatabaseBackup/room_20230825_113618.sql ubuntu@ec2-16-171-249-239.eu-north-1.compute.amazonaws.com:/home/ubuntu/mysql-data/
+
+
+mysqldump -h "ec2-16-171-249-239.eu-north-1.compute.amazonaws.com" -P "3306" -u "pradip" -p"PradipAws@123" "room" > "tttest.sql"
+
+
+
+/home/root320/Desktop/scripts/room-mysql-dump-to-drive.sh
+
+scp -i pradip-aws.pem /home/root320/Desktop/scripts/room-mysql-dump-to-drive.sh ubuntu@ec2-16-171-249-239.eu-north-1.compute.amazonaws.com:/home/ubuntu/mysql-data/
+
+
+
+
+
+
+
+
+
+
+scp -i pradip-aws.pem ubuntu@ec2-16-171-249-239.eu-north-1.compute.amazonaws.com
+
+{"name": "backup1.sql", "parents": ["1OAtPxmhe4i9jflYQVcom3qUdl2B6inNg"]}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Generate Auth code
+---
+https://accounts.google.com/o/oauth2/auth?client_id=475315782228-2kocg3lsa4q82mvpu2kdnvjoimou8b5j.apps.googleusercontent.com&redirect_uri=http://localhost&response_type=code&scope=https://www.googleapis.com/auth/drive&access_type=offline
+
+
+
+http://localhost/?code=4%2F0Adeu5BUezK1Aphz2FStCX-HDKidHYUuFaI-txorHp5kK1l0VyjI9QejTr_2qiT32UvkKUA&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive
+http://localhost/?code=4/0Adeu5BUEq3FDGlAkXRkT0mFzM8uPLL41_TXbz_tN1KDXa1BCB6SNgyTcOlA1TPdnSCmAeQ&scope=https://www.googleapis.com/auth/drive
+
+
+Generate Refresh Token (One Time)
+
+	curl --request POST --data "code=4%2F0Adeu5BUezK1Aphz2FStCX-HDKidHYUuFaI-txorHp5kK1l0VyjI9QejTr_2qiT32UvkKUA&client_id=475315782228-2kocg3lsa4q82mvpu2kdnvjoimou8b5j.apps.googleusercontent.com&client_secret=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&redirect_uri=http://localhost&grant_type=authorization_code" https://oauth2.googleapis.com/token
+
+	response
+	{
+	  "access_token": "ya29.a0AfB_byAT22NvRbq-za4lMNL0ltLXZm4DBf2MTHC8a621CXn4u-1hG7tVQZlPQqW9RHFTIqclg0JO9HDYHWUMY9lsCMY2oD05qzpP2TbGm1PvEltK6JfNT30QNiFaDuJNue4Q-Vjg1iZh4O8butycgRUdlBJUBDNrNu7EWgaCgYKAc4SARASFQHsvYlsei8f52BWOK2t5o8txuWdaw0173",
+	  "expires_in": 3599,
+	  "refresh_token": "1//0gd0C11C_w2amCgYIARAAGBASNwF-L9Irt0h2hnaCCBxT-kJN_Lv1HcyODeqdl71E2XM9OM091aplDPjYo2JEHlHiRedY56Dxtrk",
+	  "scope": "https://www.googleapis.com/auth/drive",
+	  "token_type": "Bearer"
+	}
+
+Generate Access Token (Always)
+
+	curl --request POST --data "client_id=475315782228-2kocg3lsa4q82mvpu2kdnvjoimou8b5j.apps.googleusercontent.com&client_secret=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&refresh_token=1//0gd0C11C_w2amCgYIARAAGBASNwF-L9Irt0h2hnaCCBxT-kJN_Lv1HcyODeqdl71E2XM9OM091aplDPjYo2JEHlHiRedY56Dxtrk&grant_type=refresh_token" https://oauth2.googleapis.com/token
+
+	response 
+	{
+	  "access_token": "ya29.a0AfB_byB4Vx_WLx-cZPANymy3i_k_jmULMISeQ85XEXPxS0f7qPlLjhZSWuSNiEk_X5YIzwwkXuL5msAkC8rVZE7YwmjmsAyYWrgirNJflG2617iLqYU28nEj2otofiyPH1AllBRk-PKIPGMiRH8UrDSEGEbpd9nN-Cx4UiPIaCgYKARESARASFQHsvYlsn5vW1HSEbtzeiFoE7iroIA0175",
+	  "expires_in": 3599,
+	  "scope": "https://www.googleapis.com/auth/drive",
+	  "token_type": "Bearer"
+	}
+
+
+
+Upload File on Google Drive (Always)
+
+	curl -X POST -L \
+	    -H "Authorization: Bearer ya29.a0AfB_byB4Vx_WLx-cZPANymy3i_k_jmULMISeQ85XEXPxS0f7qPlLjhZSWuSNiEk_X5YIzwwkXuL5msAkC8rVZE7YwmjmsAyYWrgirNJflG2617iLqYU28nEj2otofiyPH1AllBRk-PKIPGMiRH8UrDSEGEbpd9nN-Cx4UiPIaCgYKARESARASFQHsvYlsn5vW1HSEbtzeiFoE7iroIA0175" \
+	    -F "metadata={name : 'imagename.png'};type=application/json;charset=UTF-8" \
+	    -F "file=@imagename.png;type=image/png" \
+	   "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart"
+
+   response : 
+
+   {
+    "kind": "drive#file",
+    "id": "12Tg4R8oFEEVB0A9bx0Yz0KV_89S1yOxJ",
+    "name": "imagename.png",
+    "mimeType": "image/png"
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+	#!/bin/bash
+LOC="$1"
+DEG="$2"
+# HTML encode string as %20
+LOCATION=$(sed -e "s/ /%20/g" <<<"$LOC")
+content=$(curl -sS "https://thisdavej.azurewebsites.net/api/weather/current?loc=$LOCATION&deg=$DEG")
+echo $content
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+kill process by search keyword
+
+`ps aux | grep -ie npx | awk '{print "kill -9 " $2}'`
+
+nohup npx browser-sync start --server
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        server {
+                listen 80;
+                listen [::]:80;
+
+                location = /
+        		{
+        			rewrite ^/?$ /redirect.html break;
+        		}
+
+                error_page 404 403 /error.html;
+                location = /error.html {
+                        root /var/www/site1;
+                        internal;
+                }
+
+                root /var/www/site1;
+
+                # Add index.php to the list if you are using PHP
+                index index.html index.htm;
+
+                server_name site1.localhost;
+
+                location / {
+                        try_files $uri $uri/ =404;
+                }
+        }
+
+
+
+
+        server {
+                listen 90;
+                listen [::]:80;
+
+                location = /
+                {
+                        rewrite ^/?$ /login.html break;
+                }
+
+                
+
+                root /var/www/site1;
+
+                # Add index.php to the list if you are using PHP
+                index index.html index.htm;
+
+                server_name site1.localhost;
+
+                location / {
+                        try_files $uri $uri/ =404;
+                }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+sudo apt update
+sudo apt install openjdk-11-jre-headless
+sudo apt install maven
+
+# Mysql setup
+sudo apt install mysql-server
+sudo mysql
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '123';
+exit
+
+mysql -u root -p
+CREATE USER 'pradip'@'%' IDENTIFIED BY 'PradipAws@123';	
+GRANT ALL ON *.* to 'pradip'@'%' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+create database room;
+exit
+
+sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
+	bind-address           = 0.0.0.0
+
+sudo systemctl restart mysql
+
+
+
+git clone https://github.com/chavdapradip48/Room-Project.git
+git fetch -a
+git checkout development
+
+
+
+scp -i room-instance.pem /home/root320/Desktop/Projects/Room-Project/Backend-Server-jar/room-management-system.jar ubuntu@ec2-51-20-2-72.eu-north-1.compute.amazonaws.com:/home/ubuntu/room-server
+
+ssh -i "room-instance.pem" ubuntu@ec2-51-20-2-72.eu-north-1.compute.amazonaws.com
+
+
+sudo apt install nginx
+
+
+
+
+sudo nano /etc/systemd/system/room.service
+
+[Unit]
+Description=Your Spring Boot Application
+After=syslog.target
+
+[Service]
+User=ubuntu
+ExecStart=/usr/bin/java -jar /home/ubuntu/room-server/room-management-system.jar
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target
+
+
+sudo systemctl enable room.service 
+sudo systemctl daemon-reload
+sudo systemctl start room.service 
+sudo systemctl status room.service
+
+
+
+
+
+
+
+
+
+
+    1  java  -jar room-server/room-management-system.jar 
+    2  sudo nano /etc/systemd/system/room.service
+    3  sudo systemctl enable room.service 
+    4  sudo systemctl start room.service 
+    5  sudo systemctl status room.service 
+    6  sudo nano /etc/systemd/system/room.service
+    7  sudo systemctl restart room.service 
+    8  systemctl daemon-reload
+    9  sudo nano /etc/systemd/system/room.service
+   10  sudo systemctl daemon-reload
+   11  sudo systemctl restart room.service 
+   12  sudo systemctl status room.service 
+   13  history
+   14  cd /var/www/
+   15  ls
+   16  mkdir room-prod
+   17  sudo mkdir room-prod
+   18  sudo cp /home/ubuntu/Room-Project/room-frontend-system/* room-prod/
+   19  sudo cp -r /home/ubuntu/Room-Project/room-frontend-system/* room-prod/
+   20  cd room-prod/
+   21  ls
+   22  sudo rm index.html 
+   23  sudo nano asstes/
+   24  sudo nano asstes/js/variable.js 
+   25  cd /etc/nginx/
+   26  ls
+   27  sudo nano nginx.conf 
+   28  sudo nano sites-available/default 
+   29  sudo systemctl restart nginx.service 
+   30  sudo nano sites-available/default 
+   31  sudo systemctl restart nginx.service 
+   32  history
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+sudo apt update
+sudo apt install openjdk-11-jre-headless
+sudo apt install maven
+
+# Mysql setup
+sudo apt install mysql-server
+sudo mysql
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '123';
+exit
+
+mysql -u root -p
+CREATE USER 'pradip'@'%' IDENTIFIED BY 'PradipAws@123';	
+GRANT ALL ON *.* to 'pradip'@'%' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+create database room;
+exit
+
+sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
+	bind-address           = 0.0.0.0
+
+sudo systemctl restart mysql
+
+
+
+git clone https://github.com/chavdapradip48/Room-Project.git
+git fetch -a
+git checkout development
+
+
+
+scp -i room-instance.pem /home/root320/Desktop/Projects/Room-Project/Backend-Server-jar/room-management-system.jar ubuntu@ec2-51-20-2-72.eu-north-1.compute.amazonaws.com:/home/ubuntu/room-server
+
+ssh -i "room-instance.pem" ubuntu@ec2-51-20-2-72.eu-north-1.compute.amazonaws.com
+
+
+sudo apt install nginx
+
+
+
+
+sudo nano /etc/systemd/system/room.service
+
+[Unit]
+Description=Your Spring Boot Application
+After=syslog.target
+
+[Service]
+User=ubuntu
+ExecStart=/usr/bin/java -jar /home/ubuntu/room-server/room-management-system.jar
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target
+
+
+sudo systemctl enable room.service 
+sudo systemctl daemon-reload
+sudo systemctl start room.service 
+sudo systemctl status room.service
+
+
+
+
+
+
+
+
+
+
+    1  java  -jar room-server/room-management-system.jar 
+    2  sudo nano /etc/systemd/system/room.service
+    3  sudo systemctl enable room.service 
+    4  sudo systemctl start room.service 
+    5  sudo systemctl status room.service 
+    6  sudo nano /etc/systemd/system/room.service
+    7  sudo systemctl restart room.service 
+    8  systemctl daemon-reload
+    9  sudo nano /etc/systemd/system/room.service
+   10  sudo systemctl daemon-reload
+   11  sudo systemctl restart room.service 
+   12  sudo systemctl status room.service 
+   13  history
+   14  cd /var/www/
+   15  ls
+   16  mkdir room-prod
+   17  sudo mkdir room-prod
+   18  sudo cp /home/ubuntu/Room-Project/room-frontend-system/* room-prod/
+   19  sudo cp -r /home/ubuntu/Room-Project/room-frontend-system/* room-prod/
+   20  cd room-prod/
+   21  ls
+   22  sudo rm index.html 
+   23  sudo nano asstes/
+   24  sudo nano asstes/js/variable.js 
+   25  cd /etc/nginx/
+   26  ls
+   27  sudo nano nginx.conf 
+   28  sudo nano sites-available/default 
+   29  sudo systemctl restart nginx.service 
+   30  sudo nano sites-available/default 
+   31  sudo systemctl restart nginx.service 
+   32  history
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+java -jar -DSPRING_DATASOURCE_URL=jdbc:mysql://localhost:3306/roomdb -DSPRING_DATASOURCE_USERNAME=root -DSPRING_DATASOURCE_PASSWORD=123 myapp.jar
+
+
+java -jar your-application.jar \
+  -DSPRING_DATASOURCE_URL=jdbc:mysql://localhost:3306/roomdb \
+  -DSPRING_DATASOURCE_USERNAME=root \
+  -DSPRING_DATASOURCE_PASSWORD=123 \
+  -DJWT_SECRET=room-management-system \
+  -DJWT_EXPIRATION_MS=3600000 \
+  -DSPRING_MAIL_USERNAME=pradip.inexture@gmail.com \
+  -DSPRING_MAIL_PASSWORD=papphlduhnxgueqs 
+
+java -jar your-application.jar \
+  -DSPRING_DATASOURCE_URL=jdbc:mysql://localhost:3306/roomdb \
+  -DSPRING_DATASOURCE_USERNAME=root \
+  -DSPRING_DATASOURCE_PASSWORD=your_password \
+  -DSPRING_DATASOURCE_DRIVER=com.mysql.cj.jdbc.Driver \
+  -DSPRING_JPA_DIALECT=org.hibernate.dialect.MySQL5Dialect \
+  -DSPRING_JPA_SHOW_SQL=true \
+  -DSPRING_JPA_DDL_AUTO=update \
+  -DJWT_SECRET=room-management-system \
+  -DJWT_EXPIRATION_MS=3600000 \
+  -DSPRING_MAIL_USERNAME=pradip.inexture@gmail.com \
+  -DSPRING_MAIL_PASSWORD=your_mail_password \
+  -DSERVER_URL=http://localhost:4564 \
+  -DQUARTZ_DATASOURCE_DRIVER=com.mysql.cj.jdbc.Driver \
+  -DQUARTZ_DATASOURCE_URL=jdbc:mysql://localhost:3306/roomdb \
+  -DQUARTZ_DATASOURCE_USERNAME=root \
+  -DQUARTZ_DATASOURCE_PASSWORD=your_quartz_password \
+  -DQUARTZ_DATASOURCE_MAX_CONNECTIONS=10 \
+  -DQUARTZ_DATASOURCE_IDLE_VALIDATION_SECONDS=50 \
+  -DQUARTZ_DATASOURCE_VALIDATION_QUERY=select 0 from dual \
+  -DQUARTZ_DATASOURCE_MAX_IDLE_TIME=60
+
+
+[Unit]
+Description=Your Spring Boot Application
+After=syslog.target
+
+[Service]
+User=your-username
+ExecStart=/usr/bin/java -jar /path/to/your-application.jar \
+  -DSPRING_DATASOURCE_URL=jdbc:mysql://localhost:3306/roomdb \
+  -DSPRING_DATASOURCE_USERNAME=root \
+  -DSPRING_DATASOURCE_PASSWORD=your_password \
+  ... (add other variables here)
+
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target
+
+
+
+mvn package -DTEST=pradip.inexture@gmail.com -DURL=root
+
+
+mvn package -DTEST=root -DTEST1=123
+
+
+
+final
+
+
+mvn package -DDB_URL=jdbc:mysql://localhost:3306/roomdb -DDB_USER=root -DDB_PASS=123 -DSMTP_USERNAME=pradip.inexture@gmail.com -DSMTP_PASSWORD=papphlduhnxgueqs -DJWT_SECRET=room-management-system -DJWT_TIME_MS=3600000
+
+java -jar room-management-system.jar \
+-DSERVER_PORT=7777 \
+-DSERVER_URL=http://localhost \
+-DDB_URL=jdbc:mysql://localhost:3306/room \
+-DDB_USER=pradip \
+-DDB_PASS=PradipAws@123 \
+-DDB_DRIVER=com.mysql.cj.jdbc.Driver \
+-DDB_DIALECT=org.hibernate.dialect.MySQL5Dialect \
+-DSMTP_USERNAME=pradip.inexture@gmail.com \
+-DSMTP_PASSWORD=papphlduhnxgueqs \
+-DJWT_SECRET=room-management-system \
+-DJWT_TIME_MS=3600000
+
+mvn package \
+-DDB_URL=jdbc:mysql://localhost:3306/roomdb \
+-DDB_USER=root \
+-DDB_PASS=123 \
+-DSMTP_USERNAME=pradip.inexture@gmail.com \
+-DSMTP_PASSWORD=papphlduhnxgueqs \
+-DJWT_SECRET=room-management-system \
+-DJWT_TIME_MS=3600000
+
+
+
+
+
+
+
+
+
+
+
+
+java -jar room-management-system.jar -DSERVER_PORT=7777 -DSERVER_URL=http://localhost -DDB_URL=jdbc:mysql://localhost:3306/room -DDB_USER=pradip -DDB_PASS=PradipAws@123 -DDB_DRIVER=com.mysql.cj.jdbc.Driver -DDB_DIALECT=org.hibernate.dialect.MySQL5Dialect -DSMTP_USERNAME=pradip.inexture@gmail.com -DSMTP_PASSWORD=papphlduhnxgueqs -DJWT_SECRET=room-management-system -DJWT_TIME_MS=3600000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+server {
+        listen 8081;
+        listen [::]:8081;
+
+        root /var/www/html;
+        index index.html index.htm index.nginx-debian.html;
+
+        server_name _;
+
+        location / {
+                try_files $uri $uri/ =404;
+        }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+sudo apt update	
+sudo apt install openjdk-11-jdk-headless
+sudo apt install maven
+
+sudo apt install mysql-server
+sudo systemctl enable mysql
+sudo systemctl start mysql
+
+sudo apt install git 
+git clone "https://github.com/chavdapradip48/Room-AWS.git"
+sudo apt install nginx
+
+
+sudo apt install mysql-server
+sudo systemctl enable mysql
+sudo systemctl start mysql
+
+
+CREATE USER 'pradip'@'%' IDENTIFIED BY 'PradipAws@123';	
+GRANT ALL ON *.* to 'pradip'@'%' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+
+
+sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
+
+bind-address           = 0.0.0.0
+# skip-networking
+
+sudo systemctl restart mysql
+
+
+
+
+
+
+
+
+
+
+
+
+[Unit]
+Description=A Spring Boot Application for the Room Project
+After=syslog.target
+
+[service]
+User=ubuntu
+ExecStart=/home/ubuntu/room-server/room-management-system.jar
+
+[Install]
+WantedBy=multi-user.target
+
+systemctl start your-service-name
+
+Default@123CREATE USER 'test'@'%' IDENTIFIED BY 'test';
+GRANT ALL PRIVILEGES ON database.* TO 'test'@'%';
+FLUSH PRIVILEGES;
+
+
+CREATE USER 'test'@'%' IDENTIFIED BY 'test';
+GRANT ALL PRIVILEGES ON database.* TO 'test'@'%';
+FLUSH PRIVILEGES;
+
+
+Sometimes you might build an application and by nature, it might be important to keep it running forever. For example, a server program where downtimes are simply unacceptable or an agent that has to always run in the background without requiring any manual intervention to start, stop or restart.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
