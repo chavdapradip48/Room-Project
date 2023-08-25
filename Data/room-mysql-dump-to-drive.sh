@@ -49,6 +49,49 @@ if [ $? -eq 0 ]; then
 	# Check if upload was successful
 	if echo "$upload_response" | grep -q '"id"'; then
 	    echo "Backup uploaded to Google Drive."
+	    
+	    # Gmail SMTP server settings
+	    SMTP_SERVER="smtp.gmail.com:587"
+	    SMTP_USER="pradip.inexture@gmail.com"
+	    SMTP_PASS="papphlduhnxgueqs"
+
+	    # Admin email address
+	    ADMIN_EMAIL="chavdapradip48@gmail.com"
+
+# Email content
+	EMAIL_SUBJECT="AWS Server Alert"
+EMAIL_BODY="Hello Admin,
+
+This is an automated server alert email.
+
+File Name = ${file_name}
+
+A file has been uploaded to Google Drive on $(date +"%d-%m-%Y at %H:%M").
+
+Best regards,
+The Room"
+
+# Prepare email data
+EMAIL_DATA="From: $SMTP_USER
+To: $ADMIN_EMAIL
+Subject: $EMAIL_SUBJECT
+Content-Type: text/plain; charset=utf-8
+$EMAIL_BODY"
+
+# Send email using curl
+curl -s --url $SMTP_SERVER --ssl-reqd \
+  --mail-from "$SMTP_USER" --mail-rcpt "$ADMIN_EMAIL" \
+  --user "$SMTP_USER:$SMTP_PASS" \
+  --upload-file - <<< "$EMAIL_DATA"
+
+# Check exit status
+if [ $? -eq 0 ]; then
+  echo "Email sent successfully."
+else
+  echo "Failed to send email."
+fi
+
+	    
 	else
 	    echo "Backup upload to Google Drive failed."
 	fi
