@@ -55,7 +55,7 @@ function verifyUserToken(){
         }
     }
 
-    var page_url = window.location.href;
+    var page_url = window.location.href.split('?')[0];
     var extractedPath = page_url.split("/").slice(-1);
     if(extractedPath.includes("?")) {
       extractedPath.sp
@@ -126,7 +126,7 @@ function validateForm() {
   return isValid;  
 }
 
-function SetUserSession(userId) {
+function setUserSession(userId) {
     
       var settings = {
         "url": backendServerUrl + "/user/"+userId+"?projection=UserDTO",
@@ -140,7 +140,8 @@ function SetUserSession(userId) {
         var sessionUser = response.data;
         localStorage.setItem('session_user', JSON.stringify(sessionUser));
         if(sessionUser.profilePhoto != null) {
-            $("#user-profile").attr("src",sessionUser.profilePhoto);
+            $("#user-profile-image").attr("src",sessionUser.profilePhoto);
+            $("#user-name").text(sessionUser.fullName);
         }
       }).fail(function(xhr, status, error) {
         showToast("Error setting user session: " + error, 'error');

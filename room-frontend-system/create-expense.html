@@ -8,7 +8,7 @@
     <title>Create Expense</title>
     <link rel="icon" type="image/x-icon" href="asstes/images/favicon/favicon-icon.png">
     <link rel="stylesheet" href="asstes/css/create-expense.css">
-    
+
 
     <script src="asstes/library/jquery-3.6.4.js"></script>
     <script src="asstes/library/bootstrap-4.0.0/bootstrap.min.js"></script>
@@ -29,7 +29,16 @@
                 <div class="col-sm-12 col-md-10 col-lg-6 mx-auto">
                     <div class="card border-0 shadow rounded my-5">
                         <div class="card-body p-4 p-sm-5">
-                            <h5 class="card-title text-center mb-5 font-weight-light fs-5">Add Expense</h5>
+                            <div class="container">
+                                <div class="row mb-5 align-items-center">
+                                    <div class="col-1 align-items-center">
+                                        <i id="previous-btn" class="fa fa-angle-left fa-lg"></i>
+                                    </div>
+                                    <div class="col align-items-center">
+                                        <h5 class="card-title text-center font-weight-light fs-5">Add Expense</h5>
+                                    </div>
+                                </div>
+                            </div>
                             <form action="/user" method="POST" id="formId">
                                 <!-- <div class="form-group">
                                     <label for="username">Username</label>
@@ -39,7 +48,7 @@
                                     <label for="fullname-dropdown">Full Name</label>
                                     <select class="form-control" id="fullname-dropdown"
                                         aria-label="Default select example">
-                                        
+
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -90,7 +99,9 @@
         $(document).ready(function () {
             loadUsername();
             operationsCheck();
-
+            $('#previous-btn').click(() => {
+                history.back();
+            });
         });
     </script>
 </body>
