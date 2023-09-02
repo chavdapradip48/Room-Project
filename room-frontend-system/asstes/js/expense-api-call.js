@@ -233,8 +233,8 @@ function setDataDrop(data) {
 }
 
 function createExpense() {
-if(!addressVlid($('#description').val(), $('#description-err')) ||
-  !paymentAmountVlid($('#amount').val(), $('#amount-err'))){
+  if (!addressVlid($('#description').val(), $('#description-err')) ||
+    !paymentAmountVlid($('#amount').val(), $('#amount-err'))) {
     return false;
   }
 
@@ -277,7 +277,7 @@ if(!addressVlid($('#description').val(), $('#description-err')) ||
     .then(result => {
       if (result.status == 200 && result.data != '') {
         showToast(result.message, 'success');
-        window.location.href="expense-listing.html"
+        window.location.href = "expense-listing.html"
       }
       else {
         showToast("Expense not added", 'error');
@@ -301,73 +301,61 @@ if(!addressVlid($('#description').val(), $('#description-err')) ||
 
 function calcualteExpense() {
   $(".error-message").text("");
-  // Validate Persons
-  if ($("#persons").val() <= 0) {
-    $("#persons-error").text("Please enter a valid number of persons.");
-    return;
-  }
-
-  // Validate From Date
-  if ($("#from-datetime").val() === "") {
-    $("#from-datetime-error").text("Please select a valid From Date.");
-    return;
-  }
-
-  // Validate To Date
-  if ($("#to-datetime").val() === "") {
-    $("#to-datetime-error").text("Please select a valid To Date.");
-    return;
-  }
-
-  $('.card-body').loader('show');
-
+  // // Validate Persons
+  // if ($("#persons").val() <= 0) {
+  //   $("#persons-error").text("Please enter a valid number of persons.");
+  //   return;
+  // }
+  
+  // // Validate From Date
+  // if ($("#from-datetime").val() === "") {
+  //   $("#from-datetime-error").text("Please select a valid From Date.");
+  //   return;
+  // }
+  
+  // // Validate To Date
+  // if ($("#to-datetime").val() === "") {
+  //   $("#to-datetime-error").text("Please select a valid To Date.");
+  //   return;
+  // }
+  
+  // $('.card-body').loader('show');
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
   myHeaders.append("Authorization", getJwtTokenFromLocalStrorage());
-
-
+  
+  
   var requestOptions = {
     method: "POST",
     headers: myHeaders,
     body: JSON.stringify({
-      "extraExpenses": {
-        "Room-Rent": $("#room-rent").val(),
-        "Safai-Vala-Massi": $("#safai-vala-massi").val(),
-        "Randhva-Vala-Massi": $("#randhava-vala-massi").val(),
-        "Water-Bill": $("#water-bill").val(),
-        "Electricity-Bill": $("#electricity-bill").val(), //new added
-        "Other": $("#fixedOther").val() + $("#VariableOther").val()
-      },
-      "persons": { //new added
-        "Full-Persone": $("#fullPersons").val(),
-        "Half-Persone": $("#halfPersons").val(),
-        "Vacation-Persone": $("#vacationPersons").val()
-      },
-      "from": new Date($("#from-datetime").val()).toUTCString(),
-      "to": new Date($("#to-datetime").val()).toUTCString()
+        "fixedMonthlyExpenses" : {
+             "safai vala massi": 1400,
+             "Room Rent": 10200,
+             "Electricity Bill": 3000,
+             "Other" : 0
+        },
+        "variableMonthlyExpenses" : {
+             "Water Bill": 875,
+             "Other" : 0
+        },
+        "fullPersons" : [7, 8, 9, 10],
+        "halfPersons" : [13, 16],
+        "onVacationPersons" :[],
+        "from" : "2023-08-07T18:25:13",
+        "to" : "2023-08-16T20:18:16"
     }),
     redirect: 'follow'
   };
-
-  fetch(backendServerUrl + "/user/expense/count", requestOptions)
+  
+  fetch(backendServerUrl + "/user/expense/calculator/calculate?isStore=false", requestOptions)
     .then(response => response.json())
     .then(result => {
+      console.log(result.status == 200 && result.data != '');
       if (result.status == 200 && result.data != '') {
-        window.location.href = "view-calculated-expeses.html";
         showToast(result.message, 'success');
-        // $(".form-section").hide();
-        // $(".calculate-form-section").show();
-
-        $("#total-exp").text(result.data.totalAmount);
-        // $("#fullPersons").val(result.data.persons);
-        // $("#halfPersons").val(result.data.persons);
-        // $("#vacationPersons").val(result.data.persons);
-        // $("#total-exp-head").text(result.data.perHeadAmount);
-        // $("#fullPersonPerhead").val(result.data.perHeadAmount);
-        // $("#halfPersonPerhead").val(result.data.perHeadAmount);
-        // $("#vacationPersonPerhead").val(result.data.perHeadAmount); 
-        $("#startDate").val("");
-        $("#endDate").val("");
+        localStorage.setItem('result',result);
+        window.location.href = "view-calculated-expenses.html";
       }
       else {
         showToast(result.message, 'error');
@@ -379,3 +367,5 @@ function calcualteExpense() {
       $('.card-body').loader('hide');
     });
 }
+
+
