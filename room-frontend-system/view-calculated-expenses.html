@@ -19,6 +19,7 @@
     <link href="asstes/css/style.css" rel="stylesheet">
     <link href="asstes/css/general.css" rel="stylesheet">
     <link href="asstes/css/expense.css" rel="stylesheet">
+    <link href="asstes/css/view-calculated-expense.css" rel="stylesheet">
     <style>
         .coll-first {
             padding-right: 10px;
@@ -44,7 +45,7 @@
                 <div class="col-sm-12 col-md-10 col-lg-6 mx-auto">
                     <div class="card border-0 shadow rounded">
                         <div class="card-body p-4 p-sm-5">
-                            <h5 class="card-title text-center mb-5 font-weight-light fs-5">Calculate Expenses</h5>
+                            <h5 class="card-title text-center mb-5 font-weight-light fs-5">View Calculate Expenses</h5>
                             <div class="duration">
                                 <b>Duration : </b>
                                 <u><span id="startDate">dd-mm-yyyy</span></u> To <u><span
@@ -83,7 +84,7 @@
                                     </div>
                                     <div class="input-group mb-3">
                                         <div class="form-group col-md-6 coll-first">
-                                            <label for="vacationPersons">Persons on Vacatio</label>
+                                            <label for="vacationPersons">Persons on Vacation</label>
                                             <input type="number" class="form-control" name="vacationPersons"
                                                 id="vacationPersons" value="0" disabled>
                                         </div>
@@ -93,6 +94,22 @@
                                                 id="vacationPersonPerhead" value="0" disabled>
                                         </div>
                                     </div>
+                                </fieldset>
+                                <fieldset>
+
+                                    <table class="table my-2 text-center" id="user-table">
+                                        <thead class="bg-primary">
+                                            <tr>
+                                                <th scope="col">Persone Name</th>
+                                                <th scope="col">Calculate Per Head </th>
+                                                <th scope="col">Monthly My Expenses </th>
+                                                <th scope="col">Totle Amount </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="persone-expense-data">
+
+                                        </tbody>
+                                    </table>
                                 </fieldset>
                                 <br>
                                 <div class="d-grid">
@@ -109,7 +126,59 @@
 
 
     <script>
-        $(".calculate-form-section").hide();
+        var result = localStorage.getItem('result');
+        
+        var userCalculateExpense = "";
+        var userCalculateExpenseObject = result.data.persons;
+        var fullperson = halfperson = onvacationperson = fullPeesonPerHead = halfpersonPerHead = onvacationpersonPerHead = 0;
+        userCalculateExpenseObject.forEach(element => {
+            switch (element.personType) {
+                case "Full": fullperson++;
+                    fullPeesonPerHead += element.totalPayableAmount;
+                    break;
+                case "Half": halfperson++;
+                    halfpersonPerHead += element.totalPayableAmount;
+                    break;
+                case "OnVacation": onvacationperson++;
+                    onvacationpersonPerHead += element.totalPayableAmount;
+                    break;
+            }
+        });
+        userCalculateExpenseObject.forEach(element => {
+            userCalculateExpense += `
+                                        <tr>
+                                            <td scope="col">${element.person.fullName}</td>
+                                            <td scope="col">${element.totalCalcualtedMonthlyAmount}</td>
+                                            <td scope="col">${element.totalMyMonthlyAmount}</td>
+                                            <td scope="col">${element.totalPayableAmount}</td>
+                                        </tr>
+        `
+        });
+        console.log(result);
+        var formDate =new Date(result.data.from).toLocaleString() ;
+        var toDate =new Date(result.data.to).toLocaleString();
+        var totalExpeses = result.data.totalAmount;
+        // console.log(formDate);
+        // console.log(toDate);
+
+        // localStorage.setItem('totalCalculatedExpense', result.data.totalAmount);
+        // localStorage.setItem('userCalculateExpense', userCalculateExpense);
+        // localStorage.setItem('fullperson', fullperson);
+        // localStorage.setItem('fullPeesonPerHead', fullPeesonPerHead);
+        // localStorage.setItem('halfperson', halfperson);
+        // localStorage.setItem('halfpersonPerHead', halfpersonPerHead);
+        // localStorage.setItem('onvacationperson', onvacationperson);
+        // localStorage.setItem('onvacationpersonPerHead', onvacationpersonPerHead);
+        $("#startDate").text(formDate);
+        $("#endDate").text(toDate);
+        $("#total-exp").text(totalExpeses);
+        $("#persone-expense-data").append(userCalculateExpense);
+        $("#fullPersons").val(fullperson);
+        $("#fullPersonPerhead").val(fullPeesonPerHead);
+        $("#halfPersons").val(halfperson);
+        $("#halfPersonPerhead").val(halfpersonPerHead);
+        $("#vacationPersons").val(onvacationperson);
+        $("#vacationPersonPerhead").val(onvacationpersonPerHead);
     </script>
     <script type="text/javascript" src="asstes/js/expense-api-call.js"></script>
 

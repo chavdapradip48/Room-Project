@@ -3,7 +3,7 @@ $(document).ready(function () {
     $("body").prepend("<div id='header'></div><div id='api-responce'></div>");
     verifyUserToken();  
     if(localStorage.getItem("session_user") == null){
-        SetUserSession(decodeJwt(getJwtTokenFromLocalStrorage()).id);
+        setUserSession(decodeJwt(getJwtTokenFromLocalStrorage()).id);
     }
     // if(localStorage.getItem("visit_user") == "0"){
     //     scheduleTask();
