@@ -306,55 +306,55 @@ function calcualteExpense() {
   //   $("#persons-error").text("Please enter a valid number of persons.");
   //   return;
   // }
-  
+
   // // Validate From Date
   // if ($("#from-datetime").val() === "") {
   //   $("#from-datetime-error").text("Please select a valid From Date.");
   //   return;
   // }
-  
+
   // // Validate To Date
   // if ($("#to-datetime").val() === "") {
   //   $("#to-datetime-error").text("Please select a valid To Date.");
   //   return;
   // }
-  
+
   // $('.card-body').loader('show');
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
   myHeaders.append("Authorization", getJwtTokenFromLocalStrorage());
-  
-  
+
+
   var requestOptions = {
     method: "POST",
     headers: myHeaders,
     body: JSON.stringify({
-        "fixedMonthlyExpenses" : {
-             "safai vala massi": 1400,
-             "Room Rent": 10200,
-             "Electricity Bill": 3000,
-             "Other" : 0
-        },
-        "variableMonthlyExpenses" : {
-             "Water Bill": 875,
-             "Other" : 0
-        },
-        "fullPersons" : [7, 8, 9, 10],
-        "halfPersons" : [13, 16],
-        "onVacationPersons" :[],
-        "from" : "2023-08-07T18:25:13",
-        "to" : "2023-08-16T20:18:16"
+      "fixedMonthlyExpenses": {
+        "safai vala massi": $("#safai-vala-massi").val(),
+        "Room Rent": $("#room-rent").val(),
+        "Electricity Bill": $("#electricity-bill").val(),
+        "Other": $("#fixedOther").val()
+      },
+      "variableMonthlyExpenses": {
+        "Water Bill": $("#water-bill").val(),
+        "Other": $("#VariableOther").val()
+      },
+      "fullPersons": [7, 9, 10],
+      "halfPersons": [13, 16],
+      "onVacationPersons": [8],
+      "from": new Date($("#from-datetime").val()).toUTCString(),
+      "to": new Date($("#to-datetime").val()).toUTCString()
     }),
     redirect: 'follow'
   };
-  
+
   fetch(backendServerUrl + "/user/expense/calculator/calculate?isStore=false", requestOptions)
     .then(response => response.json())
     .then(result => {
       console.log(result.status == 200 && result.data != '');
       if (result.status == 200 && result.data != '') {
         showToast(result.message, 'success');
-        localStorage.setItem('result',result);
+        localStorage.setItem('result', result);
         window.location.href = "view-calculated-expenses.html";
       }
       else {

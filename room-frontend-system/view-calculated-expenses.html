@@ -127,7 +127,7 @@
 
     <script>
         var result = localStorage.getItem('result');
-        
+
         var userCalculateExpense = "";
         var userCalculateExpenseObject = result.data.persons;
         var fullperson = halfperson = onvacationperson = fullPeesonPerHead = halfpersonPerHead = onvacationpersonPerHead = 0;
@@ -155,20 +155,10 @@
         `
         });
         console.log(result);
-        var formDate =new Date(result.data.from).toLocaleString() ;
-        var toDate =new Date(result.data.to).toLocaleString();
+        var formDate = new Date(result.data.from).toLocaleString();
+        var toDate = new Date(result.data.to).toLocaleString();
         var totalExpeses = result.data.totalAmount;
-        // console.log(formDate);
-        // console.log(toDate);
 
-        // localStorage.setItem('totalCalculatedExpense', result.data.totalAmount);
-        // localStorage.setItem('userCalculateExpense', userCalculateExpense);
-        // localStorage.setItem('fullperson', fullperson);
-        // localStorage.setItem('fullPeesonPerHead', fullPeesonPerHead);
-        // localStorage.setItem('halfperson', halfperson);
-        // localStorage.setItem('halfpersonPerHead', halfpersonPerHead);
-        // localStorage.setItem('onvacationperson', onvacationperson);
-        // localStorage.setItem('onvacationpersonPerHead', onvacationpersonPerHead);
         $("#startDate").text(formDate);
         $("#endDate").text(toDate);
         $("#total-exp").text(totalExpeses);
