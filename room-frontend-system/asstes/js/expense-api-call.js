@@ -159,7 +159,7 @@ function getExpenses() {
           </tr>
         `;
           });
-          $('.table tbody').html(rows);
+          $('.table#user-table tbody').html(rows);
         }
         $('#user-table').DataTable({
           paging: true,
@@ -301,25 +301,25 @@ function createExpense() {
 
 function calcualteExpense() {
   $(".error-message").text("");
-  // // Validate Persons
-  // if ($("#persons").val() <= 0) {
-  //   $("#persons-error").text("Please enter a valid number of persons.");
-  //   return;
-  // }
+  // Validate Persons
+  if ($("#persons").val() <= 0) {
+    $("#persons-error").text("Please enter a valid number of persons.");
+    return;
+  }
 
-  // // Validate From Date
-  // if ($("#from-datetime").val() === "") {
-  //   $("#from-datetime-error").text("Please select a valid From Date.");
-  //   return;
-  // }
+  // Validate From Date
+  if ($("#from-datetime").val() === "") {
+    $("#from-datetime-error").text("Please select a valid From Date.");
+    return;
+  }
 
-  // // Validate To Date
-  // if ($("#to-datetime").val() === "") {
-  //   $("#to-datetime-error").text("Please select a valid To Date.");
-  //   return;
-  // }
+  // Validate To Date
+  if ($("#to-datetime").val() === "") {
+    $("#to-datetime-error").text("Please select a valid To Date.");
+    return;
+  }
 
-  // $('.card-body').loader('show');
+  $('.card-body').loader('show');
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
   myHeaders.append("Authorization", getJwtTokenFromLocalStrorage());
@@ -354,7 +354,7 @@ function calcualteExpense() {
       console.log(result.status == 200 && result.data != '');
       if (result.status == 200 && result.data != '') {
         showToast(result.message, 'success');
-        localStorage.setItem('result', result);
+        localStorage.setItem('result', JSON.stringify(result));
         window.location.href = "view-calculated-expenses.html";
       }
       else {

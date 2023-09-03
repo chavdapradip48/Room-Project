@@ -126,26 +126,35 @@
 
 
     <script>
-        var result = localStorage.getItem('result');
-
-        var userCalculateExpense = "";
-        var userCalculateExpenseObject = result.data.persons;
-        var fullperson = halfperson = onvacationperson = fullPeesonPerHead = halfpersonPerHead = onvacationpersonPerHead = 0;
-        userCalculateExpenseObject.forEach(element => {
-            switch (element.personType) {
-                case "Full": fullperson++;
-                    fullPeesonPerHead += element.totalPayableAmount;
-                    break;
-                case "Half": halfperson++;
-                    halfpersonPerHead += element.totalPayableAmount;
-                    break;
-                case "OnVacation": onvacationperson++;
-                    onvacationpersonPerHead += element.totalPayableAmount;
-                    break;
-            }
-        });
-        userCalculateExpenseObject.forEach(element => {
-            userCalculateExpense += `
+        var result = JSON.parse(localStorage.getItem('result'));
+      
+        if (result == null || result == '') {
+            showToast("Expense calculation is not done", 'error');
+            console.log("error passed");
+        }
+        else {
+           
+            showToast(result.message, 'success');
+            var userCalculateExpense = "";
+            var userCalculateExpenseObject = result.data.persons;
+            var fullperson = 0,halfperson =0, onvacationperson =0, fullPeesonPerHead = 0,halfpersonPerHead = 0,onvacationpersonPerHead = 0;
+            console.log("first step");
+            userCalculateExpenseObject.forEach(element => {
+                switch (element.personType) {
+                    case "Full": fullperson++;
+                        fullPeesonPerHead += element.totalPayableAmount;
+                        break;
+                    case "Half": halfperson++;
+                        halfpersonPerHead += element.totalPayableAmount;
+                        break;
+                    case "OnVacation": onvacationperson++;
+                        onvacationpersonPerHead += element.totalPayableAmount;
+                        break;
+                }
+            });
+            console.log("seccond step");
+            userCalculateExpenseObject.forEach(element => {
+                userCalculateExpense += `
                                         <tr>
                                             <td scope="col">${element.person.fullName}</td>
                                             <td scope="col">${element.totalCalcualtedMonthlyAmount}</td>
@@ -153,22 +162,24 @@
                                             <td scope="col">${element.totalPayableAmount}</td>
                                         </tr>
         `
-        });
-        console.log(result);
-        var formDate = new Date(result.data.from).toLocaleString();
-        var toDate = new Date(result.data.to).toLocaleString();
-        var totalExpeses = result.data.totalAmount;
-
-        $("#startDate").text(formDate);
-        $("#endDate").text(toDate);
-        $("#total-exp").text(totalExpeses);
-        $("#persone-expense-data").append(userCalculateExpense);
-        $("#fullPersons").val(fullperson);
-        $("#fullPersonPerhead").val(fullPeesonPerHead);
-        $("#halfPersons").val(halfperson);
-        $("#halfPersonPerhead").val(halfpersonPerHead);
-        $("#vacationPersons").val(onvacationperson);
-        $("#vacationPersonPerhead").val(onvacationpersonPerHead);
+            });
+            console.log("third step");
+            var formDate = new Date(result.data.from).toLocaleString();
+            var toDate = new Date(result.data.to).toLocaleString();
+            var totalExpeses = result.data.totalAmount;
+            console.log("fore step");
+            $("#startDate").text(formDate);
+            $("#endDate").text(toDate);
+            $("#total-exp").text(totalExpeses);
+            $("#persone-expense-data").append(userCalculateExpense);
+            $("#fullPersons").val(fullperson);
+            $("#fullPersonPerhead").val(fullPeesonPerHead);
+            $("#halfPersons").val(halfperson);
+            $("#halfPersonPerhead").val(halfpersonPerHead);
+            $("#vacationPersons").val(onvacationperson);
+            $("#vacationPersonPerhead").val(onvacationpersonPerHead);
+            console.log("fivth step");
+        }
     </script>
     <script type="text/javascript" src="asstes/js/expense-api-call.js"></script>
 
