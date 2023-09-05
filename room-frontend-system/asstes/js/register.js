@@ -95,23 +95,23 @@ function validateFields(stepNum) {
         var fname = $('#fname').val();
         var lname = $('#lname').val();
         var gender = $('#gender').val();
-        var profile_picture = $('#upload-profile-picture').val();
+        // var profile_picture = $('#upload-profile-picture').val();
         var fname_error = $('#fname-err');
         var lname_error = $('#lname-err');
         var gender_error = $('#gender-err');
-        var profile_picture_err = $('#profile-picture-err');
+        // var profile_picture_err = $('#profile-picture-err');
 
         var fname_retu = userVlid(fname, fname_error);
         var lname_retu = userVlid(lname, lname_error);
-        var profile_retu = profileVlid(profile_picture, profile_picture_err);
+        // var profile_retu = profileVlid(profile_picture, profile_picture_err);
         var gender_retu = genderVlid(gender, gender_error);
 
         borderErrorColor(fname_retu, $('#fname'));
         borderErrorColor(lname_retu, $('#lname'));
         borderErrorColor(gender_retu, $('#gender'));
-        borderErrorColor(profile_retu, $('#upload-profile-picture'));
+        // borderErrorColor(profile_retu, $('#upload-profile-picture'));
 
-        if (fname_retu && lname_retu && profile_retu && gender_retu) {
+        if (fname_retu && lname_retu && gender_retu) {
             return true;
         } else {
             return false;
