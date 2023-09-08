@@ -339,15 +339,17 @@ function calcualteExpense() {
         "Water Bill": $("#water-bill").val(),
         "Other": $("#VariableOther").val()
       },
-      "fullPersons": [7, 9, 10],
-      "halfPersons": [13, 16],
-      "onVacationPersons": [8],
+      "fullPersons": fullPersonSelected = fullPersonSelected.map(function (item) { return item.id; }),
+      "halfPersons": halfPersonSelected = halfPersonSelected.map(function (item) { return item.id; }),
+      "onVacationPersons": onVacationPersonSelected = onVacationPersonSelected.map(function (item) { return item.id; }),
       "from": new Date($("#from-datetime").val()).toUTCString(),
       "to": new Date($("#to-datetime").val()).toUTCString()
     }),
     redirect: 'follow'
   };
-
+  halfperson.map(function (item) {
+    return item.id;
+  })
   fetch(backendServerUrl + "/user/expense/calculator/calculate?isStore=false", requestOptions)
     .then(response => response.json())
     .then(result => {
@@ -368,4 +370,102 @@ function calcualteExpense() {
     });
 }
 
+$("#fullPersonOptions").slideUp();
+$("#halfPersonOptions").slideUp();
+$("#onVacationPersonOptions").slideUp();
+var getAllUser = window.localStorage.getItem('load-users');
+if (getAllUser == "" || getAllUser == null) {
+  loadUsername();
+  for (; getAllUser == null || getAllUser == "";) {
+    if (getAllUser != null || getAllUser != "") {
+      getAllUser = window.localStorage.getItem('load-users');
+    }
+  }
 
+}
+var obj = JSON.parse(getAllUser);
+var allPerson = obj.map(function (person) {
+  return { id: person.id, fullName: person.fullName };
+});
+
+fullPerson = halfPerson = onVacationPerson = allPerson;
+var fullPersonSelected, halfPersonSelected, onVacationPersonSelected;
+$("#selectedfullPerson").click(fullPersonLoad);
+function fullPersonLoad() {
+  $("#fullPersonOptions").empty();
+  fullPerson.forEach((e) => {
+    addOption($("#fullPersonOptions"), e)
+  });
+  $("#fullPersonOptions").slideDown();
+  $("#onVacationPersonOptions").slideUp();
+}
+
+$("#selectedhalfPerson").click(halfPersonLoad);
+function halfPersonLoad() {
+  fullPersonSelected = createSelectedPersonArray("#fullPersonOptions");
+  halfPerson = RemoveDuplicateElement(fullPersonSelected, allPerson);
+  $("#fullPersonOptions").slideUp();
+  $("#halfPersonOptions").empty();
+  halfPerson.forEach((e) => {
+    addOption($("#halfPersonOptions"), e)
+  });
+  $("#halfPersonOptions").slideDown();
+}
+$("#selectedonVacationPerson").click(onVacationPersonLoad);
+function onVacationPersonLoad() {
+  halfPersonSelected = createSelectedPersonArray("#halfPersonOptions");
+  onVacationPerson = RemoveDuplicateElement(mergeArrays(fullPersonSelected, halfPersonSelected), allPerson);
+  $("#halfPersonOptions").slideUp();
+  $("#onVacationPersonOptions").empty();
+  onVacationPerson.forEach((e) => {
+    addOption($("#onVacationPersonOptions"), e)
+  });
+  $("#onVacationPersonOptions").slideDown();
+}
+$("#from-datetime").click(() => {
+  $("#onVacationPersonOptions").slideUp();
+  onVacationPersonSelected = createSelectedPersonArray("#onVacationPersonOptions");
+});
+function RemoveDuplicateElement(fullPersonSelected, halfperson) {
+  var idsToRemove = fullPersonSelected.map(function (item) {
+    return parseInt(item.id, 10);
+  });
+  var filteredHalfPerson = halfperson.filter(function (item) {
+    return !idsToRemove.includes(item.id);
+  });
+  return filteredHalfPerson;
+}
+
+function createSelectedPersonArray(part) {
+  var selectedPersonSelected = [];
+  $(`${part} input[type="checkbox"]:checked`).each(function () {
+    var inputId = $(this).val();
+    var labelText = $(this).parent().text().trim();
+    var dataObject = { id: inputId, fullName: labelText };
+    selectedPersonSelected.push(dataObject);
+  });
+  return selectedPersonSelected;
+}
+
+function mergeArrays(arr1, arr2) {
+  const idMap = new Map();
+  arr1.forEach(item => idMap.set(item.id, item));
+  arr2.forEach(item => {
+    if (!idMap.has(item.id)) {
+      arr1.push(item);
+    }
+  });
+  return arr1;
+}
+
+function addOption(PersonOptionsDiv, data) {
+  const label = $('<label>');
+  const input = $('<input>').attr('type', 'checkbox').val(data.id);
+  const labelText = document.createTextNode(data.fullName);
+
+  label.append(input);
+  label.append(labelText);
+
+  PersonOptionsDiv.append(label);
+  PersonOptionsDiv.append('<br>');
+}

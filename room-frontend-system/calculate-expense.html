@@ -8,7 +8,7 @@
     <title>Create Expense</title>
     <link rel="icon" type="image/x-icon" href="asstes/images/favicon/favicon-icon.png">
     <link rel="stylesheet" href="asstes/css/calculate-expense.css">
-   
+
     <script src="asstes/library/jquery-3.6.4.js"></script>
     <script src="asstes/library/bootstrap-4.0.0/bootstrap.min.js"></script>
     <script src="asstes/library/bootstrap-4.0.0/bootstrap.bundle.min.js"></script>
@@ -47,12 +47,6 @@
                                         </div>
                                     </div>
                                     <div class="input-group mb-3">
-                                        <!-- <div class="form-group col-md-6 coll-first">
-                                            <label for="safai-vala-massi">Safai Vala Massi</label>
-                                            <input type="number" class="form-control" name="safai-vala-massi"
-                                                id="safai-vala-massi" value="1400"
-                                                placeholder="Please enter amount for safai vala massi" required>
-                                        </div> -->
                                         <div class="form-group col-md-6 coll-first">
                                             <label for="electricity-bill">Electricity Bill</label>
                                             <input type="number" class="form-control" name="electricity-bill"
@@ -66,7 +60,7 @@
                                         </div>
                                     </div>
                                     <div class="input-group mb-3">
-                                        
+
                                     </div>
                                 </fieldset>
                                 <fieldset class="form-group border p-3">
@@ -87,17 +81,28 @@
                                 </fieldset>
                                 <div class="form-group">
                                     <label for="fullPersone">Full Month Persons</label>
-                                    <input type="number" class="form-control" name="fullPersone" id="fullPersone"
-                                        value="0" placeholder="Please enter amount for the persons" required>
+                                    <div class="form-control form-select" id="selectedfullPerson">Please select full
+                                        person</div>
+                                    <div id="fullPersonOptions">
+                                        <!-- Options will be added here dynamically using JavaScript -->
+                                    </div>
                                     <label for="halfPersone">Half Month Persons</label>
-                                    <input type="number" class="form-control" name="halfPersone" id="halfPersone"
-                                        value="0" placeholder="Please enter amount for the persons" required>
+                                    <div class="form-control form-select" id="selectedhalfPerson">Please select half
+                                        person</div>
+                                    <div id="halfPersonOptions">
+                                        <!-- Options will be added here dynamically using JavaScript -->
+                                    </div>
                                     <label for="vacationPersons">Persons on Vacation</label>
-                                    <input type="number" class="form-control" name="vacationPersons"
-                                        id="vacationPersons" value="0" placeholder="Please enter amount for the persons"
-                                        required>
+                                    <div class="form-control form-select" id="selectedonVacationPerson">Please select
+                                        onVacation person</div>
+                                    <div id="onVacationPersonOptions">
+                                        <!-- Options will be added here dynamically using JavaScript -->
+                                    </div>
+
                                     <span id="persons-error" class="error-message"></span>
                                 </div>
+
+
                                 <div class="form-group">
                                     <label for="cronExpression">From Date</label>
                                     <input type="datetime-local" class="form-control" id="from-datetime"
@@ -123,7 +128,7 @@
     </section>
     <br>
     <script type="text/javascript" src="asstes/js/expense-api-call.js"></script>
-
+    
 </body>
 
 </html>
