@@ -318,6 +318,13 @@ function calcualteExpense() {
     $("#to-datetime-error").text("Please select a valid To Date.");
     return;
   }
+  if (fullPersonSelected==null||halfPersonSelected==null||onVacationPersonSelected==null) {
+    $("#persons-error").text("Please select person");
+      return;
+  }
+  if (fullPersonSelected.length + halfPersonSelected.length + onVacationPersonSelected.length != allPerson.length) {
+    fullPersonSelected.pop();
+  }
   fullPersonSelected = fullPersonSelected.map(function (item) {
     return item.id;
   });
@@ -327,6 +334,7 @@ function calcualteExpense() {
   onVacationPersonSelected = onVacationPersonSelected.map(function (item) {
     return item.id;
   });
+
 
   $('.card-body').loader('show');
   var myHeaders = new Headers();
@@ -356,7 +364,7 @@ function calcualteExpense() {
     }),
     redirect: 'follow'
   };
-  
+
   fetch(backendServerUrl + "/user/expense/calculator/calculate?isStore=false", requestOptions)
     .then(response => response.json())
     .then(result => {
