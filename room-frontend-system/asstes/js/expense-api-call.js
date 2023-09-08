@@ -318,6 +318,15 @@ function calcualteExpense() {
     $("#to-datetime-error").text("Please select a valid To Date.");
     return;
   }
+  fullPersonSelected = fullPersonSelected.map(function (item) {
+    return item.id;
+  });
+  halfPersonSelected = halfPersonSelected.map(function (item) {
+    return item.id;
+  });
+  onVacationPersonSelected = onVacationPersonSelected.map(function (item) {
+    return item.id;
+  });
 
   $('.card-body').loader('show');
   var myHeaders = new Headers();
@@ -339,17 +348,15 @@ function calcualteExpense() {
         "Water Bill": $("#water-bill").val(),
         "Other": $("#VariableOther").val()
       },
-      "fullPersons": fullPersonSelected = fullPersonSelected.map(function (item) { return item.id; }),
-      "halfPersons": halfPersonSelected = halfPersonSelected.map(function (item) { return item.id; }),
-      "onVacationPersons": onVacationPersonSelected = onVacationPersonSelected.map(function (item) { return item.id; }),
+      "fullPersons": fullPersonSelected,
+      "halfPersons": halfPersonSelected,
+      "onVacationPersons": onVacationPersonSelected,
       "from": new Date($("#from-datetime").val()).toUTCString(),
       "to": new Date($("#to-datetime").val()).toUTCString()
     }),
     redirect: 'follow'
   };
-  halfperson.map(function (item) {
-    return item.id;
-  })
+  
   fetch(backendServerUrl + "/user/expense/calculator/calculate?isStore=false", requestOptions)
     .then(response => response.json())
     .then(result => {
@@ -379,6 +386,7 @@ if (getAllUser == "" || getAllUser == null) {
   for (; getAllUser == null || getAllUser == "";) {
     if (getAllUser != null || getAllUser != "") {
       getAllUser = window.localStorage.getItem('load-users');
+      break;
     }
   }
 
