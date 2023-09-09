@@ -8,7 +8,6 @@
     <title>Create Expense</title>
     <link rel="icon" type="image/x-icon" href="asstes/images/favicon/favicon-icon.png">
 
-    <!-- <link href="asstes/library/bootstrap-4.0.0/bootstrap.min.css" rel="stylesheet"> -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
@@ -126,59 +125,162 @@
 
 
     <script>
-        var result = localStorage.getItem('result');
-        
-        var userCalculateExpense = "";
-        var userCalculateExpenseObject = result.data.persons;
-        var fullperson = halfperson = onvacationperson = fullPeesonPerHead = halfpersonPerHead = onvacationpersonPerHead = 0;
-        userCalculateExpenseObject.forEach(element => {
-            switch (element.personType) {
-                case "Full": fullperson++;
-                    fullPeesonPerHead += element.totalPayableAmount;
-                    break;
-                case "Half": halfperson++;
-                    halfpersonPerHead += element.totalPayableAmount;
-                    break;
-                case "OnVacation": onvacationperson++;
-                    onvacationpersonPerHead += element.totalPayableAmount;
-                    break;
+        var pageURL = window.location.href.split("?");
+        if (pageURL[1] == null || pageURL[1] == "") {
+            calculatedExpenseShow(localStorage.getItem('result'));
+        }
+        else {
+            var expenseId = pageURL[1].split('&')[0].split('=')[1];
+            var oprationType = pageURL[1].split('&')[1].split('=')[1];
+            if (oprationType == "view") {
+                viewCalaculatedExpenseById(expenseId);
             }
-        });
-        userCalculateExpenseObject.forEach(element => {
-            userCalculateExpense += `
+            else if (oprationType == 'delete') {
+                deleteCalaculatedExpenseById(expenseId);
+            }
+            else if (oprationType == "edit") {
+
+            }
+        }
+        function calculatedExpenseShow(allData) {
+            var result = JSON.parse(window.localStorage.getItem('result'));
+
+            if (result == null || result == '') {
+                showToast("Expense calculation is not done", 'error');
+                console.log("error passed");
+            }
+            else {
+                showToast(result.message, 'success');
+                var userCalculateExpense = "";
+                var userCalculateExpenseObject = result.data.persons;
+                var fullperson = 0, halfperson = 0, onvacationperson = 0, fullPeesonPerHead = 0, halfpersonPerHead = 0, onvacationpersonPerHead = 0;
+
+                userCalculateExpenseObject.forEach(element => {
+                    switch (element.personType) {
+                        case "Full": fullperson++;
+                            fullPeesonPerHead += element.totalPayableAmount;
+                            break;
+                        case "Half": halfperson++;
+                            halfpersonPerHead += element.totalPayableAmount;
+                            break;
+                        case "OnVacation": onvacationperson++;
+                            onvacationpersonPerHead += element.totalPayableAmount;
+                            break;
+                    }
+                });
+
+                userCalculateExpenseObject.forEach(element => {
+                    userCalculateExpense += `
                                         <tr>
                                             <td scope="col">${element.person.fullName}</td>
                                             <td scope="col">${element.totalCalcualtedMonthlyAmount}</td>
                                             <td scope="col">${element.totalMyMonthlyAmount}</td>
                                             <td scope="col">${element.totalPayableAmount}</td>
                                         </tr>
-        `
-        });
-        console.log(result);
-        var formDate =new Date(result.data.from).toLocaleString() ;
-        var toDate =new Date(result.data.to).toLocaleString();
-        var totalExpeses = result.data.totalAmount;
-        // console.log(formDate);
-        // console.log(toDate);
+                `
+                });
 
-        // localStorage.setItem('totalCalculatedExpense', result.data.totalAmount);
-        // localStorage.setItem('userCalculateExpense', userCalculateExpense);
-        // localStorage.setItem('fullperson', fullperson);
-        // localStorage.setItem('fullPeesonPerHead', fullPeesonPerHead);
-        // localStorage.setItem('halfperson', halfperson);
-        // localStorage.setItem('halfpersonPerHead', halfpersonPerHead);
-        // localStorage.setItem('onvacationperson', onvacationperson);
-        // localStorage.setItem('onvacationpersonPerHead', onvacationpersonPerHead);
-        $("#startDate").text(formDate);
-        $("#endDate").text(toDate);
-        $("#total-exp").text(totalExpeses);
-        $("#persone-expense-data").append(userCalculateExpense);
-        $("#fullPersons").val(fullperson);
-        $("#fullPersonPerhead").val(fullPeesonPerHead);
-        $("#halfPersons").val(halfperson);
-        $("#halfPersonPerhead").val(halfpersonPerHead);
-        $("#vacationPersons").val(onvacationperson);
-        $("#vacationPersonPerhead").val(onvacationpersonPerHead);
+                var formDate = new Date(result.data.from).toLocaleString();
+                var toDate = new Date(result.data.to).toLocaleString();
+                var totalExpeses = result.data.totalAmount;
+
+                $("#startDate").text(formDate);
+                $("#endDate").text(toDate);
+                $("#total-exp").text(totalExpeses);
+                $("#persone-expense-data").append(userCalculateExpense);
+                $("#fullPersons").val(fullperson);
+                $("#fullPersonPerhead").val(fullPeesonPerHead);
+                $("#halfPersons").val(halfperson);
+                $("#halfPersonPerhead").val(halfpersonPerHead);
+                $("#vacationPersons").val(onvacationperson);
+                $("#vacationPersonPerhead").val(onvacationpersonPerHead);
+            }
+        }
+
+        function viewCalaculatedExpenseById(id) {
+            var myHeaders = new Headers();
+            myHeaders.append("Authorization", getJwtTokenFromLocalStrorage());
+
+            var requestOptions = {
+                method: 'GET',
+                headers: myHeaders,
+            };
+
+            fetch(backendServerUrl + "/user/expense/calculator/" + id, requestOptions)
+                .then((response) => response.json())
+                .then((result) => {
+                    if (result.status == 200 && result.data != '') {
+                        showToast(result.message, 'success');
+                        var userCalculateExpense = "";
+                        var userCalculateExpenseObject = result.data.persons;
+                        var fullperson = 0, halfperson = 0, onvacationperson = 0, fullPeesonPerHead = 0, halfpersonPerHead = 0, onvacationpersonPerHead = 0;
+
+                        userCalculateExpenseObject.forEach(element => {
+                            switch (element.personType) {
+                                case "Full": fullperson++;
+                                    fullPeesonPerHead += element.totalPayableAmount;
+                                    break;
+                                case "Half": halfperson++;
+                                    halfpersonPerHead += element.totalPayableAmount;
+                                    break;
+                                case "OnVacation": onvacationperson++;
+                                    onvacationpersonPerHead += element.totalPayableAmount;
+                                    break;
+                            }
+                        });
+
+                        userCalculateExpenseObject.forEach(element => {
+                            userCalculateExpense += `
+                                        <tr>
+                                            <td scope="col">${element.person.fullName}</td>
+                                            <td scope="col">${element.totalCalcualtedMonthlyAmount}</td>
+                                            <td scope="col">${element.totalMyMonthlyAmount}</td>
+                                            <td scope="col">${element.totalPayableAmount}</td>
+                                        </tr>
+                `
+                        });
+
+                        var formDate = new Date(result.data.from).toLocaleString();
+                        var toDate = new Date(result.data.to).toLocaleString();
+                        var totalExpeses = result.data.totalAmount;
+
+                        $("#startDate").text(formDate);
+                        $("#endDate").text(toDate);
+                        $("#total-exp").text(totalExpeses);
+                        $("#persone-expense-data").append(userCalculateExpense);
+                        $("#fullPersons").val(fullperson);
+                        $("#fullPersonPerhead").val(fullPeesonPerHead);
+                        $("#halfPersons").val(halfperson);
+                        $("#halfPersonPerhead").val(halfpersonPerHead);
+                        $("#vacationPersons").val(onvacationperson);
+                        $("#vacationPersonPerhead").val(onvacationpersonPerHead);
+
+                    }
+                    else {
+                        showToast("Expense not fetch", 'error');
+                    }
+
+                })
+                .catch((error) => showToast("Expense not fetch" + error, 'error'));
+        }
+
+        function deleteCalaculatedExpenseById(id) {
+            var myHeaders = new Headers();
+            myHeaders.append("Authorization", getJwtTokenFromLocalStrorage());
+
+            var requestOptions = {
+                method: 'DELETE',
+                headers: myHeaders,
+            };
+            fetch(backendServerUrl + "/user/expense/calculator/" + id, requestOptions)
+                .then(response => response.json())
+                .then(result => {
+                    showToast("Calculate Expense Deleted", 'success')
+                    console.log(result);
+                    window.location.href = "listing-view-calculated-expense.html"
+                })
+                .catch(error => showToast("Expense not fetch" + error, 'error'));
+        }
     </script>
     <script type="text/javascript" src="asstes/js/expense-api-call.js"></script>
 

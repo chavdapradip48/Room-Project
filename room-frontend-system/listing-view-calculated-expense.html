@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculated Expenses Listing</title>
+    <link rel="icon" type="image/x-icon" href="asstes/images/favicon/favicon-icon.png">
+
+    <link rel="stylesheet" href="asstes/css/get-expense.css">
+
+    <script src="asstes/library/jquery-3.6.4.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+    <script src="asstes/library/bootstrap-4.0.0/bootstrap.min.js"></script>
+    <script src="asstes/library/bootstrap-4.0.0/bootstrap.bundle.min.js"></script>
+    <script src="asstes/library/Easy-Page-Element-Loader-Plugin-with-jQuery-loader-js/jquery.loader.js"></script>
+    <script src="asstes/js/variable.js"></script>
+    <script src="asstes/js/general.js"></script>
+    <script src="asstes/js/validation-session.js"></script>
+    <script src="asstes/js/import-header-footer.js"></script>
+</head>
+
+<body>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <h2 class="text-center mt-4" id="loading-message">Loading...</h2>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12 mx-auto">
+                    <div class="card border-0 shadow rounded-3 my-5">
+                        <div class="card-body p-8 p-sm-8" id="no-more-tables">
+                            <br>
+                            <h3 class="card-title text-center mb-5 fw-light fs-5">All Calculated Expenses</h3>
+                            <table class="table table-bordered table-striped table-hover"
+                                id="calculated-expenses-table">
+                                <thead class="bg-primary">
+                                    <tr>
+                                        <th scope="col" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">SR No</th>
+                                        <th scope="col">Person</th>
+                                        <th scope="col">Total Amount</th>
+                                        <th scope="col">From</th>
+                                        <th scope="col">To</th>
+                                        <th scope="col" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="6" class="text-center">Not Found Data</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        $(document).ready(function () {
+
+            // getExpenses();
+        });
+    </script>
+    <script type="text/javascript" src="asstes/js/expense-api-call.js"></script>
+    <script>
+        getAllCalculatedExpenses();
+        function getAllCalculatedExpenses() {
+            const headers = {
+                'Accept': '*/*',
+                'User-Agent': 'Thunder Client (http://13.126.198.67:7777)',
+                'Authorization': getJwtTokenFromLocalStrorage()
+            };
+
+            $('.card-body').loader('show');
+            fetch(backendServerUrl + '/user/expense/calculator?type=Listing', {
+                method: 'GET',
+                headers: headers
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json(); // Parse the JSON response
+                })
+                .then(data => {
+                    if (data.status == 200 && data.data != '') {
+                        var row = "", i = 1;
+
+                        data.data.forEach((e, i) => {
+                            var fromDate = new Date(e.from).toLocaleDateString('en-IN', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+                            var toDate = new Date(e.to).toLocaleDateString('en-IN', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+                            row += `
+                            <tr>
+                                <td data-title="SR NO" class="col-xs-1 col-sm-1 col-md-1 col-lg-1  ">${i + 1}
+                                </td>
+                                <td data-title="Persons">${e.totalPerson}</td>
+                                <td data-title="Toptal Amount">${e.totalAmount}</td>
+                                <td data-title="Created At">${fromDate}</td>
+                                <td data-title="Created At">${toDate}</td>
+                                <td data-title="Actions"
+                                    class="col-xs-1 col-sm-1 col-md-1 col-lg-1 text-center">
+                                    <div class="dropdown">
+                                        <img src="asstes/images/three-dots-vertical.svg"
+                                            onclick="showOptions(this,'show')" class="dropdown-toggle">
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <li><a class="dropdown-item" id="edit${e.id}row"
+                                                    onclick="expenseOperations('view',${e.id})">View</a></li>
+                                            <li><a class="dropdown-item" id="update${e.id}row"
+                                                    onclick="expenseOperations('edit',${e.id})">Update</a></li>
+                                            <li><a class="dropdown-item" id="delete${e.id}row"
+                                                    onclick="expenseOperations('delete',${e.id})">Delete</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+    `
+                        });
+                        $('#loading-message').remove();
+                        $('#no-more-tables').show();
+                        showToast("successfully loading ", 'success');
+                        $('.table#calculated-expenses-table tbody').html(row);
+                        $('.card-body').loader('hide');
+                    }
+                    else {
+
+                        showToast(data.message, 'error');
+                    }
+                })
+                .catch(error => {
+                    // Handle any errors that occurred during the fetch
+                    console.error('There was a problem with the fetch operation:', error);
+                });
+
+        }
+        // $('#no-more-tables').hide();
+        //  const data = {
+        //     "status": 200,
+        //     "message": "Calculated expenses fetched successfully.",
+        //     "data": [
+        //         {
+        //             "id": 5,
+        //             "totalPerson": 6,
+        //             "totalAmount": 17374,
+        //             "from": 1691432713000,
+        //             "to": 1692217096000
+        //         },
+        //         {
+        //             "id": 4,
+        //             "totalPerson": 6,
+        //             "totalAmount": 17374,
+        //             "from": 1691432713000,
+        //             "to": 1692217096000
+        //         },
+        //         {
+        //             "id": 3,
+        //             "totalPerson": 6,
+        //             "totalAmount": 17374,
+        //             "from": 1691432713000,
+        //             "to": 1692217096000
+        //         },
+        //         {
+        //             "id": 2,
+        //             "totalPerson": 6,
+        //             "totalAmount": 17374,
+        //             "from": 1691432713000,
+        //             "to": 1692217096000
+        //         }
+        //     ]
+        // }
+
+    </script>
+</body>
+
+</html>

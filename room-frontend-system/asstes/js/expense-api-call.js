@@ -102,7 +102,6 @@ function operations(type, id) {
         }
       })
       .catch(error => showToast("Expense not deleted", 'error'));
-
   }
   $(".dropdown-menu.show").removeClass("show");
 }
@@ -159,7 +158,7 @@ function getExpenses() {
           </tr>
         `;
           });
-          $('.table tbody').html(rows);
+          $('.table#user-table tbody').html(rows);
         }
         $('#user-table').DataTable({
           paging: true,
@@ -301,60 +300,77 @@ function createExpense() {
 
 function calcualteExpense() {
   $(".error-message").text("");
-  // // Validate Persons
-  // if ($("#persons").val() <= 0) {
-  //   $("#persons-error").text("Please enter a valid number of persons.");
+  // Validate Persons
+  if ($("#persons").val() <= 0) {
+    $("#persons-error").text("Please enter a valid number of persons.");
+    return;
+  }
+
+  // Validate From Date
+  if ($("#from-datetime").val() === "") {
+    $("#from-datetime-error").text("Please select a valid From Date.");
+    return;
+  }
+
+  // Validate To Date
+  if ($("#to-datetime").val() === "") {
+    $("#to-datetime-error").text("Please select a valid To Date.");
+    return;
+  }
+  // if (fullPersonSelected == null || halfPersonSelected == null || onVacationPersonSelected == null) {
+  //   $("#persons-error").text("Please select person");
   //   return;
   // }
-  
-  // // Validate From Date
-  // if ($("#from-datetime").val() === "") {
-  //   $("#from-datetime-error").text("Please select a valid From Date.");
-  //   return;
-  // }
-  
-  // // Validate To Date
-  // if ($("#to-datetime").val() === "") {
-  //   $("#to-datetime-error").text("Please select a valid To Date.");
-  //   return;
-  // }
-  
-  // $('.card-body').loader('show');
+  if (fullPersonSelected.length + halfPersonSelected.length + onVacationPersonSelected.length != allPerson.length) {
+    fullPersonSelected.pop();
+  }
+  fullPersonSelected = fullPersonSelected.map(function (item) {
+    return item.id;
+  });
+  halfPersonSelected = halfPersonSelected.map(function (item) {
+    return item.id;
+  });
+  onVacationPersonSelected = onVacationPersonSelected.map(function (item) {
+    return item.id;
+  });
+
+
+  $('.card-body').loader('show');
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
   myHeaders.append("Authorization", getJwtTokenFromLocalStrorage());
-  
-  
+
+
   var requestOptions = {
     method: "POST",
     headers: myHeaders,
     body: JSON.stringify({
-        "fixedMonthlyExpenses" : {
-             "safai vala massi": 1400,
-             "Room Rent": 10200,
-             "Electricity Bill": 3000,
-             "Other" : 0
-        },
-        "variableMonthlyExpenses" : {
-             "Water Bill": 875,
-             "Other" : 0
-        },
-        "fullPersons" : [7, 8, 9, 10],
-        "halfPersons" : [13, 16],
-        "onVacationPersons" :[],
-        "from" : "2023-08-07T18:25:13",
-        "to" : "2023-08-16T20:18:16"
+      "fixedMonthlyExpenses": {
+        "safai vala massi": $("#safai-vala-massi").val(),
+        "Room Rent": $("#room-rent").val(),
+        "Electricity Bill": $("#electricity-bill").val(),
+        "Other": $("#fixedOther").val()
+      },
+      "variableMonthlyExpenses": {
+        "Water Bill": $("#water-bill").val(),
+        "Other": $("#VariableOther").val()
+      },
+      "fullPersons": fullPersonSelected,
+      "halfPersons": halfPersonSelected,
+      "onVacationPersons": onVacationPersonSelected,
+      "from": new Date($("#from-datetime").val()).toUTCString(),
+      "to": new Date($("#to-datetime").val()).toUTCString()
     }),
     redirect: 'follow'
   };
-  
-  fetch(backendServerUrl + "/user/expense/calculator/calculate?isStore=false", requestOptions)
+
+  fetch(backendServerUrl + "/user/expense/calculator/calculate?isStore=true", requestOptions)
     .then(response => response.json())
     .then(result => {
       console.log(result.status == 200 && result.data != '');
       if (result.status == 200 && result.data != '') {
         showToast(result.message, 'success');
-        localStorage.setItem('result',result);
+        localStorage.setItem('result', JSON.stringify(result));
         window.location.href = "view-calculated-expenses.html";
       }
       else {
@@ -368,4 +384,115 @@ function calcualteExpense() {
     });
 }
 
+$("#fullPersonOptions").slideUp();
+$("#halfPersonOptions").slideUp();
+$("#onVacationPersonOptions").slideUp();
+var getAllUser = window.localStorage.getItem('load-users');
+if (getAllUser == "" || getAllUser == null) {
+  loadUsername();
+  for (; getAllUser == null || getAllUser == "";) {
+    if (getAllUser != null || getAllUser != "") {
+      getAllUser = window.localStorage.getItem('load-users');
+      break;
+    }
+  }
 
+}
+var obj = JSON.parse(getAllUser);
+var allPerson = obj.map(function (person) {
+  return { id: person.id, fullName: person.fullName };
+});
+
+fullPerson = halfPerson = onVacationPerson = allPerson;
+var fullPersonSelected, halfPersonSelected, onVacationPersonSelected;
+$("#selectedfullPerson").click(fullPersonLoad);
+function fullPersonLoad() {
+  $("#fullPersonOptions").empty();
+  fullPerson.forEach((e) => {
+    addOption($("#fullPersonOptions"), e)
+  });
+  $("#fullPersonOptions").slideDown();
+  $("#onVacationPersonOptions").slideUp();
+}
+
+$("#selectedhalfPerson").click(halfPersonLoad);
+function halfPersonLoad() {
+  fullPersonSelected = createSelectedPersonArray("#fullPersonOptions");
+  halfPerson = RemoveDuplicateElement(fullPersonSelected, allPerson);
+  $("#fullPersonOptions").slideUp();
+  $("#halfPersonOptions").empty();
+  halfPerson.forEach((e) => {
+    addOption($("#halfPersonOptions"), e)
+  });
+  $("#halfPersonOptions").slideDown();
+}
+$("#selectedonVacationPerson").click(onVacationPersonLoad);
+function onVacationPersonLoad() {
+  halfPersonSelected = createSelectedPersonArray("#halfPersonOptions");
+  onVacationPerson = RemoveDuplicateElement(mergeArrays(fullPersonSelected, halfPersonSelected), allPerson);
+  $("#halfPersonOptions").slideUp();
+  $("#onVacationPersonOptions").empty();
+  onVacationPerson.forEach((e) => {
+    addOption($("#onVacationPersonOptions"), e)
+  });
+  $("#onVacationPersonOptions").slideDown();
+}
+$("#from-datetime").click(() => {
+  $("#onVacationPersonOptions").slideUp();
+  onVacationPersonSelected = createSelectedPersonArray("#onVacationPersonOptions");
+});
+function RemoveDuplicateElement(fullPersonSelected, halfperson) {
+  var idsToRemove = fullPersonSelected.map(function (item) {
+    return parseInt(item.id, 10);
+  });
+  var filteredHalfPerson = halfperson.filter(function (item) {
+    return !idsToRemove.includes(item.id);
+  });
+  return filteredHalfPerson;
+}
+
+function createSelectedPersonArray(part) {
+  var selectedPersonSelected = [];
+  $(`${part} input[type="checkbox"]:checked`).each(function () {
+    var inputId = $(this).val();
+    var labelText = $(this).parent().text().trim();
+    var dataObject = { id: inputId, fullName: labelText };
+    selectedPersonSelected.push(dataObject);
+  });
+  return selectedPersonSelected;
+}
+
+function mergeArrays(arr1, arr2) {
+  const idMap = new Map();
+  arr1.forEach(item => idMap.set(item.id, item));
+  arr2.forEach(item => {
+    if (!idMap.has(item.id)) {
+      arr1.push(item);
+    }
+  });
+  return arr1;
+}
+
+function addOption(PersonOptionsDiv, data) {
+  const label = $('<label>');
+  const input = $('<input>').attr('type', 'checkbox').val(data.id);
+  const labelText = document.createTextNode(data.fullName);
+
+  label.append(input);
+  label.append(labelText);
+
+  PersonOptionsDiv.append(label);
+  PersonOptionsDiv.append('<br>');
+}
+function expenseOperations(type, id) {
+  if (type == "view") {
+    window.location.href = `view-calculated-expenses.html?calcucatedExpenseId=${id}&type=${type}`;
+  }
+  else if (type == 'delete') {
+    window.location.href = `view-calculated-expenses.html?calcucatedExpenseId=${id}&type=${type}`;
+  }
+  else if (type == "edit") {
+    window.location.href = `calculated-expenses.html?calcucatedExpenseId=${id}&type=${type}`;
+    console.log('pending work ..............................');
+  }
+}
