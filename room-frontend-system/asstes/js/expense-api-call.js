@@ -102,7 +102,6 @@ function operations(type, id) {
         }
       })
       .catch(error => showToast("Expense not deleted", 'error'));
-
   }
   $(".dropdown-menu.show").removeClass("show");
 }
@@ -318,10 +317,10 @@ function calcualteExpense() {
     $("#to-datetime-error").text("Please select a valid To Date.");
     return;
   }
-  if (fullPersonSelected==null||halfPersonSelected==null||onVacationPersonSelected==null) {
-    $("#persons-error").text("Please select person");
-      return;
-  }
+  // if (fullPersonSelected == null || halfPersonSelected == null || onVacationPersonSelected == null) {
+  //   $("#persons-error").text("Please select person");
+  //   return;
+  // }
   if (fullPersonSelected.length + halfPersonSelected.length + onVacationPersonSelected.length != allPerson.length) {
     fullPersonSelected.pop();
   }
@@ -365,7 +364,7 @@ function calcualteExpense() {
     redirect: 'follow'
   };
 
-  fetch(backendServerUrl + "/user/expense/calculator/calculate?isStore=false", requestOptions)
+  fetch(backendServerUrl + "/user/expense/calculator/calculate?isStore=true", requestOptions)
     .then(response => response.json())
     .then(result => {
       console.log(result.status == 200 && result.data != '');
@@ -484,4 +483,16 @@ function addOption(PersonOptionsDiv, data) {
 
   PersonOptionsDiv.append(label);
   PersonOptionsDiv.append('<br>');
+}
+function expenseOperations(type, id) {
+  if (type == "view") {
+    window.location.href = `view-calculated-expenses.html?calcucatedExpenseId=${id}&type=${type}`;
+  }
+  else if (type == 'delete') {
+    window.location.href = `view-calculated-expenses.html?calcucatedExpenseId=${id}&type=${type}`;
+  }
+  else if (type == "edit") {
+    window.location.href = `calculated-expenses.html?calcucatedExpenseId=${id}&type=${type}`;
+    console.log('pending work ..............................');
+  }
 }

@@ -70,7 +70,6 @@
             const headers = {
                 'Accept': '*/*',
                 'User-Agent': 'Thunder Client (http://13.126.198.67:7777)',
-                // 'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZWZhdWx0QGdtYWlsLmNvbSIsInJvbGVzIjpbeyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn1dLCJpZCI6MTUsImZ1bGxuYW1lIjoiRGVmYXVsdCBVc2VyIiwiZXhwIjoxNjk0NDEzMzk0LCJpYXQiOjE2OTM4MDg1OTR9.k5nmbx301fYvVTJ5C7A4K7UetTLyOYeD6H9a7eJtAgFLpqBzCyppRrtF79Le2tFktWAR9x-k4ScLqGeGZtUw5w'
                 'Authorization': getJwtTokenFromLocalStrorage()
             };
 
@@ -107,11 +106,11 @@
                                             onclick="showOptions(this,'show')" class="dropdown-toggle">
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                             <li><a class="dropdown-item" id="edit${e.id}row"
-                                                    onclick="operations('view',13)">View</a></li>
+                                                    onclick="expenseOperations('view',${e.id})">View</a></li>
                                             <li><a class="dropdown-item" id="update${e.id}row"
-                                                    onclick="operations('edit',13)">Update</a></li>
+                                                    onclick="expenseOperations('edit',${e.id})">Update</a></li>
                                             <li><a class="dropdown-item" id="delete${e.id}row"
-                                                    onclick="operations('delete',13)">Delete</a></li>
+                                                    onclick="expenseOperations('delete',${e.id})">Delete</a></li>
                                         </ul>
                                     </div>
                                 </td>
