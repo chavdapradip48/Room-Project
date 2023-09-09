@@ -57,12 +57,7 @@
             </div>
         </div>
     </section>
-    <script>
-        $(document).ready(function () {
 
-            // getExpenses();
-        });
-    </script>
     <script type="text/javascript" src="asstes/js/expense-api-call.js"></script>
     <script>
         getAllCalculatedExpenses();
@@ -85,6 +80,7 @@
                     return response.json(); // Parse the JSON response
                 })
                 .then(data => {
+                    console.log(data.status);
                     if (data.status == 200 && data.data != '') {
                         var row = "", i = 1;
 
@@ -124,13 +120,17 @@
                         $('.card-body').loader('hide');
                     }
                     else {
-
+                        $('.card-body').loader('hide');
+                        $('#loading-message').remove();
                         showToast(data.message, 'error');
                     }
                 })
                 .catch(error => {
                     // Handle any errors that occurred during the fetch
                     console.error('There was a problem with the fetch operation:', error);
+                    $('.card-body').loader('hide');
+                    $('#loading-message').remove();
+                    showToast(error.message, 'error');
                 });
 
         }
