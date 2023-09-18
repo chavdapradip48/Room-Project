@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    <link rel="icon" type="image/x-icon" href="asstes/images/favicon/favicon-icon.png">
+
+    <link href="asstes/css/create-user.css" rel="stylesheet">
+    <style>
+        .profile-picture>label>img {
+            height: 70px;
+            width: 70px;
+            border: 1px solid rgb(114, 113, 113);
+            border-radius: 50%;
+        }
+
+        #upload-profile-picture {
+            display: none;
+        }
+
+        #general-address {
+            resize: none;
+            border-color: #aaaaaa;
+            border-radius: 4px;
+            width: 100%;
+            margin: 0;
+        }
+    </style>
+
+    <script src="asstes/library/jquery-3.6.4.js"></script>
+    <script src="asstes/library/bootstrap-4.0.0/bootstrap.min.js"></script>
+    <script src="asstes/library/bootstrap-4.0.0/bootstrap.bundle.min.js"></script>
+    <script src="asstes/library/Easy-Page-Element-Loader-Plugin-with-jQuery-loader-js/jquery.loader.js"></script>
+    <script src="asstes/js/variable.js"></script>
+    <script src="asstes/js/general.js"></script>
+    <script src="asstes/js/validation-session.js"></script>
+    <script src="asstes/js/import-header-footer.js"></script>
+    <script src="asstes/js/validation.js"></script>
+</head>
+
+<body>
+    <section class="form-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 col-md-10 col-lg-6 mx-auto">
+                    <div class="card border-0 shadow rounded my-5">
+                        <div class="card-body p-4 p-sm-5">
+                            <h5 class="card-title text-center mb-5 font-weight-light fs-5">Edit Profile</h5>
+                            <form action="/user" method="POST" id="formId">
+                                <fieldset class="form-group border rounded p-3">
+                                    <legend>Personal Details</legend>
+                                    <div class="form-group fullname">
+                                        <div class="container-fluid px-0">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label for="firstName">First Name</label>
+                                                    <input type="text" class="form-control" name="firstName"
+                                                        id="firstName" placeholder="Please enter first name"
+                                                        onblur="borderErrorColor(userVlid($('#firstName').val(), $('#firstName-err')),$('#firstName'))"
+                                                        required>
+                                                    <p id="firstName-err" class="error-message"></p>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="lastName">Last Name</label>
+                                                    <input type="text" class="form-control" name="lastName"
+                                                        id="lastName" placeholder="Please enter last name"
+                                                        onblur="borderErrorColor(userVlid($('#lastName').val(), $('#lastName-err')),$('#lastName'))"
+                                                        required>
+                                                    <p id="lastName-err" class="error-message"></p>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label for="gender">Gender</label>
+                                                    <select name="Gender" class="form-select" id="gender"
+                                                        onblur="borderErrorColor(genderVlid($('#gender').val(), $('#gender-err')),$('#gender'))"><br>
+                                                        <option value="selected">Select..</option>
+                                                        <option value="male">Male</option>
+                                                        <option value="female">Female</option>
+                                                        <option value="other">Other</option>
+                                                    </select>
+                                                    <p class="error" id="gender-err"></p>
+                                                </div>
+                                                <div class="col-md-6 profile-picture">
+                                                    <label class="py-1" for="upload-profile-picture">Upload Profile
+                                                        Picture<br><img src="asstes/images/profile picture.png"
+                                                            id="preview"> </label>
+                                                    <input type="file" accept=".jpg,.png" class="form-control"
+                                                        id="upload-profile-picture" placeholder="Confirm Password">
+                                                    <p class="error" id="profile-picture-err"></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <fieldset class="form-group border rounded p-3">
+                                    <legend>Address Information</legend>
+                                    <div class="form-group fullname">
+                                        <div class="container-fluid px-0">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <label for="exampleInputEmail1">Address </label>
+                                                    <textarea placeholder="Enter General Address" name="general-address"
+                                                        id="general-address"
+                                                        value="sandip ewrawstgdhfjglhgkfjdreytygtjgtf" cols="" rows="3"
+                                                        onblur="borderErrorColor(addressVlid($('#general-address').val(), $('#address-err')),$('#general-address'))"></textarea>
+                                                    <p class="error-message" id="address-err"></p>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+
+                                                <div class="col-md-6">
+                                                    <label for="country">Country</label>
+                                                    <select class="form-select" name="country" id="country"
+                                                        onblur="borderErrorColor(genderVlid($('#country').val(), $('#country-err')),$('#country'))">
+                                                        <option value="selected">country</option>
+                                                    </select>
+                                                    <p class="error-message" id="country-err"></p>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="exampleInputEmail1">State</label>
+                                                    <select class="form-select" name="state" id="state"
+                                                        onblur="borderErrorColor(genderVlid($('#state').val(), $('#state-err')),$('#state'))">
+                                                        <option value="selected">State</option>
+                                                    </select>
+                                                    <p class="error-message" id="state-err"></p>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+
+                                                <div class="col-md-6">
+                                                    <label for="exampleInputEmail1">City</label>
+                                                    <select class="form-select" name="city" id="city"
+                                                        onblur="borderErrorColor(genderVlid($('#city').val(), $('#city-err')),$('#city'))">
+                                                        <option value="selected">City</option>
+                                                    </select>
+                                                    <p class="error-message" id="city-err"></p>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="exampleInputEmail1">Pin Code</label>
+                                                    <input type="number" class="form-control drop-down"
+                                                        id="pin-code-fild" aria-describedby="emailHelp"
+                                                        placeholder="Enter Pin Code"
+                                                        onblur="borderErrorColor(pincodeVlid($('#pin-code-fild').val(), $('#pincode-err')),$('#pin-code-fild'))">
+                                                    <p class="error" id="pincode-err"></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <fieldset class="form-group border rounded p-3">
+                                    <legend>Login Information</legend>
+                                    <div class="form-group fullname">
+                                        <div class="container-fluid px-0">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label for="exampleInputEmail1">Mobile Number</label>
+                                                    <input type="number" class="form-control" id="mobile-fild"
+                                                        aria-describedby="emailHelp" placeholder="Enter Mobile Number"
+                                                        onblur="borderErrorColor(numberVlid($('#mobile-fild').val(), $('#mobile-err')),$('#mobile-fild'))">
+                                                    <p class="error-message" id="mobile-err"></p>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="exampleInputEmail1">Email Address</label>
+                                                    <input type="email" class="form-control" id="email-fild"
+                                                        aria-describedby="emailHelp" placeholder="Enter Email"
+                                                        onblur="borderErrorColor(emailVlid($('#email-fild').val(), $('#email-err')),$('#email-fild'))">
+                                                    <p class="error-message" id="email-err"></p>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <label for="exampleInputEmail1">Password</label>
+                                                    <input type="text" class="form-control" id="password-fild"
+                                                        value="**********" disabled>
+                                                    <a href="update-password.html"
+                                                        class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Change
+                                                        Your Password</a>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <br>
+                                <div class="d-grid">
+                                    <input class="btn btn-primary text-uppercase font-weight-bold" type="button"
+                                        onclick="" value="Update" />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

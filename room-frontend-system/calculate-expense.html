@@ -127,8 +127,21 @@
         </div>
     </section>
     <br>
+    <script>
+        var pageURL = window.location.href.split("?");
+        if (pageURL[1] == null || pageURL[1] == "") {
+
+        }
+        else {
+            var expenseId = pageURL[1].split('&')[0].split('=')[1];
+            var oprationType = pageURL[1].split('&')[1].split('=')[1];
+           if (oprationType == "edit") {
+                
+            }
+        }
+    </script>
     <script type="text/javascript" src="asstes/js/expense-api-call.js"></script>
-    
+
 </body>
 
 </html>

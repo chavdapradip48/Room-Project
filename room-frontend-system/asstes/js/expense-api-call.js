@@ -493,6 +493,6 @@ function expenseOperations(type, id) {
   }
   else if (type == "edit") {
     window.location.href = `calculated-expenses.html?calcucatedExpenseId=${id}&type=${type}`;
-    console.log('pending work ..............................');
+    console.log('pending work..............................');
   }
 }
